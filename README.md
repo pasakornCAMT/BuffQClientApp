@@ -1,2 +1,2 @@
 # BuffQClientApp
-SE senior project
+BuffQ SE senior project 
