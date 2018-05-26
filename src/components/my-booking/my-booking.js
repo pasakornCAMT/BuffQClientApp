@@ -80,7 +80,7 @@ class MyBooking extends Component {
             {item.dateText}
           </Text>
           <Text style={styles.liText}>
-            {item.numOfCustomer} people
+            {item.numOfCustomer} People
           </Text>
         </View>
       </View>
