@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import {StackNavigator} from 'react-navigation';
+import DatePicker from 'react-native-datepicker';
 import {
   FormLabel,
   FormInput,
@@ -35,6 +36,10 @@ class Booking extends Component {
     const {navigation} = this.props;
     const item = navigation.getParam('item');
     const {navigate} = this.props.navigation;
+    let date = new Date().getDate();
+    let month = new Date().getMonth() + 1;
+    let year = new Date().getFullYear();
+    let mindate = date+'-'+month+'-'+year;
     return (
       <View>
         <Image
@@ -44,11 +49,32 @@ class Booking extends Component {
         <Text>
           title: {item.title}
         </Text>
-        <FormLabel>date/time</FormLabel>
-        <FormInput
-        value={this.state.dateText}
-        onChangeText={(value) => this.setState({dateText:value})}
-        />
+        <FormLabel>Select date</FormLabel>
+        <DatePicker
+        style={styles.datePicker}
+        date={this.state.dateText}
+        mode="date"
+        placeholder="select date"
+        format="DD-MM-YYYY"
+        minDate= {mindate}
+        //maxDate="2016-06-01"
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        customStyles={{
+          dateIcon: {
+            position: 'absolute',
+            left: 0,
+            top: 4,
+            marginLeft: 20
+          },
+          dateInput: {
+            marginLeft: 56
+          }
+          // ... You can check the source to find the other keys.
+        }}
+        onDateChange={(dateText) => {this.setState({dateText: dateText})}}
+        >
+        </DatePicker>
         <FormLabel>People</FormLabel>
         <FormInput
         keyboardType = 'numeric'
@@ -93,6 +119,9 @@ const styles = StyleSheet.create({
   },
   button:{
 
+  },
+  datePicker:{
+    width: 200,
   }
 });
 

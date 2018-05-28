@@ -23,7 +23,6 @@ class MyBooking extends Component {
       text: '',
       itemDataSource: ds,
     };
-
     this.itemsRef = FirebaseService.child('bookings');
     this.renderRow = this.renderRow.bind(this);
     this.pressRow = this.pressRow.bind(this);
@@ -44,6 +43,7 @@ class MyBooking extends Component {
           numOfCustomer: child.val().numOfCustomer,
           dateText: child.val().dateText,
           customer: child.val().customer,
+          phone: child.val().phone,
           bookingKey: child.key
         });
       });
@@ -80,7 +80,7 @@ class MyBooking extends Component {
             {item.dateText}
           </Text>
           <Text style={styles.liText}>
-            {item.numOfCustomer} People
+            {item.numOfCustomer} people
           </Text>
         </View>
       </View>

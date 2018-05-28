@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import {StackNavigator} from 'react-navigation';
+import {StackNavigator, StackActions, NavigationActions} from 'react-navigation';
 import {Button} from 'react-native-elements';
 import FirebaseService from '../../services/firebase-service';
 
@@ -32,13 +32,16 @@ class BookingConfirm extends Component {
     const item = navigation.getParam('item');
     const phoneNumber = navigation.getParam('phoneNumber');
     const customerName = navigation.getParam('customerName');
-    //this.bookingRef = FirebaseService.child('items').child(item._key).child('bookings');
+    const resetAction = StackActions.reset({
+      index: 0,
+      key:null,
+      actions: [NavigationActions.navigate({ routeName: 'Home' })],
+    });
     this.bookingRef = FirebaseService.child('bookings');
-    //this.userBookingRef = FirebaseService.child('users');
     return (
       <View>
         <Text>
-          date/time: {dateText}
+          date: {dateText}
         </Text>
         <Text>
           customer: {numOfCustomer}
@@ -55,7 +58,7 @@ class BookingConfirm extends Component {
         <Button
           title='Confirm'
           onPress={()=>{
-            this.bookingRef.push({
+            /*this.bookingRef.push({
               dateText: dateText,
               numOfCustomer: numOfCustomer,
               phone: phoneNumber,
@@ -63,16 +66,9 @@ class BookingConfirm extends Component {
               pressDate: new Date().toLocaleString(),
               restaurant: item.title,
               resImage: item.image,
-            });
-            /*this.userBookingRef.push({
-              dateText: dateText,
-              numOfCustomer: numOfCustomer,
-              phoneNumber: phoneNumber,
-              customer: customerName,
-              resName: item.title,
-              resImage: item.image,
             });*/
-            //navigate('MyBooking');
+            navigation.dispatch(resetAction);
+            navigate('MyBooking');
           }}
         >
         </Button>

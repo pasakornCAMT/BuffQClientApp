@@ -33,7 +33,9 @@ class MyBookingDetail extends Component {
 
         <Button
           onPress = {()=>{
-            navigate('MyBookingUpdate');
+            navigate('MyBookingUpdate',{
+              item: item,
+            });
           }}
           title = 'Edit'
         />
