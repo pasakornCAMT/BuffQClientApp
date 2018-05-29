@@ -48,7 +48,7 @@ class BookingConfirm extends Component {
     const resetAction = StackActions.reset({
       index: 0,
       key:null,
-      actions: [NavigationActions.navigate({ routeName: 'Home' })],
+      actions: [NavigationActions.navigate({ routeName: 'MyBooking' })],
     });
     return (
       <View>
@@ -79,9 +79,9 @@ class BookingConfirm extends Component {
               restaurant: item.title,
               resImage: item.image,
             });*/
-            this.onPressConfirm();
+            //this.onPressConfirm();
             this.props.navigation.dispatch(resetAction);
-            this.props.navigation.navigate('MyBooking');
+            //this.props.navigation.navigate('MyBooking');
           }}
         >
         </Button>

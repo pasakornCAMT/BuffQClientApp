@@ -35,6 +35,32 @@ class MyBookingUpdate extends Component {
   static navigationOptions = {
     title: 'MyBookingUpdate',
   };
+  updateBooking(){
+    const resetAction = StackActions.reset({
+      index: 0,
+      key:null,
+      actions: [NavigationActions.navigate({ routeName: 'MyBooking' })],
+    });
+    Alert.alert(
+      'Alert',
+      'Do you want to update this booking?',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'OK', onPress: () => {
+          this.bookingsRef.child(this.booking.bookingKey).update({
+            customer: this.state.customerName,
+            dateText: this.state.dateText,
+            numOfCustomer: this.state.numOfCustomer,
+            phone: this.state.phoneNumber,
+            pressDate: new Date().toLocaleString(),
+          })
+          Alert.alert('Update Success');
+          //navigate('MyBooking');
+          this.props.navigation.dispatch(resetAction);
+        }},
+      ]
+    );
+  }
 
   render() {
     const {navigate} = this.props.navigation;
@@ -42,11 +68,6 @@ class MyBookingUpdate extends Component {
     let month = new Date().getMonth() + 1;
     let year = new Date().getFullYear();
     let mindate = date+'-'+month+'-'+year;
-    const resetAction = StackActions.reset({
-      index: 0,
-      key:null,
-      actions: [NavigationActions.navigate({ routeName: 'MyBooking' })],
-    });
     return (
       <View>
       <FormLabel>Select date</FormLabel>
@@ -95,25 +116,7 @@ class MyBookingUpdate extends Component {
         style={styles.button}
         title='Confirm'
         onPress={()=>{
-          Alert.alert(
-            'Alert',
-            'Do you want to update this booking?',
-            [
-              {text: 'Cancel', style: 'cancel'},
-              {text: 'OK', onPress: () => {
-                this.bookingsRef.child(this.booking.bookingKey).update({
-                  customer: this.state.customerName,
-                  dateText: this.state.dateText,
-                  numOfCustomer: this.state.numOfCustomer,
-                  phone: this.state.phoneNumber,
-                  pressDate: new Date().toLocaleString(),
-                })
-                Alert.alert('Update Success');
-                //navigate('MyBooking');
-                this.props.navigation.dispatch(resetAction);
-              }},
-            ]
-          )
+          this.updateBooking();
         }}
       />
       </View>

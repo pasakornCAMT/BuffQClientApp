@@ -26,6 +26,7 @@ const HomeStack = StackNavigator({
   Home: {screen: Home},
   Booking: {screen: Booking},
   BookingConfirm: {screen: BookingConfirm},
+  MyBooking: {screen: MyBooking},
 });
 
 const MyBookingStack = StackNavigator({
