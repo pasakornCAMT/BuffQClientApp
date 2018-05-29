@@ -16,25 +16,25 @@ class MyBookingDetail extends Component {
   render() {
     const {navigation} = this.props;
     const {navigate} = this.props.navigation;
-    const item = navigation.getParam('item');
+    const booking = navigation.getParam('booking');
     return (
       <View>
         <FormLabel>restaurant</FormLabel>
-        <Text style={styles.text} >{item.resName}</Text>
+        <Text style={styles.text} >{booking.resName}</Text>
 
         <FormLabel>date/time</FormLabel>
-        <Text style={styles.text} >{item.dateText}</Text>
+        <Text style={styles.text} >{booking.dateText}</Text>
 
         <FormLabel>people</FormLabel>
-        <Text style={styles.text} >{item.numOfCustomer}</Text>
+        <Text style={styles.text} >{booking.numOfCustomer}</Text>
 
         <FormLabel>name</FormLabel>
-        <Text style={styles.text} >{item.customer}</Text>
+        <Text style={styles.text} >{booking.customer}</Text>
 
         <Button
           onPress = {()=>{
             navigate('MyBookingUpdate',{
-              item: item,
+              booking: booking,
             });
           }}
           title = 'Edit'

@@ -34,7 +34,7 @@ class Booking extends Component {
 
   render() {
     const {navigation} = this.props;
-    const item = navigation.getParam('item');
+    const restaurant = navigation.getParam('restaurant');
     const {navigate} = this.props.navigation;
     let date = new Date().getDate();
     let month = new Date().getMonth() + 1;
@@ -44,10 +44,10 @@ class Booking extends Component {
       <View>
         <Image
           style={styles.image}
-          source={{uri: item.image}}
+          source={{uri: restaurant.image}}
         />
         <Text>
-          title: {item.title}
+          title: {restaurant.title}
         </Text>
         <FormLabel>Select date</FormLabel>
         <DatePicker
@@ -101,7 +101,7 @@ class Booking extends Component {
               numOfCustomer: this.state.numOfCustomer,
               phoneNumber: this.state.phoneNumber,
               customerName: this.state.customerName,
-              item: item,
+              restaurant: restaurant,
             });
           }}
         />

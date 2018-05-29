@@ -9,51 +9,63 @@ import {
   StyleSheet,
   View,
   Text,
+  Alert,
 } from 'react-native';
 
 class BookingConfirm extends Component {
   static navigationOptions = {
     title: 'BookingConfirm',
   };
-
   constructor(props) {
     super(props);
-
+    const {navigation} = this.props;
+    const {navigate} = this.props.navigation;
+    this.dateText = navigation.getParam('dateText');
+    this.numOfCustomer = navigation.getParam('numOfCustomer');
+    this.phoneNumber = navigation.getParam('phoneNumber');
+    this.customerName = navigation.getParam('customerName');
+    this.restaurant = navigation.getParam('restaurant');
+    this.bookingRef = FirebaseService.child('bookings');
     this.state = {
 
     };
   }
 
+  onPressConfirm(){
+    this.bookingRef.push({
+      dateText: this.dateText,
+      numOfCustomer: this.numOfCustomer,
+      phone: this.phoneNumber,
+      customer: this.customerName,
+      pressDate: new Date().toLocaleString(),
+      restaurant: this.restaurant.title,
+      resImage: this.restaurant.image,
+    });
+    Alert.alert('Booking success');
+  }
+
   render() {
-    const {navigation} = this.props;
-    const {navigate} = this.props.navigation;
-    const dateText = navigation.getParam('dateText');
-    const numOfCustomer = navigation.getParam('numOfCustomer');
-    const item = navigation.getParam('item');
-    const phoneNumber = navigation.getParam('phoneNumber');
-    const customerName = navigation.getParam('customerName');
     const resetAction = StackActions.reset({
       index: 0,
       key:null,
       actions: [NavigationActions.navigate({ routeName: 'Home' })],
     });
-    this.bookingRef = FirebaseService.child('bookings');
     return (
       <View>
         <Text>
-          date: {dateText}
+          date: {this.dateText}
         </Text>
         <Text>
-          customer: {numOfCustomer}
+          customer: {this.numOfCustomer}
         </Text>
         <Text>
-          phone number: {phoneNumber}
+          phone number: {this.phoneNumber}
         </Text>
         <Text>
-          customer name: {customerName}
+          customer name: {this.customerName}
         </Text>
         <Text>
-          key: {item._key}
+          key: {this.restaurant._key}
         </Text>
         <Button
           title='Confirm'
@@ -67,8 +79,9 @@ class BookingConfirm extends Component {
               restaurant: item.title,
               resImage: item.image,
             });*/
-            navigation.dispatch(resetAction);
-            navigate('MyBooking');
+            this.onPressConfirm();
+            this.props.navigation.dispatch(resetAction);
+            this.props.navigation.navigate('MyBooking');
           }}
         >
         </Button>

@@ -21,15 +21,15 @@ class MyBookingUpdate extends Component {
   constructor(props) {
     super(props);
 
-    this.itemsRef = FirebaseService.child('bookings');
+    this.bookingsRef = FirebaseService.child('bookings');
     const {navigation} = this.props;
-    this.item = navigation.getParam('item');
+    this.booking = navigation.getParam('booking');
 
     this.state = {
-      dateText: this.item.dateText,
-      numOfCustomer: this.item.numOfCustomer,
-      customerName: this.item.customer,
-      phoneNumber: this.item.phone,
+      dateText: this.booking.dateText,
+      numOfCustomer: this.booking.numOfCustomer,
+      customerName: this.booking.customer,
+      phoneNumber: this.booking.phone,
     };
   }
   static navigationOptions = {
@@ -88,7 +88,7 @@ class MyBookingUpdate extends Component {
       />
       <FormLabel>Name</FormLabel>
       <FormInput
-      value={this.state.customer}
+      value={this.state.customerName}
       onChangeText={(value) => this.setState({customerName:value})}
       />
       <Button
@@ -101,7 +101,7 @@ class MyBookingUpdate extends Component {
             [
               {text: 'Cancel', style: 'cancel'},
               {text: 'OK', onPress: () => {
-                this.itemsRef.child(this.item.bookingKey).update({
+                this.bookingsRef.child(this.booking.bookingKey).update({
                   customer: this.state.customerName,
                   dateText: this.state.dateText,
                   numOfCustomer: this.state.numOfCustomer,

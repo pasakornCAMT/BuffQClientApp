@@ -18,26 +18,30 @@ class MyBooking extends Component {
   };
   constructor() {
     super();
-    let ds = new ListView.DataSource({rowHasChanged:(r1,r2)=> r1 !== r2});
+    this.ds = new ListView.DataSource({rowHasChanged:(r1,r2)=> r1 !== r2});
     this.state = {
       text: '',
-      itemDataSource: ds,
+      bookingDataSource: this.ds,
     };
-    this.itemsRef = FirebaseService.child('bookings');
+    this.bookingsRef = FirebaseService.child('bookings');
     this.renderRow = this.renderRow.bind(this);
     this.pressRow = this.pressRow.bind(this);
-    this.items = [];
+    this.bookings = [];
   }
 
   componentWillMount(){
-    this.getItems(this.itemsRef);
+    this.getItems(this.bookingsRef);
   }
 
-  getItems(itemsRef){
-    itemsRef.on('value',(snap)=>{
+  componentDidMount(){
+    this.state.bookingDataSource = this.ds;
+  }
+
+  getItems(bookingsRef){
+    bookingsRef.on('value',(snap)=>{
       //let items = [];
       snap.forEach((child)=>{
-        this.items.push({
+        this.bookings.push({
           resName: child.val().restaurant,
           resImage: child.val().resImage,
           numOfCustomer: child.val().numOfCustomer,
@@ -48,39 +52,39 @@ class MyBooking extends Component {
         });
       });
       this.setState({
-        itemDataSource: this.state.itemDataSource.cloneWithRows(this.items)
+        bookingDataSource: this.state.bookingDataSource.cloneWithRows(this.bookings)
       });
     });
   }
 
-  pressRow(item){
+  pressRow(booking){
     const {navigate} = this.props.navigation;
-    console.log(item);
+    console.log(booking);
     //this.itemsRef.child(item._key).remove();
     navigate('MyBookingDetail',{
-      item: item,
+      booking: booking,
     });
   }
 
-  renderRow(item){
+  renderRow(booking){
     return (
       <TouchableHighlight onPress={()=>{
-        this.pressRow(item);
+        this.pressRow(booking);
       }}>
       <View style={styles.li}>
         <Image
           style={styles.image}
-          source={{uri: item.resImage}}
+          source={{uri: booking.resImage}}
           />
         <View style={styles.liRight}>
           <Text style={styles.liText}>
-            {item.resName}
+            {booking.resName}
           </Text>
           <Text style={styles.liText}>
-            {item.dateText}
+            {booking.dateText}
           </Text>
           <Text style={styles.liText}>
-            {item.numOfCustomer} people
+            {booking.numOfCustomer} people
           </Text>
         </View>
       </View>
@@ -92,7 +96,7 @@ class MyBooking extends Component {
     return (
       <View>
         <ListView
-          dataSource = {this.state.itemDataSource}
+          dataSource = {this.state.bookingDataSource}
           renderRow = {this.renderRow}
           />
       </View>
