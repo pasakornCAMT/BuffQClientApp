@@ -46,6 +46,7 @@ class MyBooking extends Component {
           resImage: child.val().resImage,
           numOfCustomer: child.val().numOfCustomer,
           dateText: child.val().dateText,
+          timeText: child.val().timeText,
           customer: child.val().customer,
           phone: child.val().phone,
           bookingKey: child.key
@@ -82,6 +83,9 @@ class MyBooking extends Component {
           </Text>
           <Text style={styles.liText}>
             {booking.dateText}
+          </Text>
+          <Text style={styles.liText}>
+            {booking.timeText}
           </Text>
           <Text style={styles.liText}>
             {booking.numOfCustomer} people

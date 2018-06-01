@@ -8,6 +8,7 @@ import {
   FormInput,
   FormValidationMessage,
   Button,
+  ButtonGroup
 } from 'react-native-elements';
 import {
   StyleSheet,
@@ -29,7 +30,13 @@ class Booking extends Component {
       numOfCustomer: '',
       customerName:'',
       phoneNumber: '',
+      selectedIndex: 0,
     };
+    this.updateIndex = this.updateIndex.bind(this)
+  }
+
+  updateIndex (selectedIndex) {
+    this.setState({selectedIndex})
   }
 
   render() {
@@ -40,6 +47,8 @@ class Booking extends Component {
     let month = new Date().getMonth() + 1;
     let year = new Date().getFullYear();
     let mindate = date+'-'+month+'-'+year;
+    const timeButtons = ['17:00', '18:00', '19:00','20:00','21:00','22:00'];
+    const { selectedIndex } = this.state;
     return (
       <View>
         <Image
@@ -75,6 +84,12 @@ class Booking extends Component {
         onDateChange={(dateText) => {this.setState({dateText: dateText})}}
         >
         </DatePicker>
+        <ButtonGroup
+          onPress={this.updateIndex}
+          buttons={timeButtons}
+          containerStyle={{height: 50}}
+          selectedIndex={selectedIndex}
+        />
         <FormLabel>People</FormLabel>
         <FormInput
         keyboardType = 'numeric'
@@ -101,6 +116,7 @@ class Booking extends Component {
               numOfCustomer: this.state.numOfCustomer,
               phoneNumber: this.state.phoneNumber,
               customerName: this.state.customerName,
+              timeText: timeButtons[this.state.selectedIndex],
               restaurant: restaurant,
             });
           }}
@@ -122,6 +138,11 @@ const styles = StyleSheet.create({
   },
   datePicker:{
     width: 200,
+  },
+  timeButton:{
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   }
 });
 

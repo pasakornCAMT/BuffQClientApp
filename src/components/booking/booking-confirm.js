@@ -25,6 +25,7 @@ class BookingConfirm extends Component {
     this.phoneNumber = navigation.getParam('phoneNumber');
     this.customerName = navigation.getParam('customerName');
     this.restaurant = navigation.getParam('restaurant');
+    this.timeText = navigation.getParam('timeText');
     this.bookingRef = FirebaseService.child('bookings');
     this.state = {
 
@@ -37,9 +38,11 @@ class BookingConfirm extends Component {
       numOfCustomer: this.numOfCustomer,
       phone: this.phoneNumber,
       customer: this.customerName,
+      timeText: this.timeText,
       pressDate: new Date().toLocaleString(),
       restaurant: this.restaurant.title,
       resImage: this.restaurant.image,
+      resKey: this.restaurant._key,
     });
     Alert.alert('Booking success');
   }
@@ -54,6 +57,9 @@ class BookingConfirm extends Component {
       <View>
         <Text>
           date: {this.dateText}
+        </Text>
+        <Text>
+          time: {this.timeText}
         </Text>
         <Text>
           customer: {this.numOfCustomer}
@@ -79,7 +85,7 @@ class BookingConfirm extends Component {
               restaurant: item.title,
               resImage: item.image,
             });*/
-            //this.onPressConfirm();
+            this.onPressConfirm();
             this.props.navigation.dispatch(resetAction);
             //this.props.navigation.navigate('MyBooking');
           }}
