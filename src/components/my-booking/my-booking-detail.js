@@ -19,6 +19,7 @@ class MyBookingDetail extends Component {
     const booking = navigation.getParam('booking');
     return (
       <View>
+      <View style={styles.container}>
         <FormLabel>restaurant</FormLabel>
         <Text style={styles.text} >{booking.resName}</Text>
 
@@ -30,7 +31,7 @@ class MyBookingDetail extends Component {
 
         <FormLabel>name</FormLabel>
         <Text style={styles.text} >{booking.customer}</Text>
-
+      </View>
         <Button
           onPress = {()=>{
             navigate('MyBookingUpdate',{
@@ -51,6 +52,12 @@ class MyBookingDetail extends Component {
 const styles = StyleSheet.create({
   text:{
     marginLeft: 20,
+  },
+  container:{
+    backgroundColor: 'white',
+    margin: 10,
+    borderRadius:10,
+    padding: 5,
   },
 });
 

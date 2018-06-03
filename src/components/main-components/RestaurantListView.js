@@ -14,12 +14,9 @@ import {
 
 import FirebaseService from '../../services/firebase-service';
 import {SearchBar} from 'react-native-elements';
+import Restaurant from '../sub-components/Restaurant';
 
-class Home extends Component {
-
-  static navigationOptions = {
-    title: 'Home',
-  };
+class RestaurantListView extends Component {
 
   constructor() {
     super();
@@ -31,19 +28,14 @@ class Home extends Component {
 
     this.restaurantsRef = FirebaseService.child('items');
     this.renderRow = this.renderRow.bind(this);
-    this.pressRow = this.pressRow.bind(this);
     this.restaurants = [];
   }
 
   componentWillMount(){
-    this.getItems(this.restaurantsRef);
+    this.getRestaurentList(this.restaurantsRef);
   }
 
-  componentDidMount(){
-    //this.getItems(this.itemsRef)
-  }
-
-  getItems(restaurantsRef){
+  getRestaurentList(restaurantsRef){
     restaurantsRef.on('value',(snap)=>{
       //let items = [];
       snap.forEach((child)=>{
@@ -59,30 +51,9 @@ class Home extends Component {
     });
   }
 
-  pressRow(restaurant){
-    const {navigate} = this.props.navigation;
-    console.log(restaurant);
-    //this.itemsRef.child(item._key).remove();
-    navigate('Booking',{
-      restaurant:restaurant
-    });
-  }
-
   renderRow(restaurant){
     return (
-      <TouchableHighlight onPress={()=>{
-        this.pressRow(restaurant);
-      }}>
-      <View style={styles.li}>
-        <Text style={styles.liText}>
-          {restaurant.title}
-        </Text>
-        <Image
-          style={styles.image}
-          source={{uri: restaurant.image}}
-        />
-      </View>
-      </TouchableHighlight>
+      <Restaurant data={restaurant} onPress={this.props.onPress}/>
     )
   }
 
@@ -99,13 +70,11 @@ class Home extends Component {
   }
 
   render() {
-    const {navigate} = this.props.navigation;
-
     return (
       <View style={styles.container}>
-
         <SearchBar
           lightTheme = {true}
+          backgroundColor = "tomato"
           onChangeText={(text)=> this.filterSearch(text)}
           value = {this.state.text}
         />
@@ -144,27 +113,14 @@ const styles = StyleSheet.create({
 
   li: {
     backgroundColor: '#fff',
-    borderBottomColor: '#eee',
-    borderColor: 'transparent',
+    borderColor: '#cccccc',
     borderWidth: 1,
     padding: 10,
+    margin: 10,
+    borderRadius:10,
   },
 
-  image:{
-    flexGrow: 1,
-    width:'100%',
-    height:200,
-  },
-
-  liContainer: {
-    flex: 2,
-  },
-
-  liText: {
-    color: '#333',
-    fontSize: 16,
-  },
 });
 
 
-export default Home
+export default RestaurantListView

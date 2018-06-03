@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   Platform,
@@ -14,23 +8,22 @@ import {
 import {StackNavigator, TabNavigator, TabBarBottom} from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import BottomNavigation, { FullTab } from 'react-native-material-bottom-navigation'
-import Home from './src/components/home/home';
-import Booking from './src/components/booking/booking';
-import BookingConfirm from './src/components/booking/booking-confirm';
-import Search from './src/components/search/search';
-import MyBooking from './src/components/my-booking/my-booking';
-import MyBookingDetail from './src/components/my-booking/my-booking-detail';
-import MyBookingUpdate from './src/components/my-booking/my-booking-update';
+import Home from '../components/screens/Home';
+import Booking from '../components/booking/booking';
+import BookingConfirm from '../components/booking/booking-confirm';
+import Search from '../components/search/search';
+import MyBookingList from '../components/screens/MyBookingList'
+import MyBookingDetail from '../components/my-booking/my-booking-detail';
+import MyBookingUpdate from '../components/my-booking/my-booking-update';
 
 const HomeStack = StackNavigator({
   Home: {screen: Home},
   Booking: {screen: Booking},
   BookingConfirm: {screen: BookingConfirm},
-  MyBooking: {screen: MyBooking},
 });
 
 const MyBookingStack = StackNavigator({
-  MyBooking: {screen: MyBooking},
+  MyBookingList: {screen: MyBookingList},
   MyBookingDetail: {screen: MyBookingDetail},
   MyBookingUpdate: {screen: MyBookingUpdate},
 })

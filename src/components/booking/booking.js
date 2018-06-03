@@ -1,8 +1,8 @@
 'use strict';
-
 import React, { Component } from 'react';
 import {StackNavigator} from 'react-navigation';
 import DatePicker from 'react-native-datepicker';
+import Spinner from 'react-native-number-spinner'
 import {
   FormLabel,
   FormInput,
@@ -28,11 +28,11 @@ class Booking extends Component {
     this.state = {
       dateText: '',
       numOfCustomer: '',
-      customerName:'',
+      customerName: '',
       phoneNumber: '',
       selectedIndex: 0,
     };
-    this.updateIndex = this.updateIndex.bind(this)
+    this.updateIndex = this.updateIndex.bind(this);
   }
 
   updateIndex (selectedIndex) {
@@ -55,60 +55,66 @@ class Booking extends Component {
           style={styles.image}
           source={{uri: restaurant.image}}
         />
-        <Text>
-          title: {restaurant.title}
+        <Text style={styles.titleText}>
+          {restaurant.title}
         </Text>
-        <FormLabel>Select date</FormLabel>
-        <DatePicker
-        style={styles.datePicker}
-        date={this.state.dateText}
-        mode="date"
-        placeholder="select date"
-        format="DD-MM-YYYY"
-        minDate= {mindate}
-        //maxDate="2016-06-01"
-        confirmBtnText="Confirm"
-        cancelBtnText="Cancel"
-        customStyles={{
-          dateIcon: {
-            position: 'absolute',
-            left: 0,
-            top: 4,
-            marginLeft: 20
-          },
-          dateInput: {
-            marginLeft: 56
-          }
+        <View style={styles.container}>
+          <FormLabel>Select date</FormLabel>
+          <DatePicker
+          style={styles.datePicker}
+          date={this.state.dateText}
+          mode="date"
+          placeholder="select date"
+          format="DD-MM-YYYY"
+          minDate= {mindate}
+          //maxDate="2016-06-01"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 20
+            },
+            dateInput: {
+              marginLeft: 56,
+            }
           // ... You can check the source to find the other keys.
-        }}
-        onDateChange={(dateText) => {this.setState({dateText: dateText})}}
-        >
-        </DatePicker>
-        <ButtonGroup
-          onPress={this.updateIndex}
-          buttons={timeButtons}
-          containerStyle={{height: 50}}
-          selectedIndex={selectedIndex}
-        />
-        <FormLabel>People</FormLabel>
-        <FormInput
-        keyboardType = 'numeric'
-        value={this.state.numOfCustomer}
-        onChangeText={(value) => this.setState({numOfCustomer:value})}
-        />
-        <FormLabel>Phone number</FormLabel>
-        <FormInput
-        keyboardType = 'numeric'
-        value={this.state.phoneNumber}
-        onChangeText={(value) => this.setState({phoneNumber:value})}
-        />
-        <FormLabel>Name</FormLabel>
-        <FormInput
-        value={this.state.customerName}
-        onChangeText={(value) => this.setState({customerName:value})}
-        />
+          }}
+          onDateChange={(dateText) => {this.setState({dateText: dateText})}}
+          >
+          </DatePicker>
+          <ButtonGroup
+            onPress={this.updateIndex}
+            buttons={timeButtons}
+            containerStyle={{height: 50}}
+            selectedIndex={selectedIndex}
+            />
+            <FormLabel>People</FormLabel>
+            <FormInput
+            underlineColorAndroid="#ccc"
+            keyboardType = 'numeric'
+            value={this.state.numOfCustomer}
+            onChangeText={(num) => this.setState({numOfCustomer:num})}
+            />
+            <FormLabel>Phone number</FormLabel>
+            <FormInput
+            underlineColorAndroid="#ccc"
+            keyboardType = 'numeric'
+            value={this.state.phoneNumber}
+            onChangeText={(num) => this.setState({phoneNumber:num})}
+            />
+            <FormLabel>Name</FormLabel>
+            <FormInput
+            underlineColorAndroid="#ccc"
+            value={this.state.customerName}
+            onChangeText={(value) => this.setState({customerName:value})}
+            />
+        </View>
         <Button
           style={styles.button}
+          backgroundColor = 'tomato'
           title='Next'
           onPress={()=>{
             navigate('BookingConfirm',{
@@ -128,10 +134,22 @@ class Booking extends Component {
 }
 
 const styles = StyleSheet.create({
+  container:{
+    backgroundColor:'white',
+    margin: 10,
+    borderRadius:10,
+  },
   image:{
     flexGrow: 1,
     width:'100%',
     height:100,
+    position:'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   button:{
 
@@ -143,7 +161,15 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-  }
+  },
+  titleText:{
+    fontSize: 32,
+    color: 'white',
+    marginTop: 60,
+  },
+  input:{
+
+  },
 });
 
 

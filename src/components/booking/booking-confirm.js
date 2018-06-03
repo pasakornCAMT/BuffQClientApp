@@ -51,30 +51,33 @@ class BookingConfirm extends Component {
     const resetAction = StackActions.reset({
       index: 0,
       key:null,
-      actions: [NavigationActions.navigate({ routeName: 'MyBooking' })],
+      actions: [NavigationActions.navigate({ routeName: 'Home' })],
     });
     return (
       <View>
-        <Text>
+      <View style={styles.container}>
+        <Text style={styles.detail}>
           date: {this.dateText}
         </Text>
-        <Text>
+        <Text style={styles.detail}>
           time: {this.timeText}
         </Text>
-        <Text>
+        <Text style={styles.detail}>
           customer: {this.numOfCustomer}
-        </Text>
-        <Text>
+        </Text >
+        <Text style={styles.detail}>
           phone number: {this.phoneNumber}
         </Text>
-        <Text>
+        <Text style={styles.detail}>
           customer name: {this.customerName}
         </Text>
-        <Text>
+        <Text style={styles.detail}>
           key: {this.restaurant._key}
         </Text>
+        </View>
         <Button
           title='Confirm'
+          backgroundColor = 'tomato'
           onPress={()=>{
             /*this.bookingRef.push({
               dateText: dateText,
@@ -85,9 +88,9 @@ class BookingConfirm extends Component {
               restaurant: item.title,
               resImage: item.image,
             });*/
-            this.onPressConfirm();
+            //this.onPressConfirm();
             this.props.navigation.dispatch(resetAction);
-            //this.props.navigation.navigate('MyBooking');
+            this.props.navigation.navigate('MyBookingList');
           }}
         >
         </Button>
@@ -97,6 +100,15 @@ class BookingConfirm extends Component {
 }
 
 const styles = StyleSheet.create({
+  container:{
+    backgroundColor: 'white',
+    margin: 10,
+    borderRadius:10,
+    padding: 5,
+  },
+  detail:{
+    fontSize: 20,
+  }
 
 });
 
