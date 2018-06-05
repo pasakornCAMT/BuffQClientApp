@@ -42,6 +42,7 @@ class RestaurantListView extends Component {
         this.restaurants.push({
           title: child.val().title,
           image: child.val().image,
+          price: child.val().price,
           _key: child.key
         });
       });

@@ -11,14 +11,14 @@ import BottomNavigation, { FullTab } from 'react-native-material-bottom-navigati
 import Home from '../components/screens/Home';
 import Booking from '../components/booking/booking';
 import BookingConfirm from '../components/booking/booking-confirm';
-import Search from '../components/search/search';
 import MyBookingList from '../components/screens/MyBookingList'
 import MyBookingDetail from '../components/my-booking/my-booking-detail';
 import MyBookingUpdate from '../components/my-booking/my-booking-update';
+import RestaurantDetail from '../components/screens/RestaurantDetail';
 
 const HomeStack = StackNavigator({
   Home: {screen: Home},
-  Booking: {screen: Booking},
+  RestaurantDetail: {screen: RestaurantDetail},
   BookingConfirm: {screen: BookingConfirm},
 });
 

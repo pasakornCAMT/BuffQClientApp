@@ -15,7 +15,7 @@ class Home extends Component {
 
   pressRow(restaurant){
     const {navigate} = this.props.navigation;
-    navigate('Booking',{
+    navigate('RestaurantDetail',{
       restaurant:restaurant
     });
   }
