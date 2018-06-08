@@ -11,10 +11,10 @@ import {
   Image,
   Button,
 } from 'react-native';
-
 import FirebaseService from '../../services/firebase-service';
 import {SearchBar} from 'react-native-elements';
 import Restaurant from '../sub-components/Restaurant';
+import TestRedux from '../sub-components/TestRedux';
 
 class RestaurantListView extends Component {
 
@@ -79,7 +79,6 @@ class RestaurantListView extends Component {
           onChangeText={(text)=> this.filterSearch(text)}
           value = {this.state.text}
         />
-
         <ListView
           dataSource = {this.state.restaurantDataSource}
           renderRow = {this.renderRow}
@@ -122,6 +121,5 @@ const styles = StyleSheet.create({
   },
 
 });
-
 
 export default RestaurantListView
