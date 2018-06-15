@@ -13,25 +13,26 @@ import {
   View,
   Text,
 } from 'react-native';
+import {connect} from 'react-redux';
+import {
+  fillDate,
+  fillTime,
+  fillNumOfCustomer,
+  fillPhoneNumber,
+  fillCustomerName,
+} from '../../actions/actions'
 
 class BookingForm extends Component {
+
   constructor(props) {
     super(props);
-
-    this.state = {
-      dateText: '',
-      numOfCustomer: '',
-      customerName: '',
-      phoneNumber: '',
-      selectedIndex: 0,
-    };
     this.updateIndex = this.updateIndex.bind(this);
     this.timeButtons = ['17:00', '18:00', '19:00','20:00','21:00','22:00'];
   }
 
   updateIndex (selectedIndex) {
-    this.setState({selectedIndex})
-    this.props.onSelectButton(this.timeButtons[this.state.selectedIndex]);
+    // this.setState({selectedIndex})
+    // this.props.onSelectButton(this.timeButtons[this.state.selectedIndex]);
   }
 
   render() {
@@ -39,20 +40,25 @@ class BookingForm extends Component {
     let month = new Date().getMonth() + 1;
     let year = new Date().getFullYear();
     let mindate = date+'-'+month+'-'+year;
-    const { selectedIndex } = this.state;
-    const {restaurant} = this.props;
+    //const { selectedIndex } = this.state;
+    const {
+      dateText,
+      timeText,
+      numOfCustomer,
+      phoneNumber,
+      customerName,
+    } = this.props.restaurants
     return (
       <View>
       <View style={styles.container}>
         <FormLabel>Select date</FormLabel>
         <DatePicker
         style={styles.datePicker}
-        date={this.state.dateText}
+        date={dateText}
         mode="date"
         placeholder="select date"
         format="DD-MM-YYYY"
         minDate= {mindate}
-        //maxDate="2016-06-01"
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
         customStyles={{
@@ -67,37 +73,41 @@ class BookingForm extends Component {
           }
         // ... You can check the source to find the other keys.
         }}
-        onDateChange={(dateText) => {this.setState({dateText: dateText})}}
+        onDateChange={(dateText) => this.props.fillDate(dateText)}
         >
         </DatePicker>
         <ButtonGroup
           onPress={this.updateIndex}
           buttons={this.timeButtons}
           containerStyle={{height: 50}}
-          selectedIndex={selectedIndex}
+          selectedIndex={0}
           />
           <FormLabel>People</FormLabel>
           <FormInput
           underlineColorAndroid="#ccc"
           keyboardType = 'numeric'
-          value={this.state.numOfCustomer}
-          onChangeText={(num) => this.setState({numOfCustomer:num})}
+          value={numOfCustomer}
+          onChangeText={(numOfCustomer) =>  this.props.fillNumOfCustomer(numOfCustomer)}
           />
           <FormLabel>Phone number</FormLabel>
           <FormInput
           underlineColorAndroid="#ccc"
           keyboardType = 'numeric'
-          value={this.state.phoneNumber}
-          onChangeText={(num) => this.setState({phoneNumber:num})}
+          value={phoneNumber}
+          onChangeText={(phoneNumber) =>  this.props.fillPhoneNumber(phoneNumber)}
           />
           <FormLabel>Name</FormLabel>
           <FormInput
           underlineColorAndroid="#ccc"
-          value={this.state.customerName}
-          onChangeText={(value) => this.setState({customerName:value})}
+          value={customerName}
+          onChangeText={(customerName) =>  this.props.fillCustomerName(customerName)}
           />
           <Text style={styles.priceText}>
-            Price: {restaurant.price*this.state.numOfCustomer}
+            dateText: {dateText}
+            timeText: {timeText}
+            numOfCustomer: {numOfCustomer}
+            phoneNumber: {phoneNumber}
+            customerName: {customerName}
           </Text>
       </View>
       <Button
@@ -105,14 +115,7 @@ class BookingForm extends Component {
         backgroundColor = 'tomato'
         title='Next'
         onPress={()=>{
-          this.props.onPressNext(
-            this.state.dateText,
-            this.state.numOfCustomer,
-            this.state.phoneNumber,
-            this.state.customerName,
-            this.timeButtons[this.state.selectedIndex],
-            restaurant
-          )
+          //this.props.onPressNext
         }}
       />
       </View>
@@ -157,5 +160,21 @@ const styles = StyleSheet.create({
   }
 });
 
+function mapStateToProps (state) {
+  return {
+    restaurants: state.restaurants
+  }
+}
 
-export default BookingForm;
+function mapDispatchToProps (dispatch) {
+  return{
+    fillDate: (dateText) => dispatch(fillDate(dateText)),
+    fillTime: (timeText) => dispatch(fillTime(timeText)),
+    fillNumOfCustomer: (numOfCustomer) => dispatch(fillNumOfCustomer(numOfCustomer)),
+    fillPhoneNumber: (phoneNumber) => dispatch(fillPhoneNumber(phoneNumber)),
+    fillCustomerName: (customerName) => dispatch(fillCustomerName(customerName)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookingForm)
+//export default BookingForm;

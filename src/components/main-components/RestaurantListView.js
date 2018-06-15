@@ -15,41 +15,13 @@ import FirebaseService from '../../services/firebase-service';
 import {SearchBar} from 'react-native-elements';
 import Restaurant from '../sub-components/Restaurant';
 import TestRedux from '../sub-components/TestRedux';
+import {connect} from 'react-redux';
+import {fetchRestaurantFromFirebase} from '../../actions/actions'
+import {searchingRestaurant} from '../../actions/actions'
 
 class RestaurantListView extends Component {
-
-  constructor() {
-    super();
-    let ds = new ListView.DataSource({rowHasChanged:(r1,r2)=> r1 !== r2});
-    this.state = {
-      text: '',
-      restaurantDataSource: ds,
-    };
-
-    this.restaurantsRef = FirebaseService.child('items');
-    this.renderRow = this.renderRow.bind(this);
-    this.restaurants = [];
-  }
-
   componentWillMount(){
-    this.getRestaurentList(this.restaurantsRef);
-  }
-
-  getRestaurentList(restaurantsRef){
-    restaurantsRef.on('value',(snap)=>{
-      //let items = [];
-      snap.forEach((child)=>{
-        this.restaurants.push({
-          title: child.val().title,
-          image: child.val().image,
-          price: child.val().price,
-          _key: child.key
-        });
-      });
-      this.setState({
-        restaurantDataSource: this.state.restaurantDataSource.cloneWithRows(this.restaurants)
-      });
-    });
+    this.props.getRestaurantList();
   }
 
   renderRow(restaurant){
@@ -58,32 +30,20 @@ class RestaurantListView extends Component {
     )
   }
 
-  filterSearch(text){
-    const newData = this.restaurants.filter(function(restaurant){
-      const restaurantData = restaurant.title.toUpperCase()
-      const textData = text.toUpperCase()
-      return restaurantData.indexOf(textData) > -1
-    })
-    this.setState({
-      restaurantDataSource: this.state.restaurantDataSource.cloneWithRows(newData),
-      text: text
-    })
-  }
-
   render() {
+    const {restaurants,restaurantDataSource} = this.props.restaurants;
     return (
       <View style={styles.container}>
         <SearchBar
           lightTheme = {true}
-          backgroundColor = "tomato"
-          onChangeText={(text)=> this.filterSearch(text)}
-          value = {this.state.text}
+          onChangeText={(text)=> this.props.searchingRestaurant(restaurants,text)}
+          value = {this.props.restaurants.keyword}
         />
         <ListView
-          dataSource = {this.state.restaurantDataSource}
-          renderRow = {this.renderRow}
+          dataSource = {restaurantDataSource}
+          renderRow = {this.renderRow.bind(this)}
+          enableEmptySections = {true}
         />
-
       </View>
     );
   }
@@ -122,4 +82,16 @@ const styles = StyleSheet.create({
 
 });
 
-export default RestaurantListView
+function mapStateToProps (state) {
+  return {
+    restaurants: state.restaurants
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return{
+    getRestaurantList: () => dispatch(fetchRestaurantFromFirebase()),
+    searchingRestaurant: (restaurants,text) => dispatch(searchingRestaurant(restaurants,text)),
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(RestaurantListView)

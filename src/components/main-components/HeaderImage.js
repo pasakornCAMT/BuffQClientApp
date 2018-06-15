@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-
+import {connect} from 'react-redux';
 import {
   StyleSheet,
   View,
@@ -11,7 +11,7 @@ import {
 
 class HeaderImage extends Component {
   render() {
-    const {restaurant} = this.props;
+    const {restaurant} = this.props.restaurants;
     return (
       <View>
         <Image
@@ -46,5 +46,11 @@ const styles = StyleSheet.create({
   },
 });
 
+function mapStateToProps (state) {
+  return {
+    restaurants: state.restaurants
+  }
+}
 
-export default HeaderImage;
+export default connect(mapStateToProps)(HeaderImage)
+//export default HeaderImage;

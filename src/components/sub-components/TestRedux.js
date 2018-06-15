@@ -20,7 +20,7 @@ class TestRedux extends Component {
     return (
       <View>
       {restaurants.map((res,key)=>(
-        <View key={key}>
+        <View key={res.key}>
           <Text>
             {res.title}
           </Text>
