@@ -1,15 +1,10 @@
 'use strict';
 
 import React, { Component } from 'react';
-import {StackNavigator} from 'react-navigation';
 import {
   StyleSheet,
   View,
-  Text,
-  TouchableHighlight,
   ListView,
-  Image,
-  Button,
 } from 'react-native';
 import FirebaseService from '../../services/firebase-service';
 import {SearchBar} from 'react-native-elements';
@@ -24,9 +19,9 @@ class RestaurantListView extends Component {
     this.props.getRestaurantList();
   }
 
-  renderRow(restaurant){
+  renderRow(restaurant, sectionId, rowId){
     return (
-      <Restaurant data={restaurant} onPress={this.props.onPress}/>
+      <Restaurant data={restaurant} rowId={rowId} onPress={this.props.onPress}/>
     )
   }
 
@@ -50,35 +45,6 @@ class RestaurantListView extends Component {
 }
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: '#33ff99',
-    borderColor: 'transparent',
-    borderWidth: 1,
-    paddingTop: 14,
-    paddingBottom: 16,
-  },
-  buttonText: {
-    color: '#000',
-    fontSize: 24,
-    textAlign: 'center'
-  },
-  container: {
-    backgroundColor: '#f2f2f2',
-    flex: 1,
-  },
-
-  listview: {
-    flex: 1,
-  },
-
-  li: {
-    backgroundColor: '#fff',
-    borderColor: '#cccccc',
-    borderWidth: 1,
-    padding: 10,
-    margin: 10,
-    borderRadius:10,
-  },
 
 });
 

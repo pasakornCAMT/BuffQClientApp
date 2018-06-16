@@ -13,9 +13,6 @@ import {
 } from 'react-native';
 
 class BookingConfirm extends Component {
-  static navigationOptions = {
-    title: 'BookingConfirm',
-  };
   constructor(props) {
     super(props);
     const {navigation} = this.props;

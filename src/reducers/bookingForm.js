@@ -8,7 +8,8 @@ import {
 
 const initailState = {
   dateText: '',
-  timeText: '',
+  timeText: '17:00',
+  selectedIndex: 0,
   numOfCustomer: '',
   customerName: '',
   phoneNumber: '',
@@ -24,6 +25,7 @@ export default function bookingReducer (state = initailState, action){
     case FILL_TIME:
       return{
         ...state,
+        selectedIndex: action.selectedIndex,
         timeText: action.timeText,
       }
     case FILL_NUM_OF_CUSTOMER:

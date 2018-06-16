@@ -14,9 +14,10 @@ class Home extends Component {
     title: 'Home',
   };
 
-  pressRow(restaurant){
+  pressRow(restaurant, refId){
     console.log('passRes: ',restaurant);
-    this.props.navigateToRestaurantDetail(restaurant);
+    console.log('ID:', refId);
+    this.props.navigateToRestaurantDetail(restaurant, refId);
     const {navigate} = this.props.navigation;
     navigate('RestaurantDetail');
   }
@@ -40,7 +41,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return{
-    navigateToRestaurantDetail: (restaurant) => dispatch(navigateToRestaurantDetail(restaurant)),
+    navigateToRestaurantDetail: (restaurant, refId) => dispatch(navigateToRestaurantDetail(restaurant, refId)),
   }
 }
 

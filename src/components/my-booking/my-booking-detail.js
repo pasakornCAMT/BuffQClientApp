@@ -21,7 +21,7 @@ class MyBookingDetail extends Component {
       <View>
       <View style={styles.container}>
         <FormLabel>restaurant</FormLabel>
-        <Text style={styles.text} >{booking.resName}</Text>
+        <Text style={styles.text} >{booking.restaurant}</Text>
 
         <FormLabel>date/time</FormLabel>
         <Text style={styles.text} >{booking.dateText}</Text>

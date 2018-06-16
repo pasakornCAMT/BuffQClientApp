@@ -1,6 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import DatePicker from 'react-native-datepicker';
+import {fetchingEstimatedTimeTable} from '../../actions/actions'
 import {
   FormLabel,
   FormInput,
@@ -31,8 +32,9 @@ class BookingForm extends Component {
   }
 
   updateIndex (selectedIndex) {
-    // this.setState({selectedIndex})
-    // this.props.onSelectButton(this.timeButtons[this.state.selectedIndex]);
+    const {refId} = this.props.restaurants;
+    this.props.fillTime(selectedIndex,this.timeButtons[selectedIndex]);
+    this.props.fetchingEstimatedTimeTable(refId, this.timeButtons[selectedIndex]);
   }
 
   render() {
@@ -40,14 +42,15 @@ class BookingForm extends Component {
     let month = new Date().getMonth() + 1;
     let year = new Date().getFullYear();
     let mindate = date+'-'+month+'-'+year;
-    //const { selectedIndex } = this.state;
     const {
       dateText,
       timeText,
+      selectedIndex,
       numOfCustomer,
       phoneNumber,
       customerName,
-    } = this.props.restaurants
+    } = this.props.bookingForm
+    const {restaurant} = this.props.restaurants;
     return (
       <View>
       <View style={styles.container}>
@@ -80,7 +83,7 @@ class BookingForm extends Component {
           onPress={this.updateIndex}
           buttons={this.timeButtons}
           containerStyle={{height: 50}}
-          selectedIndex={0}
+          selectedIndex={selectedIndex}
           />
           <FormLabel>People</FormLabel>
           <FormInput
@@ -103,20 +106,14 @@ class BookingForm extends Component {
           onChangeText={(customerName) =>  this.props.fillCustomerName(customerName)}
           />
           <Text style={styles.priceText}>
-            dateText: {dateText}
-            timeText: {timeText}
-            numOfCustomer: {numOfCustomer}
-            phoneNumber: {phoneNumber}
-            customerName: {customerName}
+            Price: {restaurant.price*numOfCustomer}
           </Text>
       </View>
       <Button
         style={styles.button}
         backgroundColor = 'tomato'
         title='Next'
-        onPress={()=>{
-          //this.props.onPressNext
-        }}
+        onPress={this.props.onPressNext}
       />
       </View>
     );
@@ -128,18 +125,6 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
     margin: 10,
     borderRadius:10,
-  },
-  image:{
-    flexGrow: 1,
-    width:'100%',
-    height:100,
-    position:'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   datePicker:{
     width: 200,
@@ -162,17 +147,19 @@ const styles = StyleSheet.create({
 
 function mapStateToProps (state) {
   return {
-    restaurants: state.restaurants
+    bookingForm: state.bookingForm,
+    restaurants: state.restaurants,
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return{
     fillDate: (dateText) => dispatch(fillDate(dateText)),
-    fillTime: (timeText) => dispatch(fillTime(timeText)),
+    fillTime: (selectedIndex, timeText) => dispatch(fillTime(selectedIndex, timeText)),
     fillNumOfCustomer: (numOfCustomer) => dispatch(fillNumOfCustomer(numOfCustomer)),
     fillPhoneNumber: (phoneNumber) => dispatch(fillPhoneNumber(phoneNumber)),
     fillCustomerName: (customerName) => dispatch(fillCustomerName(customerName)),
+    fetchingEstimatedTimeTable: (id, timeText) => dispatch(fetchingEstimatedTimeTable(id, timeText)),
   }
 }
 

@@ -5,21 +5,24 @@ import {
   SEARCHING_RESTAURANT_SUCCESS,
   SEARCHING_RESTAURANT_FAILURE,
   NAVIGATE_TO_RESTAURANT_DETAIL,
+  NAVIGATE_TO_BOOKING_DETAIL,
   FILL_DATE,
   FILL_TIME,
   FILL_NUM_OF_CUSTOMER,
   FILL_PHONE_NUMBER,
   FILL_CUSTOMER_NAME,
+  FETCHING_ESTIMATED_TIME_TABLE_SUCCESS,
+  FETCHING_MY_BOOKING_LIST,
+  FETCHING_MY_BOOKING_LIST_SUCCESS,
+  FETCHING_MY_BOOKING_LIST_FAILURE,
 } from '../constants/constants'
 import FirebaseService from '../services/firebase-service'
 
 export function fetchRestaurantFromFirebase(){
     return (dispatch) => {
       dispatch(getRestaurantList())
-      const restaurants = [];
       try {
         FirebaseService.child('items').on('value',(snap)=>{
-          console.log('res: ', snap.val());
           dispatch(getRestaurantListSuccess(snap.val()))
         })
       } catch (e) {
@@ -72,32 +75,37 @@ export function displayRestaurantFailure(text){
   }
 }
 /////////////////////NAVIGATION/////////////////////////////
-export function navigateToRestaurantDetail(restaurant){
-  console.log('Access navigate action');
+export function navigateToRestaurantDetail(restaurant, refId){
   return{
     type: NAVIGATE_TO_RESTAURANT_DETAIL,
     restaurant,
+    refId,
+  }
+}
+export function navigateToBookingDetail(booking, refId){
+  return{
+    type: NAVIGATE_TO_BOOKING_DETAIL,
+    booking,
+    refId,
   }
 }
 ////////////////////BOOKING FORM/////////////////////////////
 export function fillDate(dateText){
-  console.log('Access fill date');
   return{
     type: FILL_DATE,
     dateText,
   }
 }
 
-export function fillTime(timeText){
-  console.log('Access fill time');
+export function fillTime(selectedIndex, timeText){
   return{
     type: FILL_TIME,
+    selectedIndex,
     timeText,
   }
 }
 
 export function fillNumOfCustomer(numOfCustomer){
-  console.log('Access fill numOfCustomer');
   return{
     type: FILL_NUM_OF_CUSTOMER,
     numOfCustomer,
@@ -105,7 +113,6 @@ export function fillNumOfCustomer(numOfCustomer){
 }
 
 export function fillPhoneNumber(phoneNumber){
-  console.log('Access fill phoneNumber');
   return{
     type: FILL_PHONE_NUMBER,
     phoneNumber,
@@ -113,9 +120,64 @@ export function fillPhoneNumber(phoneNumber){
 }
 
 export function fillCustomerName(customerName){
-  console.log('Access fill customerName');
   return{
     type: FILL_CUSTOMER_NAME,
     customerName,
+  }
+}
+//////////////EstimatedTimeTable////////////////////
+
+export function fetchingEstimatedTimeTable(id, timeText){
+  return (dispatch) => {
+    try {
+      FirebaseService.child('items')
+      .child(id).child('EstimatedTime').child(timeText).on('value',(snap)=>{
+        dispatch(getTableSuccess(snap.val()))
+      })
+    } catch (e) {
+
+    } finally {
+
+    }
+  }
+}
+
+export function getTableSuccess(table){
+  return{
+    type: FETCHING_ESTIMATED_TIME_TABLE_SUCCESS,
+    table,
+  }
+}
+
+/////////////////////MyBooking/////////////////////////////
+export function fetchMyBookingFromFirebase(){
+    return (dispatch) => {
+      dispatch(getMyBookingList())
+      try {
+        FirebaseService.child('bookings').on('value',(snap)=>{
+          dispatch(getMyBookingListSuccess(snap.val()))
+        })
+      } catch (e) {
+        dispatch(getMyBookingListFailure())
+      }
+    }
+}
+
+export function getMyBookingList(){
+  return{
+    type: FETCHING_MY_BOOKING_LIST
+  }
+}
+
+export function getMyBookingListSuccess(myBookingList){
+  return{
+    type: FETCHING_MY_BOOKING_LIST_SUCCESS,
+    myBookingList,
+  }
+}
+
+export function getMyBookingListFailure(){
+  return{
+    type: FETCHING_MY_BOOKING_LIST_FAILURE
   }
 }

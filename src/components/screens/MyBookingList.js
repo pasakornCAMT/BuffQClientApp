@@ -15,9 +15,7 @@ class MyBookingList extends Component {
 
   pressRow(booking){
     const {navigate} = this.props.navigation;
-    navigate('MyBookingDetail',{
-      booking: booking,
-    });
+    navigate('MyBookingDetail');
   }
 
   render() {

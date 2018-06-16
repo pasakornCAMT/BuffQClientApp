@@ -43,10 +43,6 @@ class MyBooking extends Component {
 }
 
 const styles = StyleSheet.create({
-  listview: {
-    flex: 1,
-  },
-
   li: {
     backgroundColor: '#fff',
     borderBottomColor: '#eee',
@@ -55,16 +51,10 @@ const styles = StyleSheet.create({
     padding: 10,
     flexDirection: 'row',
   },
-
   image:{
     width:150,
     height:100,
   },
-
-  liContainer: {
-    flex: 2,
-  },
-
   liText: {
     color: '#333',
     fontSize: 16,

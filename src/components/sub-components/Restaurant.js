@@ -13,9 +13,10 @@ import {
 class Restaurant extends Component {
   render() {
     const restaurant = this.props.data;
+    const refId = this.props.rowId;
     return (
       <TouchableHighlight onPress={()=>{
-        this.props.onPress(restaurant);
+        this.props.onPress(restaurant, refId);
       }}>
       <View style={styles.li}>
         <Text style={styles.liText}>

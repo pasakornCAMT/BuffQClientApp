@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import FirebaseService from '../../services/firebase-service';
 import EstimatedTime from '../sub-components/EstimatedTime';
-
+import {connect} from 'react-redux';
 import {
   StyleSheet,
   View,
@@ -12,36 +12,14 @@ import {
 } from 'react-native';
 
 class EstimatedTimeTable extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    };
-    this.tables = [];
-  }
-
-  componentWillMount(){
-    this.getTableData(this.props.estimatedTimeRef)
-  }
-
-  getTableData(estimatedTimeRef){
-    estimatedTimeRef.on('value',(snap)=>{
-      snap.forEach((child)=>{
-          this.tables.push({
-            time: child.val().time,
-            percentage: child.val().percentage,
-            _key: child.key
-          });
-      });
-    });
-  }
 
   render() {
+    const {tables} = this.props.estimatedTimeTable;
     return (
-      <View>
-      {this.tables.map((table,key)=>(
-        <View style={styles.container} key={table._key}>
-          <Text>
+      <View style={styles.container}>
+      {tables.map((table,key)=>(
+        <View key={key}>
+          <Text style={styles.detail}>
             {table.time}: {table.percentage} %
           </Text>
         </View>
@@ -55,8 +33,22 @@ const styles = StyleSheet.create({
   container:{
     flexDirection: 'column',
     flex:1,
+    backgroundColor: 'white',
+    margin: 10,
+    borderRadius:10,
+    padding: 7,
   },
+  detail:{
+    fontSize: 16,
+  }
 });
 
+function mapStateToProps (state) {
+  return {
+    estimatedTimeTable: state.estimatedTimeTable,
+  }
+}
 
-export default EstimatedTimeTable;
+
+export default connect(mapStateToProps)(EstimatedTimeTable)
+//export default EstimatedTimeTable;
