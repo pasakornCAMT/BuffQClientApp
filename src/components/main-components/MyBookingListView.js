@@ -20,28 +20,42 @@ class MyBookingListView extends Component {
     this.props.fetchMyBookingFromFirebase();
   }
 
-  renderRow(booking){
+  renderRow(booking, sectionId, rowId){
     return (
-      <MyBooking data={booking} onPress={this.props.onPress}/>
+      <MyBooking data={booking} rowId={rowId} onPress={this.props.onPress}/>
     )
   }
 
   render() {
-    const {myBookingList, myBookingDataSource} = this.props.MyBookingReducer;
+    const {myBookingList, myBookingDataSource,noData, isFetching} = this.props.MyBookingReducer;
     return (
       <View>
+        {
+          isFetching ? (
+            <Text>
+              Loading...
+            </Text>
+          ): null
+        }
+        {
+          noData ? (
+            <Text>
+              There are no booking in your list
+            </Text>
+          ): null
+        }
         <ListView
           dataSource = {myBookingDataSource}
           renderRow = {this.renderRow.bind(this)}
           enableEmptySections = {true}
-          />
+        />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  
+
 });
 
 function mapStateToProps (state) {

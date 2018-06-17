@@ -52,7 +52,7 @@ class BookingForm extends Component {
     } = this.props.bookingForm
     const {restaurant} = this.props.restaurants;
     return (
-      <View>
+      <View style={styles.paddingSpace}>
       <View style={styles.container}>
         <FormLabel>Select date</FormLabel>
         <DatePicker
@@ -105,9 +105,11 @@ class BookingForm extends Component {
           value={customerName}
           onChangeText={(customerName) =>  this.props.fillCustomerName(customerName)}
           />
-          <Text style={styles.priceText}>
-            Price: {restaurant.price*numOfCustomer}
-          </Text>
+      </View>
+      <View>
+        <Text style={styles.priceText}>
+          Price: {restaurant.price*numOfCustomer}
+        </Text>
       </View>
       <Button
         style={styles.button}
@@ -123,8 +125,9 @@ class BookingForm extends Component {
 const styles = StyleSheet.create({
   container:{
     backgroundColor:'white',
-    margin: 10,
+    margin: 5,
     borderRadius:10,
+    paddingBottom: 10,
   },
   datePicker:{
     width: 200,
@@ -142,6 +145,10 @@ const styles = StyleSheet.create({
   priceText:{
     fontSize: 32,
     marginLeft:20,
+    color: 'tomato'
+  },
+  paddingSpace:{
+    paddingBottom: 10,
   }
 });
 

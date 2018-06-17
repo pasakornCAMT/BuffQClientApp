@@ -2,7 +2,8 @@
 
 import React, { Component } from 'react';
 import MyBookingListView from '../main-components/MyBookingListView';
-
+import {connect} from 'react-redux';
+import {navigateToBookingDetail} from '../../actions/actions'
 import {
   StyleSheet,
   View,
@@ -13,7 +14,10 @@ class MyBookingList extends Component {
     title: 'MyBookingList',
   };
 
-  pressRow(booking){
+  pressRow(booking, refId){
+    console.log('passBooking: ', booking);
+    console.log('ID: ', refId);
+    this.props.navigateToBookingDetail(booking, refId)
     const {navigate} = this.props.navigation;
     navigate('MyBookingDetail');
   }
@@ -29,5 +33,17 @@ const styles = StyleSheet.create({
 
 });
 
+function mapStateToProps (state) {
+  return {
+    MyBookingReducer: state.MyBookingReducer
+  }
+}
 
-export default MyBookingList;
+function mapDispatchToProps (dispatch){
+  return{
+    navigateToBookingDetail: (booking, refId) => dispatch(navigateToBookingDetail(booking, refId))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyBookingList)
+//export default MyBookingList;

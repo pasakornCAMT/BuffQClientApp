@@ -2,8 +2,9 @@ import {
   FETCHING_RESTAURANT_LIST,
   FETCHING_RESTAURANT_LIST_SUCCESS,
   FETCHING_RESTAURANT_LIST_FAILURE,
+  NO_RESTAURANT_DATA,
   SEARCHING_RESTAURANT_SUCCESS,
-  SEARCHING_RESTAURANT_FAILURE,
+  NO_MATCHED_RESTAURANT,
   NAVIGATE_TO_RESTAURANT_DETAIL,
   NAVIGATE_TO_BOOKING_DETAIL,
   FILL_DATE,
@@ -15,6 +16,11 @@ import {
   FETCHING_MY_BOOKING_LIST,
   FETCHING_MY_BOOKING_LIST_SUCCESS,
   FETCHING_MY_BOOKING_LIST_FAILURE,
+  NO_MY_BOOKING_DATA,
+  EDIT_NUM_OF_CUSTOMER,
+  EDIT_PHONE_NUMBER,
+  EDIT_CUSTOMER_NAME,
+  PREPARE_EDITED_VALUE,
 } from '../constants/constants'
 import FirebaseService from '../services/firebase-service'
 
@@ -23,7 +29,12 @@ export function fetchRestaurantFromFirebase(){
       dispatch(getRestaurantList())
       try {
         FirebaseService.child('items').on('value',(snap)=>{
-          dispatch(getRestaurantListSuccess(snap.val()))
+          if(snap.val() === null){
+            dispatch(noRestaurantData())
+          }else{
+            dispatch(getRestaurantListSuccess(snap.val()))
+          }
+
         })
       } catch (e) {
         dispatch(getRestaurantListFailure())
@@ -49,6 +60,12 @@ export function getRestaurantListFailure(){
     type: FETCHING_RESTAURANT_LIST_FAILURE
   }
 }
+
+export function noRestaurantData(){
+  return{
+    type: NO_RESTAURANT_DATA
+  }
+}
 ///////////////////////SEARCHING/////////////////////////////
 export function searchingRestaurant (restaurants,text){
   return (dispatch) => {
@@ -57,7 +74,11 @@ export function searchingRestaurant (restaurants,text){
       const textData = text.toUpperCase()
       return restaurantData.indexOf(textData) > -1
     })
-      dispatch(displayRestaurantSuccess(newData,text))
+    dispatch(displayRestaurantSuccess(newData,text))
+    if(newData.length === 0 || newData === null){
+      dispatch(displayRestaurantFailure(text))
+    }
+
   }
 }
 
@@ -70,8 +91,9 @@ export function displayRestaurantSuccess(newData,text){
 }
 
 export function displayRestaurantFailure(text){
-  return (dispatch) => {
-    dispatch(setRestaurantState(restaurant))
+  return{
+    type: NO_MATCHED_RESTAURANT,
+    text,
   }
 }
 /////////////////////NAVIGATION/////////////////////////////
@@ -155,7 +177,12 @@ export function fetchMyBookingFromFirebase(){
       dispatch(getMyBookingList())
       try {
         FirebaseService.child('bookings').on('value',(snap)=>{
-          dispatch(getMyBookingListSuccess(snap.val()))
+          if(snap.val() === null){
+            dispatch(noMyBookingData())
+          }else{
+            dispatch(getMyBookingListSuccess(snap.val()))
+          }
+
         })
       } catch (e) {
         dispatch(getMyBookingListFailure())
@@ -179,5 +206,41 @@ export function getMyBookingListSuccess(myBookingList){
 export function getMyBookingListFailure(){
   return{
     type: FETCHING_MY_BOOKING_LIST_FAILURE
+  }
+}
+
+export function noMyBookingData(){
+  return{
+    type: NO_MY_BOOKING_DATA
+  }
+}
+
+export function editNumOfCustomer(numOfCustomer){
+  return{
+    type: EDIT_NUM_OF_CUSTOMER,
+    numOfCustomer,
+  }
+}
+
+export function editPhoneNumber(phone){
+  return{
+    type: EDIT_PHONE_NUMBER,
+    phone,
+  }
+}
+
+export function editCustomerName(customer){
+  return{
+    type: EDIT_CUSTOMER_NAME,
+    customer,
+  }
+}
+
+export function prepareEditedValue(numOfCustomer, phone, customer){
+  return{
+    type: PREPARE_EDITED_VALUE,
+    numOfCustomer,
+    phone,
+    customer,
   }
 }

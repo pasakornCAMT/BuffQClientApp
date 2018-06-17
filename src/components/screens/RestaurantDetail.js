@@ -3,8 +3,8 @@
 import React, { Component } from 'react';
 import HeaderImage from '../main-components/HeaderImage';
 import BookingForm from '../main-components/BookingForm';
-import FirebaseService from '../../services/firebase-service';
 import EstimatedTimeTable from '../main-components/EstimatedTimeTable';
+import RestaurantDescription from '../main-components/RestaurantDescription';
 import {fetchingEstimatedTimeTable} from '../../actions/actions';
 import {connect} from 'react-redux';
 import {
@@ -35,15 +35,13 @@ class RestaurantDetail extends Component {
     const {navigation} = this.props;
     const {restaurant} = this.props.restaurants;
     const {timeText} = this.props.bookingForm;
-    //const restaurant = navigation.getParam('restaurant');
-    // const estimatedTimeRef = FirebaseService.child('items')
-    // .child(restaurant.key).child('EstimatedTime').child(this.state.timeText);
     return (
       <View>
       <ScrollView>
         <HeaderImage/>
         <EstimatedTimeTable id={restaurant.id} timeText={timeText}/>
         <BookingForm onPressNext={this.onPressNext.bind(this)}/>
+        <RestaurantDescription id={restaurant.id}/>
       </ScrollView>
       </View>
     );

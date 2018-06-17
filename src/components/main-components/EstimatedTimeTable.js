@@ -16,6 +16,7 @@ class EstimatedTimeTable extends Component {
   render() {
     const {tables} = this.props.estimatedTimeTable;
     return (
+      <View style={styles.spaceBetween}>
       <View style={styles.container}>
       {tables.map((table,key)=>(
         <View key={key}>
@@ -24,6 +25,10 @@ class EstimatedTimeTable extends Component {
           </Text>
         </View>
       ))}
+      </View>
+      <Text style={styles.queueText}>
+        Queue: {this.props.restaurants.restaurant.numOfQueue}
+      </Text>
       </View>
     );
   }
@@ -34,18 +39,29 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex:1,
     backgroundColor: 'white',
-    margin: 10,
+    margin: 5,
     borderRadius:10,
     padding: 7,
   },
   detail:{
     fontSize: 16,
+  },
+  spaceBetween:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  queueText:{
+    marginRight: 30,
+    marginLeft: 40,
+    fontSize: 22,
+    color: 'tomato'
   }
 });
 
 function mapStateToProps (state) {
   return {
     estimatedTimeTable: state.estimatedTimeTable,
+    restaurants: state.restaurants,
   }
 }
 

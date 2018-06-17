@@ -13,9 +13,10 @@ import {
 class MyBooking extends Component {
   render() {
     const booking = this.props.data;
+    const refId = this.props.rowId;
     return (
       <TouchableHighlight onPress={()=>{
-        this.props.onPress(booking);
+        this.props.onPress(booking, refId);
       }}>
       <View style={styles.li}>
         <Image
@@ -24,7 +25,7 @@ class MyBooking extends Component {
           />
         <View style={styles.liRight}>
           <Text style={styles.liText}>
-            {booking.resName}
+            {booking.restaurant}
           </Text>
           <Text style={styles.liText}>
             {booking.dateText}

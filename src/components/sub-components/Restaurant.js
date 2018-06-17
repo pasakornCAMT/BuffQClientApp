@@ -19,9 +19,14 @@ class Restaurant extends Component {
         this.props.onPress(restaurant, refId);
       }}>
       <View style={styles.li}>
-        <Text style={styles.liText}>
-          {restaurant.title}
-        </Text>
+        <View style={styles.spaceBetween}>
+          <Text style={styles.liText}>
+            {restaurant.title}
+          </Text>
+          <Text style={styles.queueText}>
+            Queue: {restaurant.numOfQueue}
+          </Text>
+        </View>
         <Image
           style={styles.image}
           source={{uri: restaurant.image}}
@@ -53,7 +58,14 @@ const styles = StyleSheet.create({
     color: 'tomato',
     fontSize: 32,
   },
-
+  spaceBetween:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  queueText:{
+    fontSize:14,
+    fontWeight: 'bold',
+  }
 });
 
 

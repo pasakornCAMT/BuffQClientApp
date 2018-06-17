@@ -13,7 +13,7 @@ import Booking from '../components/booking/booking';
 import BookingConfirm from '../components/screens/BookingConfirm';
 import MyBookingList from '../components/screens/MyBookingList'
 import MyBookingDetail from '../components/screens/MyBookingDetail';
-import MyBookingUpdate from '../components/my-booking/my-booking-update';
+import MyBookingEdit from '../components/screens/MyBookingEdit';
 import RestaurantDetail from '../components/screens/RestaurantDetail';
 
 const HomeStack = StackNavigator({
@@ -25,7 +25,7 @@ const HomeStack = StackNavigator({
 const MyBookingStack = StackNavigator({
   MyBookingList: {screen: MyBookingList},
   MyBookingDetail: {screen: MyBookingDetail},
-  MyBookingUpdate: {screen: MyBookingUpdate},
+  MyBookingEdit: {screen: MyBookingEdit},
 })
 
 export default TabNavigator(

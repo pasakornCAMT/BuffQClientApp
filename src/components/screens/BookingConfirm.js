@@ -81,7 +81,7 @@ class BookingConfirm extends Component {
         <Button
           title='Confirm'
           backgroundColor = 'tomato'
-          onPress={this.onPressConfirm.bind(this)}
+          //onPress={this.onPressConfirm.bind(this)}
         >
         </Button>
       </View>
