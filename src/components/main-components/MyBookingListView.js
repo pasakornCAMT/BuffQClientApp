@@ -32,7 +32,7 @@ class MyBookingListView extends Component {
       <View>
         {
           isFetching ? (
-            <Text>
+            <Text style={styles.description}>
               Loading...
             </Text>
           ): null
@@ -55,7 +55,11 @@ class MyBookingListView extends Component {
 }
 
 const styles = StyleSheet.create({
-
+  description:{
+    textAlign: 'center',
+    fontSize: 16,
+    marginTop: 20,
+  },
 });
 
 function mapStateToProps (state) {

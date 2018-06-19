@@ -32,7 +32,6 @@ class RestaurantDetail extends Component {
   }
 
   render() {
-    const {navigation} = this.props;
     const {restaurant} = this.props.restaurants;
     const {timeText} = this.props.bookingForm;
     return (

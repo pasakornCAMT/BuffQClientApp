@@ -1,13 +1,14 @@
 'use strict';
 import React, { Component } from 'react';
 import DatePicker from 'react-native-datepicker';
-import {fetchingEstimatedTimeTable} from '../../actions/actions'
 import {
   FormLabel,
   FormInput,
   FormValidationMessage,
   Button,
-  ButtonGroup
+  ButtonGroup,
+  CheckBox,
+  Icon,
 } from 'react-native-elements';
 import {
   StyleSheet,
@@ -16,12 +17,16 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import {
+  fetchingEstimatedTimeTable,
   fillDate,
   fillTime,
   fillNumOfCustomer,
   fillPhoneNumber,
   fillCustomerName,
+  checkedDrink,
+  recordPrice,
 } from '../../actions/actions'
+import Spinner from 'react-native-number-spinner';
 
 class BookingForm extends Component {
 
@@ -49,6 +54,7 @@ class BookingForm extends Component {
       numOfCustomer,
       phoneNumber,
       customerName,
+      drink,
     } = this.props.bookingForm
     const {restaurant} = this.props.restaurants;
     return (
@@ -105,17 +111,46 @@ class BookingForm extends Component {
           value={customerName}
           onChangeText={(customerName) =>  this.props.fillCustomerName(customerName)}
           />
+          {
+            restaurant.drink ? (
+              <View>
+              <CheckBox
+                title='Including a drink'
+                checked={drink}
+                checkedColor='tomato'
+                onPress={this.props.checkedDrink}
+              />
+              </View>
+            ): null
+          }
+          {
+            drink ? (
+              <Text style={{marginLeft: 10}}>
+                +{restaurant.drink} THB per each
+              </Text>
+            ):null
+          }
       </View>
       <View>
-        <Text style={styles.priceText}>
-          Price: {restaurant.price*numOfCustomer}
-        </Text>
+        {
+          drink ? (
+            <Text style={styles.priceText}>
+              Price: {(restaurant.price+restaurant.drink)*numOfCustomer} THB
+            </Text>
+          ):(
+            <Text style={styles.priceText}>
+              Price: {restaurant.price*numOfCustomer} THB
+            </Text>
+          )
+        }
       </View>
       <Button
         style={styles.button}
         backgroundColor = 'tomato'
         title='Next'
-        onPress={this.props.onPressNext}
+        onPress={
+          this.props.onPressNext
+        }
       />
       </View>
     );
@@ -149,6 +184,17 @@ const styles = StyleSheet.create({
   },
   paddingSpace:{
     paddingBottom: 10,
+  },
+  people:{
+    flexDirection: 'row',
+    margin: 10,
+  },
+  peopleText:{
+    fontWeight: 'bold',
+    fontSize: 16,
+    alignItems: 'center',
+    marginLeft: 10,
+    marginRight: 10,
   }
 });
 
@@ -163,9 +209,11 @@ function mapDispatchToProps (dispatch) {
   return{
     fillDate: (dateText) => dispatch(fillDate(dateText)),
     fillTime: (selectedIndex, timeText) => dispatch(fillTime(selectedIndex, timeText)),
-    fillNumOfCustomer: (numOfCustomer) => dispatch(fillNumOfCustomer(numOfCustomer)),
+    fillNumOfCustomer: (num) => dispatch(fillNumOfCustomer(num)),
     fillPhoneNumber: (phoneNumber) => dispatch(fillPhoneNumber(phoneNumber)),
     fillCustomerName: (customerName) => dispatch(fillCustomerName(customerName)),
+    recordPrice: (price) => dispatch(recordPrice(price)),
+    checkedDrink: () => dispatch(checkedDrink()),
     fetchingEstimatedTimeTable: (id, timeText) => dispatch(fetchingEstimatedTimeTable(id, timeText)),
   }
 }

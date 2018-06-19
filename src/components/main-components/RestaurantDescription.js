@@ -7,6 +7,7 @@ import {
   StyleSheet,
   View,
   Text,
+  Image,
 } from 'react-native';
 
 class RestaurantDescription extends Component {
@@ -14,12 +15,22 @@ class RestaurantDescription extends Component {
     const {restaurant} = this.props.restaurants;
     return (
       <View style={styles.container}>
-        <Text style={styles.detail}>
-          Open: {restaurant.openTime}
+        <Text style={styles.drink}>
+          {restaurant.type}
         </Text>
         <Text style={styles.detail}>
-          Close: {restaurant.closeTime}
+          Open: {restaurant.openTime} - {restaurant.closeTime}
         </Text>
+        <Text style={styles.detail}>
+          {restaurant.openDate}
+        </Text>
+        <Text style={styles.detail}>
+          Price: {restaurant.price} THB / person
+        </Text>
+        <Image
+          style={styles.image}
+          source={{uri: 'https://cmxpv89733.i.lithium.com/t5/image/serverpage/image-id/82937i163CEC7FAC876446/image-size/large?v=1.0&px=999'}}
+        />
       </View>
     );
   }
@@ -35,7 +46,17 @@ const styles = StyleSheet.create({
     padding: 7,
   },
   detail:{
-    fontSize: 16,
+    fontSize: 20,
+  },
+  image:{
+    width:'100%',
+    height:200,
+    marginTop: 10,
+  },
+  drink:{
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: 'red'
   }
 });
 

@@ -9,7 +9,6 @@ import {StackNavigator, TabNavigator, TabBarBottom} from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import BottomNavigation, { FullTab } from 'react-native-material-bottom-navigation'
 import Home from '../components/screens/Home';
-import Booking from '../components/booking/booking';
 import BookingConfirm from '../components/screens/BookingConfirm';
 import MyBookingList from '../components/screens/MyBookingList'
 import MyBookingDetail from '../components/screens/MyBookingDetail';

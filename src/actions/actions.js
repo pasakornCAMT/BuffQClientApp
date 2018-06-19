@@ -12,6 +12,9 @@ import {
   FILL_NUM_OF_CUSTOMER,
   FILL_PHONE_NUMBER,
   FILL_CUSTOMER_NAME,
+  RECORD_PRICE,
+  CHECKED_DRINK,
+  CLEAR_FORM_DATA,
   FETCHING_ESTIMATED_TIME_TABLE_SUCCESS,
   FETCHING_MY_BOOKING_LIST,
   FETCHING_MY_BOOKING_LIST_SUCCESS,
@@ -145,6 +148,25 @@ export function fillCustomerName(customerName){
   return{
     type: FILL_CUSTOMER_NAME,
     customerName,
+  }
+}
+
+export function recordPrice(price){
+  return{
+    type: RECORD_PRICE,
+    price,
+  }
+}
+
+export function checkedDrink(){
+  return{
+    type: CHECKED_DRINK,
+  }
+}
+
+export function clearFormData(){
+  return{
+    type: CLEAR_FORM_DATA
   }
 }
 //////////////EstimatedTimeTable////////////////////

@@ -19,7 +19,9 @@
     "react-navigation-tabs": "^0.5.1",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "rn-number-input": "0.0.2",
+    "rn-spinner": "^0.3.2"
   },
   "devDependencies": {
     "babel-jest": "22.4.4",

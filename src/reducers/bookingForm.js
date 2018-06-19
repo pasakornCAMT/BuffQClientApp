@@ -4,15 +4,20 @@ import {
   FILL_NUM_OF_CUSTOMER,
   FILL_PHONE_NUMBER,
   FILL_CUSTOMER_NAME,
+  RECORD_PRICE,
+  CHECKED_DRINK,
+  CLEAR_FORM_DATA,
 } from '../constants/constants'
 
 const initailState = {
   dateText: '',
   timeText: '17:00',
   selectedIndex: 0,
-  numOfCustomer: '',
+  numOfCustomer: 1,
   customerName: '',
   phoneNumber: '',
+  drink: false,
+  price: 0,
 }
 
 export default function bookingReducer (state = initailState, action){
@@ -43,6 +48,26 @@ export default function bookingReducer (state = initailState, action){
         ...state,
         customerName: action.customerName,
       }
+    case RECORD_PRICE:
+      return{
+        ...state,
+        price: action.price
+      }
+    case CHECKED_DRINK:
+      return {
+        ...state,
+        drink: !state.drink,
+      }
+    case CLEAR_FORM_DATA:
+        return{
+          dateText: '',
+          timeText: '17:00',
+          selectedIndex: 0,
+          numOfCustomer: '',
+          customerName: '',
+          phoneNumber: '',
+          drink: false,
+        }
     default:
       return state
   }
