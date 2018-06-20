@@ -87,17 +87,39 @@ class BookingForm extends Component {
         </DatePicker>
         <ButtonGroup
           onPress={this.updateIndex}
-          buttons={this.timeButtons}
+          buttons={restaurant.sectionTime}
           containerStyle={{height: 50}}
           selectedIndex={selectedIndex}
           />
-          <FormLabel>People</FormLabel>
-          <FormInput
-          underlineColorAndroid="#ccc"
-          keyboardType = 'numeric'
-          value={numOfCustomer}
-          onChangeText={(numOfCustomer) =>  this.props.fillNumOfCustomer(numOfCustomer)}
+          <View style={styles.people}>
+          <Text style={styles.peopleText}>
+            Adult:
+          </Text>
+          <Spinner
+            value = {numOfCustomer}
+            max = {10}
+            min = {1}
+            color="tomato"
+            fontSize = {16}
+            onNumChange={(num)=> this.props.fillNumOfCustomer(num)}
           />
+          {
+            restaurant.childPrice ? (
+              <View style={styles.childBox}>
+              <Text style={styles.peopleText}>
+                Child:
+              </Text>
+              <Spinner
+                value = {0}
+                max = {10}
+                min = {0}
+                color="#99f"
+                fontSize = {16}
+              />
+              </View>
+            ): null
+          }
+          </View>
           <FormLabel>Phone number</FormLabel>
           <FormInput
           underlineColorAndroid="#ccc"
@@ -195,6 +217,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 10,
     marginRight: 10,
+  },
+  childBox:{
+    flexDirection: 'row',
   }
 });
 

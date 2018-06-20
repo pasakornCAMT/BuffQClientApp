@@ -28,7 +28,8 @@ class RestaurantDetail extends Component {
   componentWillMount(){
     const {refId} = this.props.restaurants;
     const {timeText} = this.props.bookingForm;
-    this.props.fetchingEstimatedTimeTable(refId, timeText);
+    const {sectionTime} = this.props.restaurants.restaurant;
+    this.props.fetchingEstimatedTimeTable(refId, sectionTime[0]);
   }
 
   render() {

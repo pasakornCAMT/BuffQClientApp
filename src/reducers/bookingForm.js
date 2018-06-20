@@ -11,7 +11,7 @@ import {
 
 const initailState = {
   dateText: '',
-  timeText: '17:00',
+  timeText: '',
   selectedIndex: 0,
   numOfCustomer: 1,
   customerName: '',
@@ -61,12 +61,13 @@ export default function bookingReducer (state = initailState, action){
     case CLEAR_FORM_DATA:
         return{
           dateText: '',
-          timeText: '17:00',
+          timeText: '',
           selectedIndex: 0,
-          numOfCustomer: '',
+          numOfCustomer: 1,
           customerName: '',
           phoneNumber: '',
           drink: false,
+          price: 0,
         }
     default:
       return state
