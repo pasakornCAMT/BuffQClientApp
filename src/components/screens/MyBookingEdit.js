@@ -121,6 +121,9 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch){
   return{
+    editBookingDate: (dateText) => dispatch(editBookingDate(dateText)),
+    editBookingTime: (timeText) => dispatch(editBookingTime(timeText)),
+    editNumOfChild: (numOfChild) => dispatch(editNumOfChild(numOfChild)),
     editNumOfCustomer: (numOfCustomer) => dispatch(editNumOfCustomer(numOfCustomer)),
     editPhoneNumber: (phone) => dispatch(editPhoneNumber(phone)),
     editCustomerName: (customer) => dispatch(editCustomerName(customer)),

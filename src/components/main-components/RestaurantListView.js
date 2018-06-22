@@ -12,18 +12,33 @@ import {SearchBar} from 'react-native-elements';
 import Restaurant from '../sub-components/Restaurant';
 import TestRedux from '../sub-components/TestRedux';
 import {connect} from 'react-redux';
-import {fetchRestaurantFromFirebase} from '../../actions/actions'
+import {fetchRestaurantFromFirebase, fetchingBooking} from '../../actions/actions'
 import {searchingRestaurant} from '../../actions/actions'
 
 class RestaurantListView extends Component {
   componentWillMount(){
     this.props.getRestaurantList();
+    this.props.fetchingBooking();
   }
 
   renderRow(restaurant, sectionId, rowId){
+    const numOfQueue = this.countNumOfQueue(rowId);
     return (
-      <Restaurant data={restaurant} rowId={rowId} onPress={this.props.onPress}/>
+      <Restaurant data={restaurant} numOfQueue={numOfQueue} rowId={rowId} onPress={this.props.onPress}/>
     )
+  }
+
+  countNumOfQueue(rowId){
+    //Calculate number of queue of all time//
+    const {bookings} = this.props.restaurants;
+    let numOfQueue = 0;
+    for(let i in bookings){
+      if(bookings[i].restaurantId === rowId){
+         numOfQueue = numOfQueue+1
+      }
+    }
+    return numOfQueue;
+    ////////////////////////////////////////
   }
 
   render() {
@@ -88,7 +103,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps (state) {
   return {
-    restaurants: state.restaurants
+    restaurants: state.restaurants,
   }
 }
 
@@ -96,6 +111,7 @@ function mapDispatchToProps (dispatch) {
   return{
     getRestaurantList: () => dispatch(fetchRestaurantFromFirebase()),
     searchingRestaurant: (restaurants,text) => dispatch(searchingRestaurant(restaurants,text)),
+    fetchingBooking: () => dispatch(fetchingBooking()),
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(RestaurantListView)

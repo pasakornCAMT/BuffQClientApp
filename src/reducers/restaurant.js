@@ -2,11 +2,14 @@ import {
   FETCHING_RESTAURANT_LIST,
   FETCHING_RESTAURANT_LIST_SUCCESS,
   FETCHING_RESTAURANT_LIST_FAILURE,
+  FETCHING_BOOKINGS,
   SEARCHING_RESTAURANT_SUCCESS,
   SEARCHING_RESTAURANT_FAILURE,
   NO_MATCHED_RESTAURANT,
   NAVIGATE_TO_RESTAURANT_DETAIL,
   NO_RESTAURANT_DATA,
+  CAN_BOOK,
+  CAN_NOT_BOOK,
 } from '../constants/constants'
 
 import {ListView} from 'react-native'
@@ -20,6 +23,8 @@ const initailState = {
   keyword: '',
   restaurant: [],
   refId: '',
+  bookings:[],
+  isFull: false,
 }
 
 export default function restaurantReducer (state = initailState, action){
@@ -44,6 +49,11 @@ export default function restaurantReducer (state = initailState, action){
         isFetching: false,
         noMatched: false,
         error: true
+      }
+    case FETCHING_BOOKINGS:
+      return{
+        ...state,
+        bookings: action.bookings,
       }
     case NO_RESTAURANT_DATA:
       return{
@@ -71,6 +81,16 @@ export default function restaurantReducer (state = initailState, action){
         ...state,
         restaurant: action.restaurant,
         refId: action.refId,
+      }
+    case CAN_BOOK:
+      return{
+        ...state,
+        isFull: false,
+      }
+    case CAN_NOT_BOOK:
+      return{
+        ...state,
+        isFull: true,
       }
     default:
       return state

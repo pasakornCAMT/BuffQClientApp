@@ -39,7 +39,7 @@ class MyBookingListView extends Component {
         }
         {
           noData ? (
-            <Text>
+            <Text style={styles.description}>
               There are no booking in your list
             </Text>
           ): null

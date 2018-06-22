@@ -11,6 +11,7 @@ import {
 import {Button} from 'react-native-elements';
 import FirebaseService from '../../services/firebase-service';
 import {StackActions, NavigationActions} from 'react-navigation';
+import {initialMyBooking} from '../../actions/actions';
 
 class BookingConfirm extends Component {
 
@@ -19,9 +20,10 @@ class BookingConfirm extends Component {
   }
 
   onPressConfirm(){
-    const bookingRef = FirebaseService.child('bookings');
     const {bookingForm} = this.props;
-    const {restaurant} = this.props.restaurants;
+    const {restaurant, refId} = this.props.restaurants;
+    const bookingRef = FirebaseService.child('bookings');
+    const bookingResRef = FirebaseService.child('bookingResRef').child(refId).child(bookingForm.timeText);
     bookingRef.push({
       dateText: bookingForm.dateText,
       numOfCustomer: bookingForm.numOfCustomer,
@@ -29,9 +31,24 @@ class BookingConfirm extends Component {
       customer: bookingForm.customerName,
       timeText: bookingForm.timeText,
       pressDate: new Date().toLocaleString(),
+      restaurantId: refId,
       restaurant: restaurant.title,
       resImage: restaurant.image,
+      totalPrice: bookingForm.price,
     })
+    bookingResRef.push({
+      dateText: bookingForm.dateText,
+      numOfCustomer: bookingForm.numOfCustomer,
+      phone: bookingForm.phoneNumber,
+      customer: bookingForm.customerName,
+      timeText: bookingForm.timeText,
+      pressDate: new Date().toLocaleString(),
+      restaurantId: refId,
+      restaurant: restaurant.title,
+      resImage: restaurant.image,
+      totalPrice: bookingForm.price,
+    })
+
     Alert.alert('Booking success');
     this.navigateToMyBookingList();
   }
@@ -44,6 +61,7 @@ class BookingConfirm extends Component {
       actions: [NavigationActions.navigate({ routeName: 'Home' })],
     });
     dispatch(resetAction);
+    this.props.initialMyBooking();
     navigate('MyBookingList');
   }
 
@@ -54,8 +72,9 @@ class BookingConfirm extends Component {
       numOfCustomer,
       phoneNumber,
       customerName,
+      price,
     } = this.props.bookingForm
-    const {restaurant} = this.props.restaurants
+    const {restaurant, refId} = this.props.restaurants
     return (
       <View>
       <View style={styles.container}>
@@ -75,13 +94,16 @@ class BookingConfirm extends Component {
           customer name: {customerName}
         </Text>
         <Text style={styles.detail}>
-          key: {restaurant.key}
+          resId: {refId}
+        </Text>
+        <Text style={styles.detail}>
+          Total Price: {price} THB
         </Text>
         </View>
         <Button
           title='Confirm'
           backgroundColor = 'tomato'
-          //onPress={this.onPressConfirm.bind(this)}
+          onPress={this.onPressConfirm.bind(this)}
         >
         </Button>
       </View>
@@ -105,8 +127,15 @@ function mapStateToProps (state) {
   return {
     bookingForm: state.bookingForm,
     restaurants: state.restaurants,
+    MyBookingReducer: state.MyBookingReducer,
   }
 }
 
-export default connect(mapStateToProps)(BookingConfirm)
+function mapDispatchToProps (dispatch){
+  return{
+    initialMyBooking: () => dispatch(initialMyBooking())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookingConfirm)
 //export default BookingConfirm;

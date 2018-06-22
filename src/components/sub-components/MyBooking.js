@@ -1,7 +1,6 @@
 'use strict';
 
 import React, { Component } from 'react';
-
 import {
   StyleSheet,
   View,
@@ -16,7 +15,7 @@ class MyBooking extends Component {
     const refId = this.props.rowId;
     return (
       <TouchableHighlight onPress={()=>{
-        this.props.onPress(booking, refId);
+        this.props.onPress(booking, refId, booking.restaurantId);
       }}>
       <View style={styles.li}>
         <Image

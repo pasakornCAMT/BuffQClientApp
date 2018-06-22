@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import RestaurantListView from '../main-components/RestaurantListView';
 import {connect} from 'react-redux';
-import {navigateToRestaurantDetail, clearFormData} from '../../actions/actions'
+import {navigateToRestaurantDetail, clearFormData, clearTable} from '../../actions/actions'
 import {
   StyleSheet,
   View,
@@ -19,6 +19,7 @@ class Home extends Component {
     console.log('ID:', refId);
     this.props.navigateToRestaurantDetail(restaurant, refId);
     this.props.clearFormData();
+    this.props.clearTable();
     const {navigate} = this.props.navigation;
     navigate('RestaurantDetail');
   }
@@ -38,6 +39,7 @@ function mapStateToProps (state) {
   return {
     restaurants: state.restaurants,
     bookingForm: state.bookingForm,
+    estimatedTimeTable: state.estimatedTimeTable,
   }
 }
 
@@ -45,6 +47,7 @@ function mapDispatchToProps (dispatch) {
   return{
     navigateToRestaurantDetail: (restaurant, refId) => dispatch(navigateToRestaurantDetail(restaurant, refId)),
     clearFormData: () => dispatch(clearFormData()),
+    clearTable: () => dispatch(clearTable()),
   }
 }
 

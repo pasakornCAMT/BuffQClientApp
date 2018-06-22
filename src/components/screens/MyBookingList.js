@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import MyBookingListView from '../main-components/MyBookingListView';
 import {connect} from 'react-redux';
-import {navigateToBookingDetail} from '../../actions/actions'
+import {navigateToBookingDetail, getRestaurantById} from '../../actions/actions'
 import {
   StyleSheet,
   View,
@@ -14,10 +14,11 @@ class MyBookingList extends Component {
     title: 'MyBookingList',
   };
 
-  pressRow(booking, refId){
+  pressRow(booking, refId, restaurantId){
     console.log('passBooking: ', booking);
     console.log('ID: ', refId);
-    this.props.navigateToBookingDetail(booking, refId)
+    this.props.navigateToBookingDetail(booking, refId);
+    this.props.getRestaurantById(restaurantId);
     const {navigate} = this.props.navigation;
     navigate('MyBookingDetail');
   }
@@ -41,7 +42,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch){
   return{
-    navigateToBookingDetail: (booking, refId) => dispatch(navigateToBookingDetail(booking, refId))
+    navigateToBookingDetail: (booking, refId) => dispatch(navigateToBookingDetail(booking, refId)),
+    getRestaurantById: (refId) => dispatch(getRestaurantById(refId)),
   }
 }
 

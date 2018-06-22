@@ -2,6 +2,7 @@ import {
   FETCHING_RESTAURANT_LIST,
   FETCHING_RESTAURANT_LIST_SUCCESS,
   FETCHING_RESTAURANT_LIST_FAILURE,
+  FETCHING_BOOKINGS,
   NO_RESTAURANT_DATA,
   SEARCHING_RESTAURANT_SUCCESS,
   NO_MATCHED_RESTAURANT,
@@ -10,20 +11,32 @@ import {
   FILL_DATE,
   FILL_TIME,
   FILL_NUM_OF_CUSTOMER,
+  FILL_NUM_OF_CHILD,
   FILL_PHONE_NUMBER,
   FILL_CUSTOMER_NAME,
   RECORD_PRICE,
   CHECKED_DRINK,
   CLEAR_FORM_DATA,
+  CAN_BOOK,
+  CAN_NOT_BOOK,
   FETCHING_ESTIMATED_TIME_TABLE_SUCCESS,
+  CLEAR_TABLE,
   FETCHING_MY_BOOKING_LIST,
   FETCHING_MY_BOOKING_LIST_SUCCESS,
   FETCHING_MY_BOOKING_LIST_FAILURE,
+  GET_RESTAURANT_BY_ID,
   NO_MY_BOOKING_DATA,
+  INITIAL_MY_BOOKING,
+  EDIT_BOOKING_DATE,
+  EDIT_BOOKING_TIME,
+  EDIT_NUM_OF_CHILD,
   EDIT_NUM_OF_CUSTOMER,
   EDIT_PHONE_NUMBER,
   EDIT_CUSTOMER_NAME,
   PREPARE_EDITED_VALUE,
+  VALIDATE_DATE,
+  VALIDATE_PHONE,
+  VALIDATE_NAME,
 } from '../constants/constants'
 import FirebaseService from '../services/firebase-service'
 
@@ -61,6 +74,26 @@ export function getRestaurantListSuccess(restaurants){
 export function getRestaurantListFailure(){
   return{
     type: FETCHING_RESTAURANT_LIST_FAILURE
+  }
+}
+
+export function fetchingBooking(){
+  return (dispatch) => {
+    try {
+      FirebaseService.child('bookings').on('value',(snap)=>{
+        console.log(snap.val());
+        dispatch(fetchingBookingSuccess(snap.val()))
+      })
+    } catch (e) {
+
+    }
+  }
+}
+
+export function fetchingBookingSuccess(bookings){
+  return{
+    type: FETCHING_BOOKINGS,
+    bookings,
   }
 }
 
@@ -137,6 +170,13 @@ export function fillNumOfCustomer(numOfCustomer){
   }
 }
 
+export function fillNumOfChild(numOfChild){
+  return{
+    type: FILL_NUM_OF_CHILD,
+    numOfChild,
+  }
+}
+
 export function fillPhoneNumber(phoneNumber){
   return{
     type: FILL_PHONE_NUMBER,
@@ -169,6 +209,66 @@ export function clearFormData(){
     type: CLEAR_FORM_DATA
   }
 }
+
+export function validateDate(){
+  return{
+    type: VALIDATE_DATE
+  }
+}
+
+export function validatePhone(){
+  return{
+    type: VALIDATE_PHONE
+  }
+}
+
+export function validateName(){
+  return{
+    type: VALIDATE_NAME
+  }
+}
+
+export function checkNumOfCustomer(resId, timeText, customer){
+  return (dispatch) => {
+    let maximum = 0;
+    FirebaseService.child('items').child(resId).on('value',(snap)=>{
+      maximum = snap.val().maximumPerRound;
+    });
+    console.log('max: ',maximum);
+    let numOfCustomer = 0;
+    try {
+      FirebaseService.child('bookingResRef').child(resId).child(timeText).on('value',(snap)=>{
+        console.log('booking: ', snap.val());
+        for(let booking in snap.val()){
+          numOfCustomer = numOfCustomer + snap.val()[booking].numOfCustomer;
+        }
+        console.log('num:', numOfCustomer);
+        if((maximum-numOfCustomer) < customer){
+          console.log('cannot book');
+          dispatch(cannotBook())
+        }else{
+          console.log('can book');
+          dispatch(canBook())
+        }
+      });
+    } catch (e) {
+      console.log('can book excep');
+      dispatch(canBook())
+    }
+  }
+}
+
+export function canBook(){
+  return{
+    type: CAN_BOOK
+  }
+}
+
+export function cannotBook(){
+  return{
+    type: CAN_NOT_BOOK
+  }
+}
 //////////////EstimatedTimeTable////////////////////
 
 export function fetchingEstimatedTimeTable(id, timeText){
@@ -183,6 +283,12 @@ export function fetchingEstimatedTimeTable(id, timeText){
     } finally {
 
     }
+  }
+}
+
+export function clearTable(){
+  return{
+    type: CLEAR_TABLE,
   }
 }
 
@@ -231,9 +337,44 @@ export function getMyBookingListFailure(){
   }
 }
 
+export function getRestaurantById(refId){
+  return (dispatch) => {
+    FirebaseService.child('items').child(refId).on('value',(snap)=>{
+      dispatch(getRestaurantSuccess(snap.val()));
+    })
+  }
+}
+
+export function getRestaurantSuccess(restaurant){
+  return{
+    type: GET_RESTAURANT_BY_ID,
+    restaurant,
+  }
+}
+
 export function noMyBookingData(){
   return{
     type: NO_MY_BOOKING_DATA
+  }
+}
+
+export function initialMyBooking(){
+  return{
+    type: INITIAL_MY_BOOKING
+  }
+}
+
+export function editBookingDate(dateText){
+  return{
+    type: EDIT_BOOKING_DATE,
+    dateText,
+  }
+}
+
+export function editBookingTime(timeText){
+  return{
+    type: EDIT_BOOKING_TIME,
+    timeText,
   }
 }
 
@@ -241,6 +382,13 @@ export function editNumOfCustomer(numOfCustomer){
   return{
     type: EDIT_NUM_OF_CUSTOMER,
     numOfCustomer,
+  }
+}
+
+export function editNumOfChild(numOfChild){
+  return{
+    type: EDIT_NUM_OF_CHILD,
+    numOfChild,
   }
 }
 

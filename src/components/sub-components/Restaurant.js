@@ -1,7 +1,6 @@
 'use strict';
 
 import React, { Component } from 'react';
-
 import {
   StyleSheet,
   View,
@@ -24,7 +23,7 @@ class Restaurant extends Component {
             {restaurant.title}
           </Text>
           <Text style={styles.queueText}>
-            Queue: {restaurant.numOfQueue}
+            Queue: {this.props.numOfQueue}
           </Text>
         </View>
         <Image
@@ -68,5 +67,10 @@ const styles = StyleSheet.create({
   }
 });
 
+function mapStateToProps (state) {
+  return {
+    restaurants: state.restaurants,
+  }
+}
 
 export default Restaurant;

@@ -15,6 +15,18 @@ class RestaurantDescription extends Component {
     const {restaurant} = this.props.restaurants;
     return (
       <View style={styles.container}>
+        {
+          restaurant.drink ? (
+            <View>
+            <Text style={styles.normalDrink}>
+              Including a drink {restaurant.price+restaurant.drink} THB
+            </Text>
+            <Text style={styles.normalDrink}>
+              Not including {restaurant.price} THB
+            </Text>
+            </View>
+            ):null
+        }
         <Text style={styles.drink}>
           {restaurant.type}
         </Text>
@@ -57,6 +69,10 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     color: 'red'
+  },
+  normalDrink:{
+    fontSize: 22,
+    fontWeight: 'bold',
   }
 });
 

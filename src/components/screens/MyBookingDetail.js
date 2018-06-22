@@ -28,18 +28,21 @@ class MyBookingDetail extends Component {
   }
 
   render() {
-    const {booking} = this.props.MyBookingReducer;
+    const {booking, restaurant} = this.props.MyBookingReducer;
     return (
       <View>
       <View style={styles.container}>
         <FormLabel>restaurant</FormLabel>
-        <Text style={styles.text} >{booking.restaurant}</Text>
+        <Text style={styles.text}>{booking.restaurant}</Text>
 
         <FormLabel>date/time</FormLabel>
         <Text style={styles.text} >{booking.dateText}</Text>
 
         <FormLabel>people</FormLabel>
         <Text style={styles.text} >{booking.numOfCustomer}</Text>
+
+        <FormLabel>Total Price</FormLabel>
+        <Text style={styles.text} >{booking.totalPrice} THB</Text>
 
         <FormLabel>name</FormLabel>
         <Text style={styles.text} >{booking.customer}</Text>
@@ -78,7 +81,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch){
   return{
-    prepareEditedValue: (numOfCustomer, phone, customer) => dispatch(prepareEditedValue(numOfCustomer, phone, customer))
+    prepareEditedValue: (numOfCustomer, phone, customer) => dispatch(prepareEditedValue(numOfChild, numOfCustomer, phone, customer))
   }
 }
 

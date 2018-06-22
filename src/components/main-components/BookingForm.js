@@ -21,25 +21,23 @@ import {
   fillDate,
   fillTime,
   fillNumOfCustomer,
+  fillNumOfChild,
   fillPhoneNumber,
   fillCustomerName,
   checkedDrink,
-  recordPrice,
+  checkNumOfCustomer,
 } from '../../actions/actions'
 import Spinner from 'react-native-number-spinner';
 
 class BookingForm extends Component {
 
-  constructor(props) {
-    super(props);
-    this.updateIndex = this.updateIndex.bind(this);
-    this.timeButtons = ['17:00', '18:00', '19:00','20:00','21:00','22:00'];
-  }
-
   updateIndex (selectedIndex) {
+    const {sectionTime} = this.props.restaurants.restaurant;
     const {refId} = this.props.restaurants;
-    this.props.fillTime(selectedIndex,this.timeButtons[selectedIndex]);
-    this.props.fetchingEstimatedTimeTable(refId, this.timeButtons[selectedIndex]);
+    const {numOfCustomer} = this.props.bookingForm;
+    this.props.fillTime(selectedIndex, sectionTime[selectedIndex]);
+    this.props.fetchingEstimatedTimeTable(refId, sectionTime[selectedIndex]);
+    this.props.checkNumOfCustomer(refId,sectionTime[selectedIndex],numOfCustomer);
   }
 
   render() {
@@ -52,11 +50,15 @@ class BookingForm extends Component {
       timeText,
       selectedIndex,
       numOfCustomer,
+      numOfChild,
       phoneNumber,
       customerName,
       drink,
+      isDateText,
+      isPhoneNumber,
+      isCustomerName,
     } = this.props.bookingForm
-    const {restaurant} = this.props.restaurants;
+    const {restaurant, isFull} = this.props.restaurants;
     return (
       <View style={styles.paddingSpace}>
       <View style={styles.container}>
@@ -85,39 +87,67 @@ class BookingForm extends Component {
         onDateChange={(dateText) => this.props.fillDate(dateText)}
         >
         </DatePicker>
+        {
+          dateText.length == 0 ? (
+            <FormValidationMessage>{'Please, Select date.'}</FormValidationMessage>
+          ):null
+        }
         <ButtonGroup
-          onPress={this.updateIndex}
+          onPress={this.updateIndex.bind(this)}
           buttons={restaurant.sectionTime}
           containerStyle={{height: 50}}
           selectedIndex={selectedIndex}
-          />
+          selectedButtonStyle={{backgroundColor: "tomato"}}
+        />
+        {
+          isFull ? (
+            <Text style={styles.warningMes}>
+              The number of customer of this round is full, please select another round.
+            </Text>
+          ):null
+        }
           <View style={styles.people}>
-          <Text style={styles.peopleText}>
-            Adult:
-          </Text>
-          <Spinner
-            value = {numOfCustomer}
-            max = {10}
-            min = {1}
-            color="tomato"
-            fontSize = {16}
-            onNumChange={(num)=> this.props.fillNumOfCustomer(num)}
-          />
           {
             restaurant.childPrice ? (
               <View style={styles.childBox}>
               <Text style={styles.peopleText}>
+                Adult:
+              </Text>
+              <Spinner
+                value = {numOfCustomer}
+                max = {10}
+                min = {1}
+                color="#39f"
+                fontSize = {16}
+                onNumChange={(num)=> this.props.fillNumOfCustomer(num)}
+              />
+              <Text style={styles.peopleText}>
                 Child:
               </Text>
               <Spinner
-                value = {0}
+                value = {numOfChild}
                 max = {10}
                 min = {0}
                 color="#99f"
                 fontSize = {16}
+                onNumChange={(num)=> this.props.fillNumOfChild(num)}
               />
               </View>
-            ): null
+            ) : (
+              <View style={styles.childBox}>
+              <Text style={styles.peopleText}>
+                People:
+              </Text>
+              <Spinner
+                value = {numOfCustomer}
+                max = {10}
+                min = {1}
+                color="tomato"
+                fontSize = {16}
+                onNumChange={(num)=> this.props.fillNumOfCustomer(num)}
+              />
+              </View>
+            )
           }
           </View>
           <FormLabel>Phone number</FormLabel>
@@ -127,12 +157,22 @@ class BookingForm extends Component {
           value={phoneNumber}
           onChangeText={(phoneNumber) =>  this.props.fillPhoneNumber(phoneNumber)}
           />
+          {
+            phoneNumber == 0 ? (
+              <FormValidationMessage>{'Customer’s phone number cannot be empty'}</FormValidationMessage>
+            ):null
+          }
           <FormLabel>Name</FormLabel>
           <FormInput
           underlineColorAndroid="#ccc"
           value={customerName}
           onChangeText={(customerName) =>  this.props.fillCustomerName(customerName)}
           />
+          {
+            customerName == 0 ? (
+              <FormValidationMessage>{'Customer’s name cannot be empty'}</FormValidationMessage>
+            ):null
+          }
           {
             restaurant.drink ? (
               <View>
@@ -156,13 +196,25 @@ class BookingForm extends Component {
       <View>
         {
           drink ? (
-            <Text style={styles.priceText}>
-              Price: {(restaurant.price+restaurant.drink)*numOfCustomer} THB
-            </Text>
+              restaurant.childPrice ? (
+                <Text style={styles.priceText}>
+                  Price: {(restaurant.price+restaurant.drink)*numOfCustomer+(numOfChild*restaurant.childPrice)} THB
+                </Text>
+              ):(
+                <Text style={styles.priceText}>
+                  Price: {(restaurant.price+restaurant.drink)*numOfCustomer} THB
+                </Text>
+              )
           ):(
-            <Text style={styles.priceText}>
-              Price: {restaurant.price*numOfCustomer} THB
-            </Text>
+            restaurant.childPrice ? (
+              <Text style={styles.priceText}>
+                Price: {restaurant.price*numOfCustomer+(numOfChild*restaurant.childPrice)} THB
+              </Text>
+            ):(
+              <Text style={styles.priceText}>
+                Price: {restaurant.price*numOfCustomer} THB
+              </Text>
+            )
           )
         }
       </View>
@@ -170,6 +222,7 @@ class BookingForm extends Component {
         style={styles.button}
         backgroundColor = 'tomato'
         title='Next'
+        disabled={isFull}
         onPress={
           this.props.onPressNext
         }
@@ -220,6 +273,11 @@ const styles = StyleSheet.create({
   },
   childBox:{
     flexDirection: 'row',
+  },
+  warningMes:{
+    color: 'red',
+    fontWeight: 'bold',
+    marginLeft: 10,
   }
 });
 
@@ -235,11 +293,12 @@ function mapDispatchToProps (dispatch) {
     fillDate: (dateText) => dispatch(fillDate(dateText)),
     fillTime: (selectedIndex, timeText) => dispatch(fillTime(selectedIndex, timeText)),
     fillNumOfCustomer: (num) => dispatch(fillNumOfCustomer(num)),
+    fillNumOfChild: (num) => dispatch(fillNumOfChild(num)),
     fillPhoneNumber: (phoneNumber) => dispatch(fillPhoneNumber(phoneNumber)),
     fillCustomerName: (customerName) => dispatch(fillCustomerName(customerName)),
-    recordPrice: (price) => dispatch(recordPrice(price)),
     checkedDrink: () => dispatch(checkedDrink()),
     fetchingEstimatedTimeTable: (id, timeText) => dispatch(fetchingEstimatedTimeTable(id, timeText)),
+    checkNumOfCustomer: (resId, timeText, customer) => dispatch(checkNumOfCustomer(resId, timeText, customer)),
   }
 }
 
