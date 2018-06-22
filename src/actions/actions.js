@@ -140,7 +140,7 @@ export function navigateToRestaurantDetail(restaurant, refId){
     refId,
   }
 }
-export function navigateToBookingDetail(booking, refId){
+export function preparedBookingDetail(booking, refId){
   return{
     type: NAVIGATE_TO_BOOKING_DETAIL,
     booking,

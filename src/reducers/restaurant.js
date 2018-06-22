@@ -93,6 +93,6 @@ export default function restaurantReducer (state = initailState, action){
         isFull: true,
       }
     default:
-      return state
+      return state;
   }
 }

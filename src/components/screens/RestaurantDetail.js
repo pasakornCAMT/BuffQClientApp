@@ -29,24 +29,40 @@ class RestaurantDetail extends Component {
 
   onPressNext(){
     this.recordPrice();
-    if(this.validateBookingForm){
-      const {navigate} = this.props.navigation;
-      navigate('BookingConfirm');
-    }
+    this.navigateToBookingConfirm();
+  }
+
+  navigateToBookingConfirm(){
+    console.log(this.validateBookingForm());
+    const {navigate} = this.props.navigation;
+    navigate('BookingConfirm');
   }
 
   validateBookingForm(){
-    const {dateText, phoneNumber, customerName} = this.props.bookingForm;
-    if(dateText.length !== 0){
+    const {
+      dateText,
+      phoneNumber,
+      customerName,
+      isDateText,
+      isPhoneNumber,
+      isCustomerName,
+    } = this.props.bookingForm;
+    if(dateText.length != 0){
       this.props.validateDate();
     }
-    if(phoneNumber.length !== 0){
-      this.props.validateName();
-    }
-    if(customerName.length !== 0){
+    if(phoneNumber.length != 0){
       this.props.validatePhone();
     }
-    if(dateText.length && phoneNumber.length && customerName.length !== 0){
+    if(customerName.length != 0){
+      this.props.validateName();
+    }
+    console.log('date', dateText.length);
+    console.log('phone',  phoneNumber.length );
+    console.log('name', customerName.length);
+    console.log('date', isDateText);
+    console.log('phone',  isPhoneNumber );
+    console.log('name', isCustomerName);
+    if(isDateText && isPhoneNumber && isCustomerName){
       return true;
     }else{
       return false;

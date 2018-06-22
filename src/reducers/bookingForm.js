@@ -102,6 +102,9 @@ export default function bookingReducer (state = initailState, action){
         phoneNumber: '',
         drink: false,
         price: 0,
+        isDateText: false,
+        isPhoneNumber: false,
+        isCustomerName: false,
       }
     default:
       return state

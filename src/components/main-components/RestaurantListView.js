@@ -29,7 +29,6 @@ class RestaurantListView extends Component {
   }
 
   countNumOfQueue(rowId){
-    //Calculate number of queue of all time//
     const {bookings} = this.props.restaurants;
     let numOfQueue = 0;
     for(let i in bookings){
@@ -38,7 +37,6 @@ class RestaurantListView extends Component {
       }
     }
     return numOfQueue;
-    ////////////////////////////////////////
   }
 
   render() {

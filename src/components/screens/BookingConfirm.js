@@ -20,6 +20,11 @@ class BookingConfirm extends Component {
   }
 
   onPressConfirm(){
+    this.insertToFirebase();
+    this.navigateToMyBookingList();
+  }
+
+  insertToFirebase(){
     const {bookingForm} = this.props;
     const {restaurant, refId} = this.props.restaurants;
     const bookingRef = FirebaseService.child('bookings');
@@ -48,9 +53,7 @@ class BookingConfirm extends Component {
       resImage: restaurant.image,
       totalPrice: bookingForm.price,
     })
-
     Alert.alert('Booking success');
-    this.navigateToMyBookingList();
   }
 
   navigateToMyBookingList(){
