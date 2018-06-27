@@ -18,7 +18,7 @@ let month = new Date().getMonth() + 1;
 let year = new Date().getFullYear();
 let mindate = date+'-'+month+'-'+year;
 
-const initailState = {
+const bookingFormState = {
   dateText: mindate,
   timeText: '',
   selectedIndex: 0,
@@ -33,7 +33,7 @@ const initailState = {
   isCustomerName: false,
 }
 
-export default function bookingReducer (state = initailState, action){
+export default function bookingReducer(state = bookingFormState, action){
   switch (action.type) {
     case FILL_DATE:
       return{

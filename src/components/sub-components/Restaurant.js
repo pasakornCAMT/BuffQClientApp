@@ -23,7 +23,7 @@ class Restaurant extends Component {
             {restaurant.title}
           </Text>
           <Text style={styles.queueText}>
-            Queue: {this.props.numOfQueue}
+            number of booking: {this.props.numOfQueue}
           </Text>
         </View>
         <Image
@@ -66,11 +66,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   }
 });
-
-function mapStateToProps (state) {
-  return {
-    restaurants: state.restaurants,
-  }
-}
 
 export default Restaurant;

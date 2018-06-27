@@ -3,11 +3,11 @@ import {
   CLEAR_TABLE,
 } from '../constants/constants'
 
-const initailState = {
+const estimatedTimeTableState = {
   tables: [],
 }
 
-export default function estimatedTimeTableRuducer (state = initailState, action){
+export default function estimatedTimeTableRuducer (state = estimatedTimeTableState, action){
   switch (action.type) {
     case FETCHING_ESTIMATED_TIME_TABLE_SUCCESS:
       return{

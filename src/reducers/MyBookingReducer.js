@@ -17,7 +17,7 @@ import {
 
 import {ListView} from 'react-native'
 
-const initailState = {
+const myBookingState = {
   myBookingList: [],
   restaurant:[],
   isFetching: false,
@@ -34,7 +34,7 @@ const initailState = {
   editedCustomerName: '',
 }
 
-export default function myBookingListReducer(state = initailState, action){
+export default function myBookingListReducer(state = myBookingState, action){
   switch (action.type) {
     case FETCHING_MY_BOOKING_LIST:
       return{

@@ -26,9 +26,6 @@ class EstimatedTimeTable extends Component {
         </View>
       ))}
       </View>
-      <Text style={styles.queueText}>
-        Queue: {this.props.restaurants.restaurant.numOfQueue}
-      </Text>
       </View>
     );
   }

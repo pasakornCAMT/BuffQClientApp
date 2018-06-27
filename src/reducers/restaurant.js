@@ -13,7 +13,8 @@ import {
 } from '../constants/constants'
 
 import {ListView} from 'react-native'
-const initailState = {
+
+const restaurantState = {
   restaurants: [],
   isFetching: false,
   error: false,
@@ -27,7 +28,7 @@ const initailState = {
   isFull: false,
 }
 
-export default function restaurantReducer (state = initailState, action){
+export default function restaurantReducer (state = restaurantState, action){
   switch (action.type) {
     case FETCHING_RESTAURANT_LIST:
       return{

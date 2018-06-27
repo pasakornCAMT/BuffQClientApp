@@ -132,8 +132,8 @@ export function displayRestaurantFailure(text){
     text,
   }
 }
-/////////////////////NAVIGATION/////////////////////////////
-export function navigateToRestaurantDetail(restaurant, refId){
+/////////////////////PREPARED-NAVIGATION/////////////////////////////
+export function preparedRestaurantDetail(restaurant, refId){
   return{
     type: NAVIGATE_TO_RESTAURANT_DETAIL,
     restaurant,
