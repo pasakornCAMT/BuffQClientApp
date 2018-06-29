@@ -44,7 +44,7 @@ export function fetchRestaurantFromFirebase(){
     return (dispatch) => {
       dispatch(getRestaurantList())
       try {
-        FirebaseService.child('items').on('value',(snap)=>{
+        FirebaseService.child('restaurants').on('value',(snap)=>{
           if(snap.val() === null){
             dispatch(noRestaurantData())
           }else{
@@ -80,8 +80,7 @@ export function getRestaurantListFailure(){
 export function fetchingBooking(){
   return (dispatch) => {
     try {
-      FirebaseService.child('bookings').on('value',(snap)=>{
-        console.log(snap.val());
+      FirebaseService.child('bookings').child('users').child('1').on('value',(snap)=>{
         dispatch(fetchingBookingSuccess(snap.val()))
       })
     } catch (e) {
@@ -231,7 +230,7 @@ export function validateName(){
 export function checkNumOfCustomer(resId, timeText, customer){
   return (dispatch) => {
     let maximum = 0;
-    FirebaseService.child('items').child(resId).on('value',(snap)=>{
+    FirebaseService.child('restaurants').child(resId).on('value',(snap)=>{
       maximum = snap.val().maximumPerRound;
     });
     console.log('max: ',maximum);
@@ -274,7 +273,7 @@ export function cannotBook(){
 export function fetchingEstimatedTimeTable(id, timeText){
   return (dispatch) => {
     try {
-      FirebaseService.child('items')
+      FirebaseService.child('restaurants')
       .child(id).child('EstimatedTime').child(timeText).on('value',(snap)=>{
         dispatch(getTableSuccess(snap.val()))
       })
@@ -304,13 +303,14 @@ export function fetchMyBookingFromFirebase(){
     return (dispatch) => {
       dispatch(getMyBookingList())
       try {
-        FirebaseService.child('bookings').on('value',(snap)=>{
-          if(snap.val() === null){
+        FirebaseService.child('bookings').child('users').child('1').on('value',(res)=>{
+          let bookings = [];
+          if(res.val() === null){
             dispatch(noMyBookingData())
           }else{
-            dispatch(getMyBookingListSuccess(snap.val()))
+            console.log('bookings: ',res.val());
+            dispatch(getMyBookingListSuccess(res.val()))
           }
-
         })
       } catch (e) {
         dispatch(getMyBookingListFailure())
@@ -339,7 +339,7 @@ export function getMyBookingListFailure(){
 
 export function getRestaurantById(refId){
   return (dispatch) => {
-    FirebaseService.child('items').child(refId).on('value',(snap)=>{
+    FirebaseService.child('restaurants').child(refId).on('value',(snap)=>{
       dispatch(getRestaurantSuccess(snap.val()));
     })
   }

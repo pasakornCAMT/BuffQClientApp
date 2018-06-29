@@ -48,7 +48,7 @@ class MyBookingDetail extends Component {
         <Text style={styles.text} >{booking.customer}</Text>
       </View>
         <Button
-          //onPress = {this.onPressEdit.bind(this)}
+          onPress = {this.onPressEdit.bind(this)}
           title = 'Edit'
         />
         <Button
@@ -81,7 +81,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch){
   return{
-    prepareEditedValue: (numOfCustomer, phone, customer) => dispatch(prepareEditedValue(numOfChild, numOfCustomer, phone, customer))
+    prepareEditedValue: (numOfCustomer, phone, customer) => dispatch(prepareEditedValue(numOfCustomer, phone, customer))
   }
 }
 

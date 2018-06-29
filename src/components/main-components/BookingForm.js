@@ -102,7 +102,7 @@ class BookingForm extends Component {
         {
           isFull ? (
             <Text style={styles.warningMes}>
-              The number of customer of this round is full, please select another round.
+              This time is not unavailable.
             </Text>
           ):null
         }

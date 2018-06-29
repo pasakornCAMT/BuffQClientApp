@@ -27,9 +27,8 @@ class BookingConfirm extends Component {
   insertBookingToFirebase(){
     const {bookingForm} = this.props;
     const {restaurant, refId} = this.props.restaurants;
-    const bookingRef = FirebaseService.child('bookings');
-    const bookingResRef = FirebaseService.child('bookingResRef').child(refId).child(bookingForm.timeText);
-    bookingRef.push({
+    const bookingUserRef = FirebaseService.child('bookings').child('users').child('1');
+    bookingUserRef.push({
       dateText: bookingForm.dateText,
       numOfCustomer: bookingForm.numOfCustomer,
       phone: bookingForm.phoneNumber,
@@ -37,19 +36,7 @@ class BookingConfirm extends Component {
       timeText: bookingForm.timeText,
       pressDate: new Date().toLocaleString(),
       restaurantId: refId,
-      restaurant: restaurant.title,
-      resImage: restaurant.image,
-      totalPrice: bookingForm.price,
-    })
-    bookingResRef.push({
-      dateText: bookingForm.dateText,
-      numOfCustomer: bookingForm.numOfCustomer,
-      phone: bookingForm.phoneNumber,
-      customer: bookingForm.customerName,
-      timeText: bookingForm.timeText,
-      pressDate: new Date().toLocaleString(),
-      restaurantId: refId,
-      restaurant: restaurant.title,
+      restaurant: restaurant.name,
       resImage: restaurant.image,
       totalPrice: bookingForm.price,
     })
@@ -95,9 +82,6 @@ class BookingConfirm extends Component {
         </Text>
         <Text style={styles.detail}>
           customer name: {customerName}
-        </Text>
-        <Text style={styles.detail}>
-          resId: {refId}
         </Text>
         <Text style={styles.detail}>
           Total Price: {price} THB

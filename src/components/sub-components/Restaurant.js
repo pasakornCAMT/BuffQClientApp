@@ -20,10 +20,10 @@ class Restaurant extends Component {
       <View style={styles.li}>
         <View style={styles.spaceBetween}>
           <Text style={styles.liText}>
-            {restaurant.title}
+            {restaurant.name}
           </Text>
           <Text style={styles.queueText}>
-            number of booking: {this.props.numOfQueue}
+            booking: {this.props.numOfQueue}
           </Text>
         </View>
         <Image

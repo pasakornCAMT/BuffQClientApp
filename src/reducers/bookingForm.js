@@ -94,7 +94,7 @@ export default function bookingReducer(state = bookingFormState, action){
     case CLEAR_FORM_DATA:
       return {
         dateText: mindate,
-        timeText: '',
+        timeText: '17:00',
         selectedIndex: 0,
         numOfCustomer: 1,
         numOfChild: 0,

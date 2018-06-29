@@ -1,12 +1,12 @@
 import * as firebase from 'firebase';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBIfKV0ndhpJYG20y6MXPmTNOqaVpfpmVs",
-  authDomain: "react-native-grocery-bcb32.firebaseapp.com",
-  databaseURL: "https://react-native-grocery-bcb32.firebaseio.com",
-  projectId: "react-native-grocery-bcb32",
-  storageBucket: "react-native-grocery-bcb32.appspot.com",
-  messagingSenderId: "98054647551"
+  apiKey: "AIzaSyCf0kzKNMSmw3VFGPHbjjSm413VGnBnqL4",
+  authDomain: "buffq-ed098.firebaseapp.com",
+  databaseURL: "https://buffq-ed098.firebaseio.com",
+  projectId: "buffq-ed098",
+  storageBucket: "buffq-ed098.appspot.com",
+  messagingSenderId: "965380048584"
 }
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);

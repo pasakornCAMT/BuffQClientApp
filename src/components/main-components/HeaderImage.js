@@ -19,7 +19,7 @@ class HeaderImage extends Component {
           source={{uri: restaurant.image}}
         />
         <Text style={styles.titleText}>
-          {restaurant.title}
+          {restaurant.name}
         </Text>
       </View>
     );
