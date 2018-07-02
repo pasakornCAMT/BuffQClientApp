@@ -30,6 +30,7 @@ class BookingConfirm extends Component {
     const bookingUserRef = FirebaseService.child('bookings').child('users').child('1');
     bookingUserRef.push({
       dateText: bookingForm.dateText,
+      dateText_timeText: bookingForm.dateText+'_'+bookingForm.timeText,
       numOfCustomer: bookingForm.numOfCustomer,
       phone: bookingForm.phoneNumber,
       customer: bookingForm.customerName,

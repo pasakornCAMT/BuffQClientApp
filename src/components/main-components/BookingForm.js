@@ -34,10 +34,10 @@ class BookingForm extends Component {
   updateIndex (selectedIndex) {
     const {sectionTime} = this.props.restaurants.restaurant;
     const {refId} = this.props.restaurants;
-    const {numOfCustomer} = this.props.bookingForm;
+    const {dateText, numOfCustomer} = this.props.bookingForm;
     this.props.fillTime(selectedIndex, sectionTime[selectedIndex]);
     this.props.fetchingEstimatedTimeTable(refId, sectionTime[selectedIndex]);
-    this.props.checkNumOfCustomer(refId,sectionTime[selectedIndex],numOfCustomer);
+    this.props.checkNumOfCustomer(refId, dateText, sectionTime[selectedIndex],numOfCustomer);
   }
 
   render() {
@@ -68,7 +68,7 @@ class BookingForm extends Component {
         date={dateText}
         mode="date"
         placeholder="select date"
-        format="DD-MM-YYYY"
+        format="D-M-YYYY"
         minDate= {mindate}
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
@@ -298,7 +298,7 @@ function mapDispatchToProps (dispatch) {
     fillCustomerName: (customerName) => dispatch(fillCustomerName(customerName)),
     checkedDrink: () => dispatch(checkedDrink()),
     fetchingEstimatedTimeTable: (id, timeText) => dispatch(fetchingEstimatedTimeTable(id, timeText)),
-    checkNumOfCustomer: (resId, timeText, customer) => dispatch(checkNumOfCustomer(resId, timeText, customer)),
+    checkNumOfCustomer: (resId, dateText, timeText, customer) => dispatch(checkNumOfCustomer(resId, dateText, timeText, customer)),
   }
 }
 

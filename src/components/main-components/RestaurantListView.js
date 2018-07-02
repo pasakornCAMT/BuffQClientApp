@@ -22,9 +22,9 @@ class RestaurantListView extends Component {
   }
 
   renderRow(restaurant, sectionId, rowId){
-    const numOfQueue = this.countNumOfQueue(rowId);
+    const numOfQueue = this.countNumOfQueue(restaurant.id);
     return (
-      <Restaurant data={restaurant} numOfQueue={numOfQueue} rowId={rowId} onPress={this.props.onPress}/>
+      <Restaurant data={restaurant} numOfQueue={numOfQueue} rowId={restaurant.id} onPress={this.props.onPress}/>
     )
   }
 
@@ -47,6 +47,7 @@ class RestaurantListView extends Component {
           lightTheme = {true}
           onChangeText={(text)=> this.props.searchingRestaurant(restaurants,text)}
           value = {keyword}
+          placeholder = 'Search...'
         />
         {
           keyword.length > 20 ? (

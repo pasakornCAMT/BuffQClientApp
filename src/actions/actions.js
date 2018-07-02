@@ -105,7 +105,7 @@ export function noRestaurantData(){
 export function searchingRestaurant (restaurants,text){
   return (dispatch) => {
     const newData = restaurants.filter(function(restaurant){
-      const restaurantData = restaurant.title.toUpperCase()
+      const restaurantData = restaurant.name.toUpperCase()
       const textData = text.toUpperCase()
       return restaurantData.indexOf(textData) > -1
     })
@@ -227,7 +227,7 @@ export function validateName(){
   }
 }
 
-export function checkNumOfCustomer(resId, timeText, customer){
+export function checkNumOfCustomer(resId, dateText, timeText, customer){
   return (dispatch) => {
     let maximum = 0;
     FirebaseService.child('restaurants').child(resId).on('value',(snap)=>{
@@ -236,7 +236,8 @@ export function checkNumOfCustomer(resId, timeText, customer){
     console.log('max: ',maximum);
     let numOfCustomer = 0;
     try {
-      FirebaseService.child('bookingResRef').child(resId).child(timeText).on('value',(snap)=>{
+      FirebaseService.child('bookings').child('users').child('1')
+      .orderByChild('dateText_timeText').equalTo(dateText+'_'+timeText).on('value',(snap)=>{
         console.log('booking: ', snap.val());
         for(let booking in snap.val()){
           numOfCustomer = numOfCustomer + snap.val()[booking].numOfCustomer;
@@ -273,8 +274,8 @@ export function cannotBook(){
 export function fetchingEstimatedTimeTable(id, timeText){
   return (dispatch) => {
     try {
-      FirebaseService.child('restaurants')
-      .child(id).child('EstimatedTime').child(timeText).on('value',(snap)=>{
+      FirebaseService.child('EstimatedTime')
+      .child(id).child(timeText).on('value',(snap)=>{
         dispatch(getTableSuccess(snap.val()))
       })
     } catch (e) {
@@ -308,7 +309,6 @@ export function fetchMyBookingFromFirebase(){
           if(res.val() === null){
             dispatch(noMyBookingData())
           }else{
-            console.log('bookings: ',res.val());
             dispatch(getMyBookingListSuccess(res.val()))
           }
         })
