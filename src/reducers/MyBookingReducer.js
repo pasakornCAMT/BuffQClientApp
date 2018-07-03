@@ -12,6 +12,7 @@ import {
   EDIT_NUM_OF_CUSTOMER,
   EDIT_PHONE_NUMBER,
   EDIT_CUSTOMER_NAME,
+  EDIT_TIME_INDEX,
   PREPARE_EDITED_VALUE,
 } from '../constants/constants'
 
@@ -28,6 +29,7 @@ const myBookingState = {
   refId: '',
   editedBookingDate:'',
   editedBookingTime:'',
+  selectedIndex:0,
   editedNumOfCustomer: 1,
   editedNumOfChild:0,
   editedPhoneNumber: '',
@@ -104,9 +106,17 @@ export default function myBookingListReducer(state = myBookingState, action){
         ...state,
         editedCustomerName: action.customer,
       }
+    case EDIT_TIME_INDEX:
+      return{
+        ...state,
+        selectedIndex: action.selectedIndex,
+      }
     case PREPARE_EDITED_VALUE:
       return{
         ...state,
+        editedBookingDate: action.dateText,
+        editedBookingTime: action.timeText,
+        selectedIndex: action.selectedIndex,
         editedNumOfCustomer: action.numOfCustomer,
         editedPhoneNumber: action.phone,
         editedCustomerName: action.customer,

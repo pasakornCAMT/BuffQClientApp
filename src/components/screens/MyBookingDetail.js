@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import {FormLabel, Button} from 'react-native-elements'
 import {connect} from 'react-redux';
-import {prepareEditedValue} from '../../actions/actions'
 import {
   StyleSheet,
   View,
@@ -21,8 +20,6 @@ class MyBookingDetail extends Component {
   }
 
   navigateToBookingEdit(){
-    const {booking} = this.props.MyBookingReducer;
-    this.props.prepareEditedValue(booking.numOfCustomer, booking.phone, booking.customer);
     const {navigate} = this.props.navigation;
     navigate('MyBookingEdit');
   }
@@ -35,8 +32,11 @@ class MyBookingDetail extends Component {
         <FormLabel>restaurant</FormLabel>
         <Text style={styles.text}>{booking.restaurant}</Text>
 
-        <FormLabel>date/time</FormLabel>
+        <FormLabel>date</FormLabel>
         <Text style={styles.text} >{booking.dateText}</Text>
+
+        <FormLabel>time</FormLabel>
+        <Text style={styles.text} >{booking.timeText}</Text>
 
         <FormLabel>people</FormLabel>
         <Text style={styles.text} >{booking.numOfCustomer}</Text>
@@ -79,12 +79,5 @@ function mapStateToProps (state) {
   }
 }
 
-function mapDispatchToProps (dispatch){
-  return{
-    prepareEditedValue: (numOfCustomer, phone, customer) => dispatch(prepareEditedValue(numOfCustomer, phone, customer))
-  }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(MyBookingDetail)
+export default connect(mapStateToProps)(MyBookingDetail)
 //export default MyBookingDetail;

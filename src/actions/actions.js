@@ -37,6 +37,7 @@ import {
   VALIDATE_DATE,
   VALIDATE_PHONE,
   VALIDATE_NAME,
+  EDIT_TIME_INDEX,
 } from '../constants/constants'
 import FirebaseService from '../services/firebase-service'
 
@@ -406,9 +407,19 @@ export function editCustomerName(customer){
   }
 }
 
-export function prepareEditedValue(numOfCustomer, phone, customer){
+export function editTimeIndex(selectedIndex){
+  return{
+    type: EDIT_TIME_INDEX,
+    selectedIndex,
+  }
+}
+
+export function prepareEditedValue(dateText, timeText, selectedIndex, numOfCustomer, phone, customer){
   return{
     type: PREPARE_EDITED_VALUE,
+    dateText,
+    timeText,
+    selectedIndex,
     numOfCustomer,
     phone,
     customer,

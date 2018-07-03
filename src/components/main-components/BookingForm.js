@@ -62,7 +62,7 @@ class BookingForm extends Component {
     return (
       <View style={styles.paddingSpace}>
       <View style={styles.container}>
-        <FormLabel>Select date</FormLabel>
+        <FormLabel>Select date and time</FormLabel>
         <DatePicker
         style={styles.datePicker}
         date={dateText}
