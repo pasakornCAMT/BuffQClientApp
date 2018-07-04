@@ -158,8 +158,13 @@ class BookingForm extends Component {
           onChangeText={(phoneNumber) =>  this.props.fillPhoneNumber(phoneNumber)}
           />
           {
-            phoneNumber == 0 ? (
+            phoneNumber.length == 0 ? (
               <FormValidationMessage>{'Customer’s phone number cannot be empty'}</FormValidationMessage>
+            ):null
+          }
+          {
+            !isValidPhoneNumber ? (
+              <FormValidationMessage>{'Customer’s phone number is incorrect format'}</FormValidationMessage>
             ):null
           }
           <FormLabel>Name</FormLabel>
@@ -169,7 +174,7 @@ class BookingForm extends Component {
           onChangeText={(customerName) =>  this.props.fillCustomerName(customerName)}
           />
           {
-            customerName == 0 ? (
+            customerName.length == 0 ? (
               <FormValidationMessage>{'Customer’s name cannot be empty'}</FormValidationMessage>
             ):null
           }
