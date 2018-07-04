@@ -8,9 +8,10 @@ import {
   RECORD_PRICE,
   CHECKED_DRINK,
   CLEAR_FORM_DATA,
-  VALIDATE_DATE,
-  VALIDATE_PHONE,
-  VALIDATE_NAME,
+  VALID_DATE,
+  VALID_PHONE,
+  INVALID_PHONE,
+  VALID_NAME,
 } from '../constants/constants'
 
 let date = new Date().getDate();
@@ -28,9 +29,9 @@ const bookingFormState = {
   phoneNumber: '',
   drink: false,
   price: 0,
-  isDateText: false,
-  isPhoneNumber: false,
-  isCustomerName: false,
+  isValidDateText: false,
+  isValidPhoneNumber: false,
+  isValidCustomerName: false,
 }
 
 export default function bookingReducer(state = bookingFormState, action){
@@ -76,25 +77,30 @@ export default function bookingReducer(state = bookingFormState, action){
         ...state,
         drink: !state.drink,
       }
-    case VALIDATE_DATE:
+    case VALID_DATE:
       return{
         ...state,
-        isDateText: true,
+        isValidDateText: true,
       }
-    case VALIDATE_PHONE:
+    case VALID_PHONE:
       return{
         ...state,
-        isPhoneNumber: true,
+        isValidPhoneNumber: true,
       }
-    case VALIDATE_NAME:
+    case INVALID_PHONE:
       return{
         ...state,
-        isCustomerName: true,
+        isValidPhoneNumber: false,
+      }
+    case VALID_NAME:
+      return{
+        ...state,
+        isValidCustomerName: true,
       }
     case CLEAR_FORM_DATA:
       return {
         dateText: mindate,
-        timeText: '17:00',
+        timeText: '',
         selectedIndex: 0,
         numOfCustomer: 1,
         numOfChild: 0,
@@ -102,9 +108,9 @@ export default function bookingReducer(state = bookingFormState, action){
         phoneNumber: '',
         drink: false,
         price: 0,
-        isDateText: false,
-        isPhoneNumber: false,
-        isCustomerName: false,
+        isValidDateText: false,
+        isValidPhoneNumber: false,
+        isValidCustomerName: false,
       }
     default:
       return state

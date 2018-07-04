@@ -54,9 +54,9 @@ class BookingForm extends Component {
       phoneNumber,
       customerName,
       drink,
-      isDateText,
-      isPhoneNumber,
-      isCustomerName,
+      isValidDateText,
+      isValidPhoneNumber,
+      isValidCustomerName,
     } = this.props.bookingForm
     const {restaurant, isFull} = this.props.restaurants;
     return (
@@ -222,7 +222,9 @@ class BookingForm extends Component {
         style={styles.button}
         backgroundColor = 'tomato'
         title='Next'
-        disabled={isFull}
+        disabled={
+          isFull,
+          !isValidPhoneNumber}
         onPress={
           this.props.onPressNext
         }

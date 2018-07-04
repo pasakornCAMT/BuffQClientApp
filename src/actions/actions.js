@@ -34,9 +34,10 @@ import {
   EDIT_PHONE_NUMBER,
   EDIT_CUSTOMER_NAME,
   PREPARE_EDITED_VALUE,
-  VALIDATE_DATE,
-  VALIDATE_PHONE,
-  VALIDATE_NAME,
+  VALID_DATE,
+  VALID_PHONE,
+  INVALID_PHONE,
+  VALID_NAME,
   EDIT_TIME_INDEX,
 } from '../constants/constants'
 import FirebaseService from '../services/firebase-service'
@@ -178,6 +179,17 @@ export function fillNumOfChild(numOfChild){
 }
 
 export function fillPhoneNumber(phoneNumber){
+  return (dispatch) => {
+    dispatch(onChangingPhoneNumber(phoneNumber))
+    if(phoneNumber.length == 10 && phoneNumber.startsWith("0")){
+      dispatch(validPhone())
+    }else{
+      dispatch(invalidPhone())
+    }
+  }
+}
+
+export function onChangingPhoneNumber(phoneNumber){
   return{
     type: FILL_PHONE_NUMBER,
     phoneNumber,
@@ -210,21 +222,27 @@ export function clearFormData(){
   }
 }
 
-export function validateDate(){
+export function validDate(){
   return{
-    type: VALIDATE_DATE
+    type: VALID_DATE
   }
 }
 
-export function validatePhone(){
+export function validPhone(){
   return{
-    type: VALIDATE_PHONE
+    type: VALID_PHONE
   }
 }
 
-export function validateName(){
+export function invalidPhone(){
   return{
-    type: VALIDATE_NAME
+    type: INVALID_PHONE
+  }
+}
+
+export function validName(){
+  return{
+    type: VALID_NAME
   }
 }
 
@@ -278,6 +296,7 @@ export function fetchingEstimatedTimeTable(id, timeText){
       FirebaseService.child('EstimatedTime')
       .child(id).child(timeText).on('value',(snap)=>{
         dispatch(getTableSuccess(snap.val()))
+        console.log('table: ', snap.val());
       })
     } catch (e) {
 
