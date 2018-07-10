@@ -4,19 +4,28 @@ import {
 } from '../constants/constants'
 
 const estimatedTimeTableState = {
-  tables: [],
+  tables: [
+    {
+      percentage: 0,
+      time: 'xx-xxmin'
+    }
+  ],
 }
 
 export default function estimatedTimeTableRuducer (state = estimatedTimeTableState, action){
   switch (action.type) {
     case FETCHING_ESTIMATED_TIME_TABLE_SUCCESS:
       return{
-        ...state,
         tables: action.table,
       }
     case CLEAR_TABLE:
-      return{
-        tables:[],
+      return {
+        tables: [
+          {
+            percentage: 0,
+            time: 'xx-xxmin'
+          }
+        ],
       }
     default:
       return state

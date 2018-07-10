@@ -252,7 +252,7 @@ export function checkNumOfCustomer(resId, dateText, timeText, customer){
     FirebaseService.child('restaurants').child(resId).on('value',(snap)=>{
       maximum = snap.val().maximumPerRound;
     });
-    console.log('max: ',maximum);
+    console.log('max queue: ',maximum);
     let numOfCustomer = 0;
     try {
       FirebaseService.child('bookings').child('users').child('1')
@@ -261,7 +261,7 @@ export function checkNumOfCustomer(resId, dateText, timeText, customer){
         for(let booking in snap.val()){
           numOfCustomer = numOfCustomer + snap.val()[booking].numOfCustomer;
         }
-        console.log('num:', numOfCustomer);
+        console.log('current queue:', numOfCustomer);
         if((maximum-numOfCustomer) < customer){
           console.log('cannot book');
           dispatch(cannotBook())
@@ -296,11 +296,8 @@ export function fetchingEstimatedTimeTable(id, timeText){
       FirebaseService.child('EstimatedTime')
       .child(id).child(timeText).on('value',(snap)=>{
         dispatch(getTableSuccess(snap.val()))
-        console.log('table: ', snap.val());
       })
     } catch (e) {
-
-    } finally {
 
     }
   }

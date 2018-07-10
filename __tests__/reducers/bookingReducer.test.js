@@ -9,9 +9,9 @@ import {
   RECORD_PRICE,
   CHECKED_DRINK,
   CLEAR_FORM_DATA,
-  VALIDATE_DATE,
-  VALIDATE_PHONE,
-  VALIDATE_NAME,
+  VALID_DATE,
+  VALID_PHONE,
+  VALID_NAME,
 } from '../../src/constants/constants'
 
 let date = new Date().getDate();
@@ -183,9 +183,9 @@ describe('booking reducer', () => {
       drink: false
     });
   });
-  it('has a type VALIDATE_DATE' , ()=>{
+  it('has a type VALID_DATE' , ()=>{
     action={
-      type: VALIDATE_DATE
+      type: VALID_DATE
     }
     state = bookingReducer(state = bookingFormState, action);
     expect(state).toEqual({
@@ -193,9 +193,9 @@ describe('booking reducer', () => {
       isDateText: true
     });
   });
-  it('has a type VALIDATE_PHONE' , ()=>{
+  it('has a type VALID_PHONE' , ()=>{
     action={
-      type: VALIDATE_PHONE
+      type: VALID_PHONE
     }
     state = bookingReducer(state = bookingFormState, action);
     expect(state).toEqual({
@@ -203,9 +203,9 @@ describe('booking reducer', () => {
       isPhoneNumber: true
     });
   });
-  it('has a type VALIDATE_NAME' , ()=>{
+  it('has a type VALID_NAME' , ()=>{
     action={
-      type: VALIDATE_NAME
+      type: VALID_NAME
     }
     state = bookingReducer(state = bookingFormState, action);
     expect(state).toEqual({

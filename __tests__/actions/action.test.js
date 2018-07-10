@@ -58,9 +58,9 @@ import {
   recordPrice,
   checkedDrink,
   clearFormData,
-  validateDate,
-  validatePhone,
-  validateName,
+  validDate,
+  validPhone,
+  validName,
   canBook,
   cannotBook,
   clearTable,
@@ -274,28 +274,28 @@ describe('Test action',() => {
       type: CLEAR_FORM_DATA
     });
   });
-  it('call validateDate function', () => {
+  it('call validDate function', () => {
     //Act
-    stateAct = validateDate();
+    stateAct = validDate();
     //Assert
     expect(stateAct).toEqual({
-      type: VALIDATE_DATE
+      type: VALID_DATE
     });
   });
-  it('call validatePhone function', () => {
+  it('call validPhone function', () => {
     //Act
-    stateAct = validatePhone();
+    stateAct = validPhone();
     //Assert
     expect(stateAct).toEqual({
-      type: VALIDATE_PHONE
+      type: VALID_PHONE
     });
   });
-  it('call validateName function', () => {
+  it('call validName function', () => {
     //Act
-    stateAct = validateName();
+    stateAct = validName();
     //Assert
     expect(stateAct).toEqual({
-      type: VALIDATE_NAME
+      type: VALID_NAME
     });
   });
   it('call canBook function', () => {

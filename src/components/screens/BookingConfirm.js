@@ -27,8 +27,9 @@ class BookingConfirm extends Component {
   insertBookingToFirebase(){
     const {bookingForm} = this.props;
     const {restaurant, refId} = this.props.restaurants;
+    const userId = '1';
     const bookingUserRef = FirebaseService.child('bookings').child('users').child('1');
-    bookingUserRef.push({
+    const bookingData = {
       dateText: bookingForm.dateText,
       dateText_timeText: bookingForm.dateText+'_'+bookingForm.timeText,
       numOfCustomer: bookingForm.numOfCustomer,
@@ -40,8 +41,18 @@ class BookingConfirm extends Component {
       restaurant: restaurant.name,
       resImage: restaurant.image,
       totalPrice: bookingForm.price,
-    })
-    Alert.alert('Booking success');
+      userId: userId,
+      status: 'booking',
+    }
+    try {
+      bookingUserRef.push(bookingData);
+      return true;
+      Alert.alert('Booking success');
+    } catch (e) {
+      return false;
+      Alert.alert('Booking fail');
+    }
+
   }
 
   navigateToMyBookingList(){

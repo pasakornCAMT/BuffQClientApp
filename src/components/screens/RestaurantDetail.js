@@ -9,9 +9,9 @@ import {
   fetchingEstimatedTimeTable,
   recordPrice,
   checkNumOfCustomer,
-  validateDate,
-  validatePhone,
-  validateName,
+  validDate,
+  validPhone,
+  validName,
 } from '../../actions/actions';
 import {connect} from 'react-redux';
 import {
@@ -48,13 +48,13 @@ class RestaurantDetail extends Component {
       isCustomerName,
     } = this.props.bookingForm;
     if(dateText.length != 0){
-      this.props.validateDate();
+      this.props.validDate();
     }
     if(phoneNumber.length != 0){
-      this.props.validatePhone();
+      this.props.validPhone();
     }
     if(customerName.length != 0){
-      this.props.validateName();
+      this.props.validName();
     }
     console.log('date', dateText.length);
     console.log('phone',  phoneNumber.length );
@@ -85,7 +85,6 @@ class RestaurantDetail extends Component {
         this.props.recordPrice(price*numOfCustomer);
       }
     }
-
   }
 
   componentWillMount(){
@@ -129,9 +128,9 @@ function mapDispatchToProps (dispatch) {
     fetchingEstimatedTimeTable: (id, timeText) => dispatch(fetchingEstimatedTimeTable(id, timeText)),
     recordPrice: (price) => dispatch(recordPrice(price)),
     checkNumOfCustomer: (resId, timeText, customer) => dispatch(checkNumOfCustomer(resId, timeText, customer)),
-    validateDate: () => dispatch(validateDate()),
-    validatePhone: () => dispatch(validatePhone()),
-    validateName: () => dispatch(validateName()),
+    validDate: () => dispatch(validDate()),
+    validPhone: () => dispatch(validPhone()),
+    validName: () => dispatch(validName()),
   }
 }
 
