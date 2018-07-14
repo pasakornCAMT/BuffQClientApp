@@ -6,6 +6,7 @@ import {
   View,
   ListView,
   Text,
+  ActivityIndicator,
 } from 'react-native';
 import FirebaseService from '../../services/firebase-service';
 import {SearchBar} from 'react-native-elements';
@@ -65,9 +66,9 @@ class RestaurantListView extends Component {
         }
         {
           isFetching ? (
-            <Text style={styles.description}>
-              Loading...
-            </Text>
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator size="large" color="tomato" />
+            </View>
           ): null
         }
         {
@@ -99,7 +100,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   container:{
-    paddingBottom: 60,
+    paddingBottom: 110,
+  },
+  loadingContainer:{
+    justifyContent: 'center',
+    marginTop: 20,
   }
 });
 

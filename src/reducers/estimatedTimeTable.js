@@ -1,9 +1,11 @@
 import {
   FETCHING_ESTIMATED_TIME_TABLE_SUCCESS,
   CLEAR_TABLE,
+  FETCHING_ESTIMATED_TIME_TABLE,
 } from '../constants/constants'
 
 const estimatedTimeTableState = {
+  isFetching: false,
   tables: [
     {
       percentage: 0,
@@ -17,6 +19,12 @@ export default function estimatedTimeTableRuducer (state = estimatedTimeTableSta
     case FETCHING_ESTIMATED_TIME_TABLE_SUCCESS:
       return{
         tables: action.table,
+        isFetching: false,
+      }
+    case FETCHING_ESTIMATED_TIME_TABLE:
+      return{
+        ...state,
+        isFetching: true,
       }
     case CLEAR_TABLE:
       return {
@@ -26,6 +34,7 @@ export default function estimatedTimeTableRuducer (state = estimatedTimeTableSta
             time: 'xx-xxmin'
           }
         ],
+        isFetching: false,
       }
     default:
       return state

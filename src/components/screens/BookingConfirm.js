@@ -20,8 +20,7 @@ class BookingConfirm extends Component {
   }
 
   onPressConfirm(){
-    this.insertBookingToFirebase();
-    this.navigateToMyBookingList();
+    this.insertBookingToFirebase()
   }
 
   insertBookingToFirebase(){
@@ -36,7 +35,7 @@ class BookingConfirm extends Component {
       phone: bookingForm.phoneNumber,
       customer: bookingForm.customerName,
       timeText: bookingForm.timeText,
-      pressDate: new Date().toLocaleString(),
+      pressDate: new Date().toTimeString(),
       restaurantId: refId,
       restaurant: restaurant.name,
       resImage: restaurant.image,
@@ -44,15 +43,28 @@ class BookingConfirm extends Component {
       userId: userId,
       status: 'booking',
     }
+    if(restaurant.childPrice){
+      bookingData.numOfCustomer = bookingForm.numOfCustomer+bookingForm.numOfChild;
+      bookingData.numOfChild = bookingForm.numOfChild;
+      bookingData.numOfAdult = bookingForm.numOfCustomer;
+    }
     try {
       bookingUserRef.push(bookingData);
-      return true;
-      Alert.alert('Booking success');
+      this.alertBookingResult(true)
     } catch (e) {
       return false;
-      Alert.alert('Booking fail');
+      this.alertBookingResult(false);
     }
 
+  }
+
+  alertBookingResult(result){
+    if(result){
+      Alert.alert('Booking success');
+      this.navigateToMyBookingList();
+    }else{
+      Alert.alert('Booking fail');
+    }
   }
 
   navigateToMyBookingList(){
@@ -72,6 +84,7 @@ class BookingConfirm extends Component {
       dateText,
       timeText,
       numOfCustomer,
+      numOfChild,
       phoneNumber,
       customerName,
       price,
@@ -87,8 +100,15 @@ class BookingConfirm extends Component {
           time: {timeText}
         </Text>
         <Text style={styles.detail}>
-          customer: {numOfCustomer}
+          customer: {numOfCustomer+numOfChild} people
         </Text >
+        {
+          restaurant.childPrice ? (
+            <Text style={styles.detail}>
+              adult: {numOfCustomer} | child: {numOfChild}
+            </Text >
+          ):null
+        }
         <Text style={styles.detail}>
           phone number: {phoneNumber}
         </Text>
@@ -118,7 +138,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   detail:{
-    fontSize: 20,
+    fontSize: 16,
   }
 });
 

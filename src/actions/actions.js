@@ -20,6 +20,7 @@ import {
   CAN_BOOK,
   CAN_NOT_BOOK,
   FETCHING_ESTIMATED_TIME_TABLE_SUCCESS,
+  FETCHING_ESTIMATED_TIME_TABLE,
   CLEAR_TABLE,
   FETCHING_MY_BOOKING_LIST,
   FETCHING_MY_BOOKING_LIST_SUCCESS,
@@ -39,6 +40,7 @@ import {
   INVALID_PHONE,
   VALID_NAME,
   EDIT_TIME_INDEX,
+  INITIAL_TIME,
 } from '../constants/constants'
 import FirebaseService from '../services/firebase-service'
 
@@ -135,10 +137,22 @@ export function displayRestaurantFailure(text){
 }
 /////////////////////PREPARED-NAVIGATION/////////////////////////////
 export function preparedRestaurantDetail(restaurant, refId){
+  return (dispatch) => {
+    dispatch(initailRestaurantDetail(restaurant, refId))
+    dispatch(initialTime(restaurant.sectionTime[0]))
+  }
+}
+export function initailRestaurantDetail(restaurant, refId){
   return{
     type: NAVIGATE_TO_RESTAURANT_DETAIL,
     restaurant,
     refId,
+  }
+}
+export function initialTime(timeText){
+  return{
+    type: INITIAL_TIME,
+    timeText
   }
 }
 export function preparedBookingDetail(booking, refId){
@@ -292,6 +306,7 @@ export function cannotBook(){
 
 export function fetchingEstimatedTimeTable(id, timeText){
   return (dispatch) => {
+    dispatch(fetchingTable())
     try {
       FirebaseService.child('EstimatedTime')
       .child(id).child(timeText).on('value',(snap)=>{
@@ -300,6 +315,12 @@ export function fetchingEstimatedTimeTable(id, timeText){
     } catch (e) {
 
     }
+  }
+}
+
+export function fetchingTable(){
+  return{
+    type: FETCHING_ESTIMATED_TIME_TABLE
   }
 }
 

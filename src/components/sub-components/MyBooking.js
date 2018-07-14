@@ -14,29 +14,32 @@ class MyBooking extends Component {
     const booking = this.props.data;
     const refId = this.props.rowId;
     return (
-      <TouchableHighlight onPress={()=>{
+      <TouchableHighlight onPress={() => {
         this.props.onPress(booking, refId, booking.restaurantId);
       }}>
-      <View style={styles.li}>
-        <Image
-          style={styles.image}
-          source={{uri: booking.resImage}}
+        <View style={styles.li}>
+          <Image
+            style={styles.image}
+            source={{ uri: booking.resImage }}
           />
-        <View style={styles.liRight}>
-          <Text style={styles.liText}>
-            {booking.restaurant}
-          </Text>
-          <Text style={styles.liText}>
-            {booking.dateText}
-          </Text>
-          <Text style={styles.liText}>
-            {booking.timeText}
-          </Text>
-          <Text style={styles.liText}>
-            {booking.numOfCustomer} people
-          </Text>
+          <View style={styles.liRight}>
+            <Text style={styles.liText}>
+              {booking.restaurant}
+            </Text>
+            <Text style={styles.liText}>
+              {booking.dateText}
+            </Text>
+            <Text style={styles.liText}>
+              {booking.timeText}
+            </Text>
+            <Text style={styles.liText}>
+              {booking.numOfCustomer} people
+            </Text>
+            <Text style={styles.pressDateText}>
+                {booking.pressDate}
+            </Text>
+          </View>
         </View>
-      </View>
       </TouchableHighlight>
     );
   }
@@ -48,21 +51,31 @@ const styles = StyleSheet.create({
     borderBottomColor: '#eee',
     borderColor: 'transparent',
     borderWidth: 1,
-    padding: 10,
+    padding: 5,
     flexDirection: 'row',
   },
-  image:{
-    width:150,
-    height:100,
+  image: {
+    width: 120,
+    height: '100%',
+    paddingVertical: 5,
   },
   liText: {
     color: '#333',
-    fontSize: 16,
+    fontSize: 12,
     marginLeft: 6,
   },
 
   liRight: {
     flexDirection: 'column',
+  },
+  spaceBetween: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  pressDateText:{
+    fontSize: 10,
+    marginLeft: 6,
   }
 });
 

@@ -12,6 +12,7 @@ import {
   Text,
   Image,
   TouchableHighlight,
+  ActivityIndicator,
 } from 'react-native';
 
 class MyBookingListView extends Component {
@@ -32,9 +33,9 @@ class MyBookingListView extends Component {
       <View>
         {
           isFetching ? (
-            <Text style={styles.description}>
-              Loading...
-            </Text>
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator size="large" color="tomato" />
+            </View>
           ): null
         }
         {
@@ -60,6 +61,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 20,
   },
+  loadingContainer:{
+    justifyContent: 'center',
+    marginTop: 20,
+  }
 });
 
 function mapStateToProps (state) {

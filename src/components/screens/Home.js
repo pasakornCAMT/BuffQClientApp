@@ -2,8 +2,8 @@
 
 import React, { Component } from 'react';
 import RestaurantListView from '../main-components/RestaurantListView';
-import {connect} from 'react-redux';
-import {preparedRestaurantDetail, clearFormData, clearTable} from '../../actions/actions'
+import { connect } from 'react-redux';
+import { preparedRestaurantDetail, clearFormData, clearTable } from '../../actions/actions'
 import {
   StyleSheet,
   View,
@@ -14,8 +14,8 @@ class Home extends Component {
     title: 'Home',
   };
 
-  pressRow(restaurant, refId){
-    console.log('Restaurant: ',restaurant);
+  pressRow(restaurant, refId) {
+    console.log('Restaurant: ', restaurant);
     console.log('ID: ', refId);
     this.props.preparedRestaurantDetail(restaurant, refId);
     this.props.clearFormData();
@@ -23,23 +23,27 @@ class Home extends Component {
     this.navigateToRestaurantDetail();
   }
 
-  navigateToRestaurantDetail(){
-    const {navigate} = this.props.navigation;
+  navigateToRestaurantDetail() {
+    const { navigate } = this.props.navigation;
     navigate('RestaurantDetail');
   }
 
   render() {
     return (
-      <RestaurantListView onPress={this.pressRow.bind(this)}/>
+      <View style={styles.container}>
+        <RestaurantListView onPress={this.pressRow.bind(this)} />
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-
+  container: {
+    
+  }
 });
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     restaurants: state.restaurants,
     bookingForm: state.bookingForm,
@@ -47,8 +51,8 @@ function mapStateToProps (state) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return{
+function mapDispatchToProps(dispatch) {
+  return {
     preparedRestaurantDetail: (restaurant, refId) => dispatch(preparedRestaurantDetail(restaurant, refId)),
     clearFormData: () => dispatch(clearFormData()),
     clearTable: () => dispatch(clearTable()),

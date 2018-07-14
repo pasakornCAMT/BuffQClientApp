@@ -12,6 +12,7 @@ import {
   VALID_PHONE,
   INVALID_PHONE,
   VALID_NAME,
+  INITIAL_TIME,
 } from '../constants/constants'
 
 let date = new Date().getDate();
@@ -97,10 +98,15 @@ export default function bookingReducer(state = bookingFormState, action){
         ...state,
         isValidCustomerName: true,
       }
+    case INITIAL_TIME:
+      return{
+        ...state,
+        timeText: action.timeText,
+      }
     case CLEAR_FORM_DATA:
       return {
+        ...state,
         dateText: mindate,
-        timeText: '',
         selectedIndex: 0,
         numOfCustomer: 1,
         numOfChild: 0,

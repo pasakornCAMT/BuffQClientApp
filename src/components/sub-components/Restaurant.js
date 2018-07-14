@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   liText: {
     color: 'tomato',
-    fontSize: 32,
+    fontSize: 28,
   },
   spaceBetween:{
     flexDirection: 'row',

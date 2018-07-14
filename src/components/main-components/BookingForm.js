@@ -40,6 +40,13 @@ class BookingForm extends Component {
     this.props.checkNumOfCustomer(refId, dateText, sectionTime[selectedIndex],numOfCustomer);
   }
 
+  onChangeDate (dateText){
+    const {refId} = this.props.restaurants;
+    const {timeText, numOfCustomer} = this.props.bookingForm;
+    this.props.fillDate(dateText);
+    this.props.checkNumOfCustomer(refId, dateText, timeText, numOfCustomer);
+  }
+
   render() {
     let date = new Date().getDate();
     let month = new Date().getMonth() + 1;
@@ -82,9 +89,8 @@ class BookingForm extends Component {
           dateInput: {
             marginLeft: 56,
           }
-        // ... You can check the source to find the other keys.
         }}
-        onDateChange={(dateText) => this.props.fillDate(dateText)}
+        onDateChange={(dateText) => this.onChangeDate(dateText)}
         >
         </DatePicker>
         {
@@ -228,8 +234,7 @@ class BookingForm extends Component {
         backgroundColor = 'tomato'
         title='Next'
         disabled={
-          isFull,
-          !isValidPhoneNumber}
+          isFull || !isValidPhoneNumber}
         onPress={
           this.props.onPressNext
         }
@@ -248,6 +253,7 @@ const styles = StyleSheet.create({
   },
   datePicker:{
     width: 200,
+    marginVertical: 5,
   },
   timeButton:{
     flex: 1,
@@ -273,10 +279,11 @@ const styles = StyleSheet.create({
   },
   peopleText:{
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 12,
     alignItems: 'center',
     marginLeft: 10,
     marginRight: 10,
+
   },
   childBox:{
     flexDirection: 'row',

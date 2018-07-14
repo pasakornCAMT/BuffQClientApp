@@ -36,7 +36,7 @@ class MyBookingEdit extends Component {
   }
 
   onPressConfirm(){
-    //this.alertConfirmation();
+    this.alertConfirmation();
   }
 
   alertConfirmation(){
@@ -61,11 +61,12 @@ class MyBookingEdit extends Component {
       editedBookingDate,
       editedBookingTime,
     } = this.props.MyBookingReducer;
-    const bookingsRef = FirebaseService.child('bookings').child('users').child('1');
+    const bookingsRef = FirebaseService.child('bookings').child('users').child('1').child(refId);
     bookingsRef.update({
       dateText: editedBookingDate,
       timeText: editedBookingTime,
       dateText_timeText: editedBookingDate+'_'+editedBookingTime,
+      pressDate: new Date().toLocaleString(),
       numOfCustomer: editedNumOfCustomer,
       phone: editedPhoneNumber,
       customer: editedCustomerName,
