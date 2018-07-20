@@ -5,14 +5,14 @@ import HeaderImage from '../main-components/HeaderImage';
 import BookingForm from '../main-components/BookingForm';
 import EstimatedTimeTable from '../main-components/EstimatedTimeTable';
 import RestaurantDescription from '../main-components/RestaurantDescription';
+import {fetchingEstimatedTimeTable} from '../../actions/estimated-time-action'
 import {
-  fetchingEstimatedTimeTable,
   recordPrice,
   checkNumOfCustomer,
   validDate,
   validPhone,
   validName,
-} from '../../actions/actions';
+} from '../../actions/booking-form-action'
 import {connect} from 'react-redux';
 import {
   StyleSheet,

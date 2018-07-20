@@ -1,7 +1,6 @@
 'use strict';
 
 import React, { Component } from 'react';
-import FirebaseService from '../../services/firebase-service';
 import {connect} from 'react-redux';
 import {
   StyleSheet,
@@ -31,14 +30,25 @@ class RestaurantDescription extends Component {
           {restaurant.type}
         </Text>
         <Text style={styles.detail}>
-          Open: {restaurant.openTime} - {restaurant.closeTime}
+          Open: {restaurant.openTime} - {restaurant.closeTime}, {restaurant.openDate}
         </Text>
-        <Text style={styles.detail}>
-          {restaurant.openDate}
-        </Text>
-        <Text style={styles.detail}>
-          Price: {restaurant.price} THB / person
-        </Text>
+        {
+          restaurant.childPrice ? (
+            <View>
+            <Text style={styles.detail}>
+              Adult: {restaurant.price} THB/person
+            </Text>
+            <Text style={styles.detail}>
+              Child: {restaurant.childPrice} THB/person 
+            </Text>
+            </View>
+          ):(
+            <Text style={styles.detail}>
+              Price: {restaurant.price} THB/person
+            </Text>
+          )
+        }
+        
         <Image
           style={styles.image}
           source={{uri: 'https://cmxpv89733.i.lithium.com/t5/image/serverpage/image-id/82937i163CEC7FAC876446/image-size/large?v=1.0&px=999'}}
@@ -58,7 +68,7 @@ const styles = StyleSheet.create({
     padding: 7,
   },
   detail:{
-    fontSize: 20,
+    fontSize: 16,
   },
   image:{
     width:'100%',

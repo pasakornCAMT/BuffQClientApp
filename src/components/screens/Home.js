@@ -3,7 +3,9 @@
 import React, { Component } from 'react';
 import RestaurantListView from '../main-components/RestaurantListView';
 import { connect } from 'react-redux';
-import { preparedRestaurantDetail, clearFormData, clearTable } from '../../actions/actions'
+import { preparedRestaurantDetail } from '../../actions/navigate-action'
+import { clearFormData } from '../../actions/booking-form-action'
+import { clearTable } from '../../actions/estimated-time-action'
 import {
   StyleSheet,
   View,
@@ -60,4 +62,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
-//export default Home;

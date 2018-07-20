@@ -1,10 +1,8 @@
 'use strict';
 
 import React, { Component } from 'react';
-import FirebaseService from '../../services/firebase-service';
-import EstimatedTime from '../sub-components/EstimatedTime';
 import { connect } from 'react-redux';
-import { BarChart, Grid, YAxis } from 'react-native-svg-charts'
+import { BarChart, YAxis } from 'react-native-svg-charts'
 import * as scale from 'd3-scale'
 import {
   StyleSheet,

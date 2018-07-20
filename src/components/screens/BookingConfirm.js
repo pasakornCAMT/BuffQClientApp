@@ -11,7 +11,7 @@ import {
 import {Button} from 'react-native-elements';
 import FirebaseService from '../../services/firebase-service';
 import {StackActions, NavigationActions} from 'react-navigation';
-import {initialMyBooking} from '../../actions/actions';
+import {initialMyBooking} from '../../actions/my-booking-action';
 
 class BookingConfirm extends Component {
 
@@ -28,6 +28,13 @@ class BookingConfirm extends Component {
     const {restaurant, refId} = this.props.restaurants;
     const userId = '1';
     const bookingUserRef = FirebaseService.child('bookings').child('users').child('1');
+    let days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    let date = new Date().getDate();
+    let month = new Date().getMonth() + 1;
+    let year = new Date().getFullYear();
+    let hours = new Date().getHours();
+    let min = new Date().getMinutes();
+    let pressDate = days[new Date().getDay()]+' '+date+'-'+month+'-'+year+' '+hours+':'+min;
     const bookingData = {
       dateText: bookingForm.dateText,
       dateText_timeText: bookingForm.dateText+'_'+bookingForm.timeText,
@@ -35,7 +42,7 @@ class BookingConfirm extends Component {
       phone: bookingForm.phoneNumber,
       customer: bookingForm.customerName,
       timeText: bookingForm.timeText,
-      pressDate: new Date().toTimeString(),
+      pressDate: pressDate,
       restaurantId: refId,
       restaurant: restaurant.name,
       resImage: restaurant.image,
@@ -47,6 +54,9 @@ class BookingConfirm extends Component {
       bookingData.numOfCustomer = bookingForm.numOfCustomer+bookingForm.numOfChild;
       bookingData.numOfChild = bookingForm.numOfChild;
       bookingData.numOfAdult = bookingForm.numOfCustomer;
+    }
+    if(restaurant.drink){
+      bookingData.includeDrink = bookingForm.drink;
     }
     try {
       bookingUserRef.push(bookingData);

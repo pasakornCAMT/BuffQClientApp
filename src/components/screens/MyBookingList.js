@@ -3,7 +3,8 @@
 import React, { Component } from 'react';
 import MyBookingListView from '../main-components/MyBookingListView';
 import {connect} from 'react-redux';
-import {preparedBookingDetail, getRestaurantById} from '../../actions/actions'
+import {preparedBookingDetail} from '../../actions/navigate-action'
+import {getRestaurantById} from '../../actions/my-booking-action'
 import {
   StyleSheet,
   View,

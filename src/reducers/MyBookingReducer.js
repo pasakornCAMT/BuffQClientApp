@@ -14,6 +14,9 @@ import {
   EDIT_CUSTOMER_NAME,
   EDIT_TIME_INDEX,
   PREPARE_EDITED_VALUE,
+  EDIT_NUM_OF_ADULT,
+  EDIT_INCLUDE_DRINK,
+  TOTAL_PRICE_CHANGED,
 } from '../constants/constants'
 
 import {ListView} from 'react-native'
@@ -31,9 +34,12 @@ const myBookingState = {
   editedBookingTime:'',
   selectedIndex:0,
   editedNumOfCustomer: 1,
+  editedNumOfAdult: 1,
   editedNumOfChild:0,
   editedPhoneNumber: '',
   editedCustomerName: '',
+  editedIncludeDrink: false,
+  totalPriceChanged: 0,
 }
 
 export default function myBookingListReducer(state = myBookingState, action){
@@ -75,6 +81,7 @@ export default function myBookingListReducer(state = myBookingState, action){
         ...state,
         booking: action.booking,
         refId: action.refId,
+        //editedIncludeDrink: action.booking.includeDrink,
       }
     case EDIT_BOOKING_DATE:
       return{
@@ -91,6 +98,11 @@ export default function myBookingListReducer(state = myBookingState, action){
         ...state,
         editedNumOfChild: action.numOfChild,
       }
+    case EDIT_NUM_OF_ADULT:
+      return{
+        ...state,
+        editedNumOfAdult: action.numOfAdult,
+      }  
     case EDIT_NUM_OF_CUSTOMER:
       return{
         ...state,
@@ -111,6 +123,16 @@ export default function myBookingListReducer(state = myBookingState, action){
         ...state,
         selectedIndex: action.selectedIndex,
       }
+    case EDIT_INCLUDE_DRINK:
+      return{
+        ...state,
+        editedIncludeDrink: !state.editedIncludeDrink,
+      }
+    case TOTAL_PRICE_CHANGED:
+      return{
+        ...state,
+        totalPriceChanged: action.totalPrice,
+      }   
     case PREPARE_EDITED_VALUE:
       return{
         ...state,
@@ -118,8 +140,11 @@ export default function myBookingListReducer(state = myBookingState, action){
         editedBookingTime: action.timeText,
         selectedIndex: action.selectedIndex,
         editedNumOfCustomer: action.numOfCustomer,
+        editedNumOfAdult: action.numOfAdult,
+        editedNumOfChild: action.numOfChild,
         editedPhoneNumber: action.phone,
         editedCustomerName: action.customer,
+        editedIncludeDrink: action.includeDrink,
       }
     default:
       return state

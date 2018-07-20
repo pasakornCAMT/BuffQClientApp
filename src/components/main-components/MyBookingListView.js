@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import FirebaseService from '../../services/firebase-service';
 import MyBooking from '../sub-components/MyBooking';
 import {connect} from 'react-redux';
-import {fetchMyBookingFromFirebase} from '../../actions/actions'
+import {fetchMyBookingFromFirebase} from '../../actions/my-booking-action'
 import {
   StyleSheet,
   View,

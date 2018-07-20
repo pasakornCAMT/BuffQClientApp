@@ -29,22 +29,22 @@ class MyBookingDetail extends Component {
     return (
       <View>
       <View style={styles.container}>
-        <FormLabel>restaurant</FormLabel>
+        <FormLabel>Restaurant</FormLabel>
         <Text style={styles.text}>{booking.restaurant}</Text>
 
-        <FormLabel>date</FormLabel>
+        <FormLabel>Booking date</FormLabel>
         <Text style={styles.text} >{booking.dateText}</Text>
 
-        <FormLabel>time</FormLabel>
+        <FormLabel>Booking time</FormLabel>
         <Text style={styles.text} >{booking.timeText}</Text>
 
-        <FormLabel>people</FormLabel>
+        <FormLabel>People</FormLabel>
         <Text style={styles.text} >{booking.numOfCustomer}</Text>
 
         <FormLabel>Total Price</FormLabel>
         <Text style={styles.text} >{booking.totalPrice} THB</Text>
 
-        <FormLabel>name</FormLabel>
+        <FormLabel>Name</FormLabel>
         <Text style={styles.text} >{booking.customer}</Text>
       </View>
         <Button
@@ -80,4 +80,3 @@ function mapStateToProps (state) {
 }
 
 export default connect(mapStateToProps)(MyBookingDetail)
-//export default MyBookingDetail;

@@ -8,13 +8,11 @@ import {
   Text,
   ActivityIndicator,
 } from 'react-native';
-import FirebaseService from '../../services/firebase-service';
 import {SearchBar} from 'react-native-elements';
 import Restaurant from '../sub-components/Restaurant';
-import TestRedux from '../sub-components/TestRedux';
 import {connect} from 'react-redux';
-import {fetchRestaurantFromFirebase, fetchingBooking} from '../../actions/actions'
-import {searchingRestaurant} from '../../actions/actions'
+import {fetchRestaurantFromFirebase, fetchingBooking} from '../../actions/restaurant-action'
+import {searchingRestaurant} from '../../actions/search-action'
 
 class RestaurantListView extends Component {
   componentWillMount(){
