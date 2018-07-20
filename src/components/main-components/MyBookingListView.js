@@ -1,7 +1,6 @@
 'use strict';
 
 import React, { Component } from 'react';
-import FirebaseService from '../../services/firebase-service';
 import MyBooking from '../sub-components/MyBooking';
 import {connect} from 'react-redux';
 import {fetchMyBookingFromFirebase} from '../../actions/my-booking-action'
@@ -10,8 +9,6 @@ import {
   View,
   ListView,
   Text,
-  Image,
-  TouchableHighlight,
   ActivityIndicator,
 } from 'react-native';
 
@@ -79,4 +76,4 @@ function mapDispatchToProps (dispatch) {
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MyBookingListView)
-//export default MyBookingListView;
+

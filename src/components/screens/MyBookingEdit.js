@@ -135,7 +135,6 @@ class MyBookingEdit extends Component {
   }
 
   render() {
-    console.log('666666666666666666666666666');
     let date = new Date().getDate();
     let month = new Date().getMonth() + 1;
     let year = new Date().getFullYear();

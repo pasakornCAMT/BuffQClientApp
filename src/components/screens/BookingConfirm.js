@@ -9,9 +9,9 @@ import {
   Alert,
 } from 'react-native';
 import {Button} from 'react-native-elements';
-import FirebaseService from '../../services/firebase-service';
 import {StackActions, NavigationActions} from 'react-navigation';
 import {initialMyBooking} from '../../actions/my-booking-action';
+import { insertBookingToFirebase } from '../../actions/firebase-action';
 
 class BookingConfirm extends Component {
 
@@ -20,61 +20,10 @@ class BookingConfirm extends Component {
   }
 
   onPressConfirm(){
-    this.insertBookingToFirebase()
-  }
-
-  insertBookingToFirebase(){
     const {bookingForm} = this.props;
-    const {restaurant, refId} = this.props.restaurants;
-    const userId = '1';
-    const bookingUserRef = FirebaseService.child('bookings').child('users').child('1');
-    let days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    let date = new Date().getDate();
-    let month = new Date().getMonth() + 1;
-    let year = new Date().getFullYear();
-    let hours = new Date().getHours();
-    let min = new Date().getMinutes();
-    let pressDate = days[new Date().getDay()]+' '+date+'-'+month+'-'+year+' '+hours+':'+min;
-    const bookingData = {
-      dateText: bookingForm.dateText,
-      dateText_timeText: bookingForm.dateText+'_'+bookingForm.timeText,
-      numOfCustomer: bookingForm.numOfCustomer,
-      phone: bookingForm.phoneNumber,
-      customer: bookingForm.customerName,
-      timeText: bookingForm.timeText,
-      pressDate: pressDate,
-      restaurantId: refId,
-      restaurant: restaurant.name,
-      resImage: restaurant.image,
-      totalPrice: bookingForm.price,
-      userId: userId,
-      status: 'booking',
-    }
-    if(restaurant.childPrice){
-      bookingData.numOfCustomer = bookingForm.numOfCustomer+bookingForm.numOfChild;
-      bookingData.numOfChild = bookingForm.numOfChild;
-      bookingData.numOfAdult = bookingForm.numOfCustomer;
-    }
-    if(restaurant.drink){
-      bookingData.includeDrink = bookingForm.drink;
-    }
-    try {
-      bookingUserRef.push(bookingData);
-      this.alertBookingResult(true)
-    } catch (e) {
-      return false;
-      this.alertBookingResult(false);
-    }
-
-  }
-
-  alertBookingResult(result){
-    if(result){
-      Alert.alert('Booking success');
-      this.navigateToMyBookingList();
-    }else{
-      Alert.alert('Booking fail');
-    }
+    const {restaurant} = this.props.restaurants;
+    let result = insertBookingToFirebase(bookingForm, restaurant);
+    result ? this.navigateToMyBookingList() : null
   }
 
   navigateToMyBookingList(){

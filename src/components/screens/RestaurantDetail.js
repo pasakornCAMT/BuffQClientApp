@@ -56,12 +56,6 @@ class RestaurantDetail extends Component {
     if(customerName.length != 0){
       this.props.validName();
     }
-    console.log('date', dateText.length);
-    console.log('phone',  phoneNumber.length );
-    console.log('name', customerName.length);
-    console.log('date', isDateText);
-    console.log('phone',  isPhoneNumber );
-    console.log('name', isCustomerName);
     if(isDateText && isPhoneNumber && isCustomerName){
       return true;
     }else{
