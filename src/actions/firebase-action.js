@@ -2,7 +2,7 @@ import FirebaseService from '../services/firebase-service'
 import {Alert} from 'react-native'
 
 export function insertBookingToFirebase(bookingForm, restaurant) {
-    const userId = '1';
+    const userId = '0';
     const bookingUserRef = FirebaseService.child('bookings').child('users').child('1');
     let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     let date = new Date().getDate();
@@ -25,6 +25,8 @@ export function insertBookingToFirebase(bookingForm, restaurant) {
         totalPrice: bookingForm.price,
         userId: userId,
         status: 'booking',
+        payment: false,
+        type: 'online'
     }
     if (restaurant.childPrice) {
         bookingData.numOfCustomer = bookingForm.numOfCustomer + bookingForm.numOfChild;
@@ -35,7 +37,18 @@ export function insertBookingToFirebase(bookingForm, restaurant) {
         bookingData.includeDrink = bookingForm.drink;
     }
     try {
-        bookingUserRef.push(bookingData)
+        var data = bookingUserRef.push(bookingData)
+        var key = data.getKey()
+        bookingUserRef.child(key).update({
+            id: key
+        })
+        FirebaseService.child('restaurantBookings').child(restaurant.id).child(key).set(true)
+        FirebaseService.child('userBookings').child(userId).child(key).set(true)
+        // var data = FirebaseService.database().ref().child('products').push(product);
+        // var key = data.getKey();
+        // FirebaseService.database().ref().child('products').child(key).update({
+        //     id: key
+        // })
         alertBookingResult(true)
         return true
     } catch (e) {
