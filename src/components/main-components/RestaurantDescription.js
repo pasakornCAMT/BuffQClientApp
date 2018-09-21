@@ -68,6 +68,7 @@ class RestaurantDescription extends Component {
                   longitudeDelta: 0.0421,
                 }}
                 title={restaurant.name}
+                pinColor='tomato'
               />
           </MapView>
         </View>
