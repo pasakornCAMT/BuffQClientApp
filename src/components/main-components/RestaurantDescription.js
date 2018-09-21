@@ -1,7 +1,8 @@
 'use strict';
 
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import MapView, { Marker } from 'react-native-maps';
 import {
   StyleSheet,
   View,
@@ -11,20 +12,20 @@ import {
 
 class RestaurantDescription extends Component {
   render() {
-    const {restaurant} = this.props.restaurants;
+    const { restaurant } = this.props.restaurants;
     return (
       <View style={styles.container}>
         {
           restaurant.drink ? (
             <View>
-            <Text style={styles.normalDrink}>
-              Including a drink {restaurant.price+restaurant.drink} THB
+              <Text style={styles.normalDrink}>
+                Including a drink {restaurant.price + restaurant.drink} THB
             </Text>
-            <Text style={styles.normalDrink}>
-              Not including {restaurant.price} THB
+              <Text style={styles.normalDrink}>
+                Not including {restaurant.price} THB
             </Text>
             </View>
-            ):null
+          ) : null
         }
         <Text style={styles.drink}>
           {restaurant.type}
@@ -35,58 +36,92 @@ class RestaurantDescription extends Component {
         {
           restaurant.childPrice ? (
             <View>
-            <Text style={styles.detail}>
-              Adult: {restaurant.price} THB/person
+              <Text style={styles.detail}>
+                Adult: {restaurant.price} THB/person
             </Text>
-            <Text style={styles.detail}>
-              Child: {restaurant.childPrice} THB/person 
+              <Text style={styles.detail}>
+                Child: {restaurant.childPrice} THB/person
             </Text>
             </View>
-          ):(
-            <Text style={styles.detail}>
-              Price: {restaurant.price} THB/person
+          ) : (
+              <Text style={styles.detail}>
+                Price: {restaurant.price} THB/person
             </Text>
-          )
+            )
         }
-        
-        <Image
-          style={styles.image}
-          source={{uri: 'https://cmxpv89733.i.lithium.com/t5/image/serverpage/image-id/82937i163CEC7FAC876446/image-size/large?v=1.0&px=999'}}
-        />
+        <View style={styles.mapContainer}>
+          <MapView
+            loadingEnabled={true}
+            minZoomLevel={12}
+            style={styles.map}
+            initialRegion={{
+              latitude: restaurant.latitude,
+              longitude: restaurant.longtitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}>
+              <Marker
+                coordinate={{
+                  latitude: restaurant.latitude,
+                  longitude: restaurant.longtitude,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421,
+                }}
+                title={restaurant.name}
+              />
+          </MapView>
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flexDirection: 'column',
-    flex:1,
+    flex: 1,
     backgroundColor: 'white',
     margin: 5,
-    borderRadius:10,
+    borderRadius: 10,
     padding: 7,
+    paddingBottom: 100,
   },
-  detail:{
+  detail: {
     fontSize: 16,
   },
-  image:{
-    width:'100%',
-    height:200,
+  image: {
+    width: '100%',
+    height: 200,
     marginTop: 10,
   },
-  drink:{
+  drink: {
     fontSize: 22,
     fontWeight: 'bold',
     color: 'red'
   },
-  normalDrink:{
+  normalDrink: {
     fontSize: 22,
     fontWeight: 'bold',
-  }
+  },
+  mapContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  map: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
 });
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     restaurants: state.restaurants
   }
