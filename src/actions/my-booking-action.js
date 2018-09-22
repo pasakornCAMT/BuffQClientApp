@@ -23,7 +23,7 @@ export function fetchMyBookingFromFirebase(){
     return (dispatch) => {
       dispatch(getMyBookingList())
       try {
-        FirebaseService.child('bookings').child('users').child('1').on('value',(res)=>{
+        FirebaseService.database().ref().child('bookings').child('users').child('1').on('value',(res)=>{
           let bookings = [];
           if(res.val() === null){
             dispatch(noMyBookingData())
@@ -58,7 +58,7 @@ export function getMyBookingListFailure(){
 
 export function getRestaurantById(refId){
   return (dispatch) => {
-    FirebaseService.child('restaurants').child(refId).on('value',(snap)=>{
+    FirebaseService.database().ref().child('restaurants').child(refId).on('value',(snap)=>{
       dispatch(getRestaurantSuccess(snap.val()));
     })
   }

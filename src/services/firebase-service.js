@@ -11,6 +11,7 @@ const firebaseConfig = {
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
-const FirebaseService = firebaseApp.database().ref();
+//const FirebaseService = firebaseApp.database().ref();
+const FirebaseService = firebaseApp
 
 export default FirebaseService;

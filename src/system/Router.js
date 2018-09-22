@@ -15,6 +15,7 @@ import MyBookingDetail from '../components/screens/MyBookingDetail';
 import MyBookingEdit from '../components/screens/MyBookingEdit';
 import RestaurantDetail from '../components/screens/RestaurantDetail';
 import Maps from '../components/screens/Maps';
+import Profile from '../components/screens/Profile';
 
 const HomeStack = StackNavigator({
   Home: {screen: Home},
@@ -32,11 +33,16 @@ const MapsStack = StackNavigator({
   Maps: {screen: Maps},
 })
 
+const ProfileStack = StackNavigator({
+  Profile: {screen: Profile},
+})
+
 export default TabNavigator(
   {
     Home: {screen: HomeStack},
     Maps: {screen: MapsStack},
     MyBooking: {screen: MyBookingStack},
+    Profile: {screen: ProfileStack},
   },
   {
     navigationOptions: ({navigation}) => ({
@@ -49,6 +55,8 @@ export default TabNavigator(
           iconName = `ios-map${focused ? '' : '-outline'}`;
         }else if (routeName === 'MyBooking') {
           iconName = `ios-list-box${focused ? '' : '-outline'}`;
+        }else if (routeName === 'Profile'){
+          iconName = `ios-contact${focused ? '' : '-outline'}`;
         }
         return <Ionicons name={iconName} size={25} color={tintColor}/>
       },
@@ -59,7 +67,5 @@ export default TabNavigator(
     },
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
-    animationEnabled: true,
-    swipeEnabled: true,
   }
 )

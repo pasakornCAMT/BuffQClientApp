@@ -11,7 +11,7 @@ export function fetchRestaurantFromFirebase() {
     return (dispatch) => {
         dispatch(getRestaurantList())
         try {
-            FirebaseService.child('restaurants').on('value', (snap) => {
+            FirebaseService.database().ref().child('restaurants').on('value', (snap) => {
                 if (snap.val() === null) {
                     dispatch(noRestaurantData())
                 } else {
@@ -47,7 +47,7 @@ export function getRestaurantListFailure() {
 export function fetchingBooking() {
     return (dispatch) => {
         try {
-            FirebaseService.child('bookings').child('users').child('1').on('value', (snap) => {
+            FirebaseService.database().ref().child('bookings').child('users').child('1').on('value', (snap) => {
                 dispatch(fetchingBookingSuccess(snap.val()))
             })
         } catch (e) {

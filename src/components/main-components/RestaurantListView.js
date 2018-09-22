@@ -13,11 +13,13 @@ import Restaurant from '../sub-components/Restaurant';
 import {connect} from 'react-redux';
 import {fetchRestaurantFromFirebase, fetchingBooking} from '../../actions/restaurant-action'
 import {searchingRestaurant} from '../../actions/search-action'
+import {initUserData} from '../../actions/firebase-action'
 
 class RestaurantListView extends Component {
   componentWillMount(){
     this.props.getRestaurantList();
     this.props.fetchingBooking();
+    //initUserData();
   }
 
   renderRow(restaurant, sectionId, rowId){

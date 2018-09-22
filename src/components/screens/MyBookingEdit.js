@@ -74,7 +74,7 @@ class MyBookingEdit extends Component {
       editedIncludeDrink,
       totalPriceChanged,
     } = this.props.MyBookingReducer;
-    const bookingsRef = FirebaseService.child('bookings').child('users').child('1').child(refId);
+    const bookingsRef = FirebaseService.database().ref().child('bookings').child('users').child('1').child(refId);
     let days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
     let date = new Date().getDate();
     let month = new Date().getMonth() + 1;

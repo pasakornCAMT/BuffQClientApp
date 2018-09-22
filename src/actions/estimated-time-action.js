@@ -9,7 +9,7 @@ export function fetchingEstimatedTimeTable(id, timeText) {
     return (dispatch) => {
         dispatch(fetchingTable())
         try {
-            FirebaseService.child('EstimatedTime')
+            FirebaseService.database().ref().child('EstimatedTime')
                 .child(id).child(timeText).on('value', (snap) => {
                     dispatch(getTableSuccess(snap.val()))
                 })

@@ -118,13 +118,13 @@ export function validName() {
 export function checkNumOfCustomer(resId, dateText, timeText, customer) {
     return (dispatch) => {
         let maximum = 0;
-        FirebaseService.child('restaurants').child(resId).on('value', (snap) => {
+        FirebaseService.database().ref().child('restaurants').child(resId).on('value', (snap) => {
             maximum = snap.val().maximumPerRound;
         });
         console.log('max queue: ', maximum);
         let numOfCustomer = 0;
         try {
-            FirebaseService.child('bookings').child('users').child('1')
+            FirebaseService.database().ref().child('bookings').child('users').child('1')
                 .orderByChild('dateText_timeText').equalTo(dateText + '_' + timeText).on('value', (snap) => {
                     console.log('booking: ', snap.val());
                     for (let booking in snap.val()) {
