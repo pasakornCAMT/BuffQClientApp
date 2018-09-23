@@ -21,20 +21,48 @@ import FirebaseService from '../services/firebase-service'
 
 export function fetchMyBookingFromFirebase(){
     return (dispatch) => {
+      var bookingIdList = [];
       dispatch(getMyBookingList())
       try {
-        FirebaseService.database().ref().child('bookings').child('users').child('1').on('value',(res)=>{
-          let bookings = [];
-          if(res.val() === null){
+        const user = FirebaseService.auth().currentUser;
+        console.log('fetch id: ', user.uid);
+        var myBookingList = [];
+        FirebaseService.database().ref().child('userBookings').child(user.uid).once('value').then((snap) =>{
+          if(snap.val()===null){
             dispatch(noMyBookingData())
-          }else{
-            dispatch(getMyBookingListSuccess(res.val()))
           }
-        })
+          const promisses = [];
+          bookingIdList = Object.getOwnPropertyNames(snap.val())
+          bookingIdList.forEach( (bookingId) => {
+            const request = FirebaseService.database().ref().child('bookings').child('online').child(bookingId).once('value').then((snapshot)=>{
+              myBookingList.push(snapshot.val())
+            });
+            promisses.push(request)
+          });
+          return Promise.all(promisses)
+        }).then(()=>{
+          console.log('sss: ',myBookingList)
+          if(!myBookingList.length == 0){
+            dispatch(getMyBookingListSuccess(myBookingList))
+          }
+        }).catch((e)=>{
+          console.log(e)
+        });
       } catch (e) {
         dispatch(getMyBookingListFailure())
       }
     }
+}
+
+// export const findBooking = async(listOfId) =>{
+export function findBooking(listOfId){
+  var myBookingList = [];
+  listOfId.forEach(bookingId => {
+    FirebaseService.database().ref().child('bookings').child('online').child(bookingId).on('value',  (snapshot)=>{
+      myBookingList.push(snapshot.val())
+    });
+  }); 
+  return myBookingList
 }
 
 export function getMyBookingList(){
@@ -58,7 +86,7 @@ export function getMyBookingListFailure(){
 
 export function getRestaurantById(refId){
   return (dispatch) => {
-    FirebaseService.database().ref().child('restaurants').child(refId).on('value',(snap)=>{
+    FirebaseService.database().ref().child('restaurants').child(refId).on('value',async (snap)=>{
       dispatch(getRestaurantSuccess(snap.val()));
     })
   }

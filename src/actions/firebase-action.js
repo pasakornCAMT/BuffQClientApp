@@ -5,12 +5,13 @@ import {
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAILURE,
 } from '../constants/constants'
-
-export const userId = '';
+//export var userUid = '';
 
 export function insertBookingToFirebase(bookingForm, restaurant) {
-    const userId = '0';
-    const bookingUserRef = FirebaseService.database().ref().child('bookings').child('users').child('1');
+    //const userId = '0';
+    const userId = FirebaseService.auth().currentUser.uid;
+    //const bookingUserRef = FirebaseService.database().ref().child('bookings').child('users').child('1');
+    const bookingUserRef = FirebaseService.database().ref().child('bookings').child('online');
     let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     let date = new Date().getDate();
     let month = new Date().getMonth() + 1;
@@ -60,6 +61,7 @@ export function insertBookingToFirebase(bookingForm, restaurant) {
         return true
     } catch (e) {
         alertBookingResult(false)
+        console.log(e)
         return false
     }
 }

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Button } from 'react-native-elements'
+import { Button, Divider } from 'react-native-elements'
 import { logout } from '../../actions/firebase-action';
 import { connect } from 'react-redux';
-import {initUserData} from '../../actions/firebase-action';
+import { initUserData } from '../../actions/firebase-action';
 
 class Profile extends Component {
     static navigationOptions = {
@@ -12,14 +12,28 @@ class Profile extends Component {
     onPressLogout() {
         logout();
     }
-    componentWillMount(){
+    componentWillMount() {
         this.props.initUserData();
     }
     render() {
         const { user, isFetching } = this.props.UserReducer;
         return (
             <View style={styles.container}>
-            <Text>{user.name}</Text>
+                <View style={styles.detailContainer}>
+                    <Text style={styles.left}>Name </Text>
+                    <Text style={styles.right}>{user.name}</Text>
+                </View>
+                <Divider style={{ backgroundColor: '#dcdde1', marginBottom: 10 }} />
+                <View style={styles.detailContainer}>
+                    <Text style={styles.left}>Phone number </Text>
+                    <Text style={styles.right}>{user.phone}</Text>
+                </View>
+                <Divider style={{ backgroundColor: '#dcdde1', marginBottom: 10  }} />
+                <View style={styles.detailContainer}>
+                    <Text style={styles.left}>Email </Text>
+                    <Text style={styles.right}>{user.email}</Text>
+                </View>
+                <Divider style={{ backgroundColor: '#dcdde1', marginBottom: 10  }} />
                 <Button
                     title='LOGOUT'
                     backgroundColor='#eb3b5a'
@@ -32,8 +46,23 @@ class Profile extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 7,
-    }
+        marginVertical: 15,
+        backgroundColor:'white',
+        padding: 10,
+    },
+    detailContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    left: {
+        fontSize: 18,
+        color: '#636e72',
+    },
+    right: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#636e72'
+    },
 });
 
 function mapStateToProps(state) {
@@ -42,10 +71,10 @@ function mapStateToProps(state) {
     }
 }
 
-function mapDispatchToProps (dispatch){
-    return{
-      initUserData: () => dispatch(initUserData())
+function mapDispatchToProps(dispatch) {
+    return {
+        initUserData: () => dispatch(initUserData())
     }
-  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile)

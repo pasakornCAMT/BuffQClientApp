@@ -2,8 +2,8 @@
 
 import React, { Component } from 'react';
 import MyBooking from '../sub-components/MyBooking';
-import {connect} from 'react-redux';
-import {fetchMyBookingFromFirebase} from '../../actions/my-booking-action'
+import { connect } from 'react-redux';
+import { fetchMyBookingFromFirebase } from '../../actions/my-booking-action'
 import {
   StyleSheet,
   View,
@@ -14,18 +14,18 @@ import {
 
 class MyBookingListView extends Component {
 
-  componentWillMount(){
+  componentWillMount() {
     this.props.fetchMyBookingFromFirebase();
   }
 
-  renderRow(booking, sectionId, rowId){
+  renderRow(booking, sectionId, rowId) {
     return (
-      <MyBooking data={booking} rowId={rowId} onPress={this.props.onPress}/>
+      <MyBooking data={booking} rowId={rowId} onPress={this.props.onPress} />
     )
   }
 
   render() {
-    const {myBookingList, myBookingDataSource,noData, isFetching} = this.props.MyBookingReducer;
+    const { myBookingList, myBookingDataSource, noData, isFetching, isError } = this.props.MyBookingReducer;
     return (
       <View>
         {
@@ -33,45 +33,52 @@ class MyBookingListView extends Component {
             <View style={styles.loadingContainer}>
               <ActivityIndicator size="large" color="tomato" />
             </View>
-          ): null
+          ) : (
+              noData ? (
+                <Text style={styles.description}>
+                  There are no booking in your list
+              </Text>
+              ) : (
+                  isError ? (
+                    <Text style={styles.description}>
+                      There are Error
+                </Text>
+                  ) : (
+                      <ListView
+                        dataSource={myBookingDataSource}
+                        renderRow={this.renderRow.bind(this)}
+                        enableEmptySections={true}
+                      />
+                    )
+                )
+            )
         }
-        {
-          noData ? (
-            <Text style={styles.description}>
-              There are no booking in your list
-            </Text>
-          ): null
-        }
-        <ListView
-          dataSource = {myBookingDataSource}
-          renderRow = {this.renderRow.bind(this)}
-          enableEmptySections = {true}
-        />
+
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  description:{
+  description: {
     textAlign: 'center',
     fontSize: 16,
     marginTop: 20,
   },
-  loadingContainer:{
+  loadingContainer: {
     justifyContent: 'center',
     marginTop: 20,
   }
 });
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
-    MyBookingReducer: state.MyBookingReducer
+    MyBookingReducer: state.MyBookingReducer,
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return{
+function mapDispatchToProps(dispatch) {
+  return {
     fetchMyBookingFromFirebase: () => dispatch(fetchMyBookingFromFirebase())
   }
 }
