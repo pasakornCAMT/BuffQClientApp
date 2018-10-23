@@ -5,7 +5,7 @@ import HeaderImage from '../main-components/HeaderImage';
 import BookingForm from '../main-components/BookingForm';
 import EstimatedTimeTable from '../main-components/EstimatedTimeTable';
 import RestaurantDescription from '../main-components/RestaurantDescription';
-import {fetchingEstimatedTimeTable} from '../../actions/estimated-time-action'
+import { fetchingEstimatedTimeTable } from '../../actions/estimated-time-action'
 import {
   recordPrice,
   checkNumOfCustomer,
@@ -13,13 +13,14 @@ import {
   validPhone,
   validName,
 } from '../../actions/booking-form-action'
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import {
   StyleSheet,
   View,
   ScrollView,
   Text,
 } from 'react-native';
+import RestaurantMap from '../main-components/RestaurantMap';
 
 class RestaurantDetail extends Component {
 
@@ -27,18 +28,18 @@ class RestaurantDetail extends Component {
     title: 'RestaurantDetail',
   }
 
-  onPressNext(){
+  onPressNext() {
     this.recordPrice();
     this.navigateToBookingConfirm();
   }
 
-  navigateToBookingConfirm(){
+  navigateToBookingConfirm() {
     console.log(this.validateBookingForm());
-    const {navigate} = this.props.navigation;
+    const { navigate } = this.props.navigation;
     navigate('BookingConfirm');
   }
 
-  validateBookingForm(){
+  validateBookingForm() {
     const {
       dateText,
       phoneNumber,
@@ -47,69 +48,82 @@ class RestaurantDetail extends Component {
       isPhoneNumber,
       isCustomerName,
     } = this.props.bookingForm;
-    if(dateText.length != 0){
+    if (dateText.length != 0) {
       this.props.validDate();
     }
-    if(phoneNumber.length != 0){
+    if (phoneNumber.length != 0) {
       this.props.validPhone();
     }
-    if(customerName.length != 0){
+    if (customerName.length != 0) {
       this.props.validName();
     }
-    if(isDateText && isPhoneNumber && isCustomerName){
+    if (isDateText && isPhoneNumber && isCustomerName) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
 
-  recordPrice(){
-    const {price, drink, childPrice} = this.props.restaurants.restaurant;
-    const {numOfCustomer, numOfChild} = this.props.bookingForm;
-    if(this.props.bookingForm.drink){
-      if(childPrice){
-        this.props.recordPrice((price+drink)*numOfCustomer+(numOfChild*childPrice));
-      }else{
-        this.props.recordPrice((price+drink)*numOfCustomer);
+  recordPrice() {
+    const { price, drink, childPrice } = this.props.restaurants.restaurant;
+    const { numOfCustomer, numOfChild } = this.props.bookingForm;
+    if (this.props.bookingForm.drink) {
+      if (childPrice) {
+        this.props.recordPrice((price + drink) * numOfCustomer + (numOfChild * childPrice));
+      } else {
+        this.props.recordPrice((price + drink) * numOfCustomer);
       }
-    }else{
-      if(childPrice){
-        this.props.recordPrice(price*numOfCustomer+(numOfChild*childPrice));
-      }else{
-        this.props.recordPrice(price*numOfCustomer);
+    } else {
+      if (childPrice) {
+        this.props.recordPrice(price * numOfCustomer + (numOfChild * childPrice));
+      } else {
+        this.props.recordPrice(price * numOfCustomer);
       }
     }
   }
 
-  componentWillMount(){
-    const {refId} = this.props.restaurants;
-    const {numOfCustomer} = this.props.bookingForm;
-    const {sectionTime} = this.props.restaurants.restaurant;
+  componentWillMount() {
+    const { refId } = this.props.restaurants;
+    const { numOfCustomer } = this.props.bookingForm;
+    const { sectionTime } = this.props.restaurants.restaurant;
     this.props.fetchingEstimatedTimeTable(refId, sectionTime[0]);
-    this.props.checkNumOfCustomer(refId,sectionTime[0],numOfCustomer);
+    this.props.checkNumOfCustomer(refId, sectionTime[0], numOfCustomer);
   }
 
   render() {
-    const {restaurant} = this.props.restaurants;
-    const {timeText} = this.props.bookingForm;
+    const { restaurant } = this.props.restaurants;
+    const { timeText } = this.props.bookingForm;
     return (
       <View>
-      <ScrollView>
-        <HeaderImage/>
-        <EstimatedTimeTable id={restaurant.id} timeText={timeText}/>
-        <BookingForm onPressNext={this.onPressNext.bind(this)}/>
-        <RestaurantDescription id={restaurant.id}/>
-      </ScrollView>
+        <ScrollView>
+        <HeaderImage />
+          {
+            restaurant.status == 'open' ? (
+              <View>
+                <EstimatedTimeTable id={restaurant.id} timeText={timeText} />
+                <BookingForm onPressNext={this.onPressNext.bind(this)} />
+                <RestaurantDescription id={restaurant.id} />
+                <RestaurantMap/>
+              </View>
+            ) : (
+                <View style={styles.closed}><Text style={{fontWeight: 'bold'}}>Sorry, This restaurant is closed</Text></View>
+              )
+          }
+        </ScrollView>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-
+  closed: {
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     restaurants: state.restaurants,
     bookingForm: state.bookingForm,
@@ -117,8 +131,8 @@ function mapStateToProps (state) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return{
+function mapDispatchToProps(dispatch) {
+  return {
     fetchingEstimatedTimeTable: (id, timeText) => dispatch(fetchingEstimatedTimeTable(id, timeText)),
     recordPrice: (price) => dispatch(recordPrice(price)),
     checkNumOfCustomer: (resId, timeText, customer) => dispatch(checkNumOfCustomer(resId, timeText, customer)),

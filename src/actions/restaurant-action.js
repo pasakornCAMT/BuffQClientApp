@@ -47,7 +47,7 @@ export function getRestaurantListFailure() {
 export function fetchingBooking() {
     return (dispatch) => {
         try {
-            FirebaseService.database().ref().child('bookings').child('users').child('1').on('value', (snap) => {
+            FirebaseService.database().ref().child('bookings').child('online').on('value', (snap) => {
                 dispatch(fetchingBookingSuccess(snap.val()))
             })
         } catch (e) {

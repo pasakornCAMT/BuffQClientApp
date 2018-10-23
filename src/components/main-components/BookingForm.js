@@ -108,7 +108,7 @@ class BookingForm extends Component {
           {
             isFull ? (
               <Text style={styles.warningMes}>
-                This time is not unavailable.
+                This time is not available.
             </Text>
             ) : null
           }

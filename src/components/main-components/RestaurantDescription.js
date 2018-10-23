@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import MapView, { Marker } from 'react-native-maps';
 import {
   StyleSheet,
   View,
@@ -49,30 +48,7 @@ class RestaurantDescription extends Component {
             </Text>
             )
         }
-        <View style={styles.mapContainer}>
-          <MapView
-            loadingEnabled={true}
-            minZoomLevel={12}
-            style={styles.map}
-            initialRegion={{
-              latitude: restaurant.latitude,
-              longitude: restaurant.longtitude,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}>
-              <Marker
-                coordinate={{
-                  latitude: restaurant.latitude,
-                  longitude: restaurant.longtitude,
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421,
-                }}
-                title={restaurant.name}
-                pinColor='tomato'
-              />
-          </MapView>
         </View>
-      </View>
     );
   }
 }
@@ -85,15 +61,9 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 10,
     padding: 7,
-    paddingBottom: 100,
   },
   detail: {
     fontSize: 16,
-  },
-  image: {
-    width: '100%',
-    height: 200,
-    marginTop: 10,
   },
   drink: {
     fontSize: 22,
@@ -103,22 +73,6 @@ const styles = StyleSheet.create({
   normalDrink: {
     fontSize: 22,
     fontWeight: 'bold',
-  },
-  mapContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  map: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
   },
 });
 

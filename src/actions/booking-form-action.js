@@ -124,7 +124,7 @@ export function checkNumOfCustomer(resId, dateText, timeText, customer) {
         console.log('max queue: ', maximum);
         let numOfCustomer = 0;
         try {
-            FirebaseService.database().ref().child('bookings').child('users').child('1')
+            FirebaseService.database().ref().child('bookings').child('online')
                 .orderByChild('dateText_timeText').equalTo(dateText + '_' + timeText).on('value', (snap) => {
                     console.log('booking: ', snap.val());
                     for (let booking in snap.val()) {

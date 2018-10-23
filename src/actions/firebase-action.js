@@ -33,6 +33,7 @@ export function insertBookingToFirebase(bookingForm, restaurant) {
         totalPrice: bookingForm.price,
         userId: userId,
         status: 'booking',
+        status_dateText_resId: 'booking_'+bookingForm.dateText+'_'+restaurant.id,
         payment: false,
         type: 'online'
     }

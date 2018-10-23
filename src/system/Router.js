@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import {StackNavigator, TabNavigator, TabBarBottom} from 'react-navigation';
+import { createBottomTabNavigator, BottomTabBar } from 'react-navigation-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import BottomNavigation, { FullTab } from 'react-native-material-bottom-navigation'
 import Home from '../components/screens/Home';
@@ -37,7 +38,7 @@ const ProfileStack = StackNavigator({
   Profile: {screen: Profile},
 })
 
-export default TabNavigator(
+export default createBottomTabNavigator(
   {
     Home: {screen: HomeStack},
     Maps: {screen: MapsStack},
@@ -65,7 +66,7 @@ export default TabNavigator(
       activeTintColor: 'tomato',
       inactiveTintColor: 'gray',
     },
-    tabBarComponent: TabBarBottom,
+    tabBarComponent: BottomTabBar,
     tabBarPosition: 'bottom',
   }
 )

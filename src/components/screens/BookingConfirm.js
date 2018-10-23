@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {Button} from 'react-native-elements';
 import {StackActions, NavigationActions} from 'react-navigation';
-import {initialMyBooking} from '../../actions/my-booking-action';
+import {initialMyBooking, fetchMyBookingFromFirebase} from '../../actions/my-booking-action';
 import { insertBookingToFirebase } from '../../actions/firebase-action';
 
 class BookingConfirm extends Component {
@@ -35,7 +35,12 @@ class BookingConfirm extends Component {
     });
     dispatch(resetAction);
     this.props.initialMyBooking();
+    this.reloadMyBooking();
     navigate('MyBookingList');
+  }
+
+  reloadMyBooking(){
+    this.props.fetchMyBookingFromFirebase();
   }
 
   render() {
@@ -111,7 +116,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch){
   return{
-    initialMyBooking: () => dispatch(initialMyBooking())
+    initialMyBooking: () => dispatch(initialMyBooking()),
+    fetchMyBookingFromFirebase: () => dispatch(fetchMyBookingFromFirebase())
   }
 }
 
