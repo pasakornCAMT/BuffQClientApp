@@ -26,7 +26,7 @@ import {
   checkedDrink,
   checkNumOfCustomer,
 } from '../../actions/booking-form-action'
-import {fetchingEstimatedTimeTable} from  '../../actions/estimated-time-action'
+import {fetchingEstimatedTimeTable, setNumOfCustomer} from  '../../actions/estimated-time-action'
 import Spinner from 'react-native-number-spinner';
 
 class BookingForm extends Component {
@@ -35,6 +35,7 @@ class BookingForm extends Component {
     const { sectionTime } = this.props.restaurants.restaurant;
     const { refId } = this.props.restaurants;
     const { dateText, numOfCustomer } = this.props.bookingForm;
+    setNumOfCustomer(numOfCustomer)
     this.props.fillTime(selectedIndex, sectionTime[selectedIndex]);
     this.props.fetchingEstimatedTimeTable(refId, sectionTime[selectedIndex]);
     this.props.checkNumOfCustomer(refId, dateText, sectionTime[selectedIndex], numOfCustomer);
@@ -45,6 +46,18 @@ class BookingForm extends Component {
     const { timeText, numOfCustomer } = this.props.bookingForm;
     this.props.fillDate(dateText);
     this.props.checkNumOfCustomer(refId, dateText, timeText, numOfCustomer);
+  }
+
+  onChangeNumOfCustomer(num){
+    setNumOfCustomer(num);
+    this.props.fillNumOfCustomer(num)
+    const { timeText } = this.props.bookingForm;
+    const { refId } = this.props.restaurants;
+    this.props.fetchingEstimatedTimeTable(refId, timeText);
+  }
+
+  updateEstimatedTime(){
+
   }
 
   render() {
@@ -125,7 +138,7 @@ class BookingForm extends Component {
                     min={1}
                     color="#39f"
                     fontSize={16}
-                    onNumChange={(num) => this.props.fillNumOfCustomer(num)}
+                    onNumChange={(num) => this.onChangeNumOfCustomer(num)}
                   />
                   <Text style={styles.peopleText}>
                     Child:
@@ -150,7 +163,7 @@ class BookingForm extends Component {
                       min={1}
                       color="tomato"
                       fontSize={16}
-                      onNumChange={(num) => this.props.fillNumOfCustomer(num)}
+                      onNumChange={(num) => this.onChangeNumOfCustomer(num)}
                     />
                   </View>
                 )
