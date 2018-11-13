@@ -17,6 +17,8 @@ import {
   EDIT_NUM_OF_ADULT,
   EDIT_INCLUDE_DRINK,
   TOTAL_PRICE_CHANGED,
+  GET_MY_QUEUE,
+  GET_MY_QUEUE_SUCCESS
 } from '../constants/constants'
 
 import {ListView} from 'react-native'
@@ -40,6 +42,8 @@ const myBookingState = {
   editedCustomerName: '',
   editedIncludeDrink: false,
   totalPriceChanged: 0,
+  myQueue: 999,
+  gettingMyQueue: false
 }
 
 export default function myBookingListReducer(state = myBookingState, action){
@@ -146,6 +150,17 @@ export default function myBookingListReducer(state = myBookingState, action){
         editedCustomerName: action.customer,
         editedIncludeDrink: action.includeDrink,
       }
+    case GET_MY_QUEUE:
+      return {
+        ...state,
+        gettingMyQueue: true
+      }   
+    case GET_MY_QUEUE_SUCCESS:
+      return{
+        ...state,
+        myQueue: action.count,
+        gettingMyQueue: false
+      }   
     default:
       return state
   }

@@ -22,9 +22,9 @@ class Restaurant extends Component {
           <Text style={styles.liText}>
             {restaurant.name}
           </Text>
-          <Text style={styles.queueText}>
+          {/* <Text style={styles.queueText}>
             booking: {this.props.numOfQueue}
-          </Text>
+          </Text> */}
         </View>
         <Image
           style={styles.image}

@@ -15,7 +15,9 @@ import{
     EDIT_TIME_INDEX,
     EDIT_INCLUDE_DRINK,
     TOTAL_PRICE_CHANGED,
-    PREPARE_EDITED_VALUE
+    PREPARE_EDITED_VALUE,
+    GET_MY_QUEUE,
+    GET_MY_QUEUE_SUCCESS
 } from '../constants/constants'
 import FirebaseService from '../services/firebase-service'
 
@@ -193,5 +195,45 @@ export function prepareEditedValue(dateText, timeText, selectedIndex,
     phone,
     customer,
     includeDrink,
+  }
+}
+
+export function getMyQueue(bookingId, dateText, resId) {
+  return (dispatch) => {
+    dispatch(gettingMyQueue())
+    FirebaseService.database().ref().child('bookings').child('online')
+    .orderByChild('status_dateText_resId').equalTo('booking_'+dateText+'_'+resId).on('value', (snap) => {
+        console.log('qeue: ',snap.val())
+        const count = countQueue(snap,bookingId);
+        console.log(count);
+        dispatch(getMyQueueSuccess(count))
+       // return count
+    })
+  }
+}
+
+function countQueue(snap, id){
+  var count = 1;
+  var target = 1;
+  snap.forEach(booking => {
+      if(booking.val().id == id){
+          target = count;
+      }else{
+          count++;
+      }
+  });
+  return target;
+}
+
+export function getMyQueueSuccess(count){
+  return{
+    type: GET_MY_QUEUE_SUCCESS,
+    count
+  }
+}
+
+export function gettingMyQueue(){
+  return{
+    type: GET_MY_QUEUE
   }
 }
