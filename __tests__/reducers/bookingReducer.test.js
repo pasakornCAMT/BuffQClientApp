@@ -17,7 +17,7 @@ import {
 let date = new Date().getDate();
 let month = new Date().getMonth() + 1;
 let year = new Date().getFullYear();
-let mindate = date+'-'+month+'-'+year;
+let mindate = date + '-' + month + '-' + year;
 
 const bookingFormState = {
   dateText: mindate,
@@ -29,14 +29,14 @@ const bookingFormState = {
   phoneNumber: '',
   drink: false,
   price: 0,
-  isDateText: false,
-  isPhoneNumber: false,
-  isCustomerName: false,
+  isValidDateText: false,
+  isValidPhoneNumber: false,
+  isValidCustomerName: false,
 }
 
 describe('booking reducer', () => {
   it('has a default state', () => {
-    state = bookingReducer(undefined, {type: 'unexpected'})
+    state = bookingReducer(undefined, { type: 'unexpected' })
     expect(state).toEqual({
       dateText: mindate,
       timeText: '',
@@ -47,12 +47,12 @@ describe('booking reducer', () => {
       phoneNumber: '',
       drink: false,
       price: 0,
-      isDateText: false,
-      isPhoneNumber: false,
-      isCustomerName: false,
+      isValidDateText: false,
+      isValidPhoneNumber: false,
+      isValidCustomerName: false,
     });
   });
-  it('has a type FILL_DATE' , ()=>{
+  it('has a type FILL_DATE', () => {
     //Arrange
     action = {
       type: FILL_DATE,
@@ -64,7 +64,7 @@ describe('booking reducer', () => {
       dateText: action.dateText,
     });
   });
-  it('has a type FILL_TIME' , ()=>{
+  it('has a type FILL_TIME', () => {
     //Arrange
     action = {
       type: FILL_TIME,
@@ -76,7 +76,7 @@ describe('booking reducer', () => {
       timeText: action.timeText,
     });
   });
-  it('has a type FILL_NUM_OF_CUSTOMER' , ()=>{
+  it('has a type FILL_NUM_OF_CUSTOMER', () => {
     //Arrange
     action = {
       type: FILL_NUM_OF_CUSTOMER,
@@ -88,7 +88,7 @@ describe('booking reducer', () => {
       numOfCustomer: action.numOfCustomer,
     });
   });
-  it('has a type FILL_NUM_OF_CHILD' , ()=>{
+  it('has a type FILL_NUM_OF_CHILD', () => {
     //Arrange
     action = {
       type: FILL_NUM_OF_CHILD,
@@ -100,7 +100,7 @@ describe('booking reducer', () => {
       numOfChild: action.numOfChild,
     });
   });
-  it('has a type FILL_PHONE_NUMBER' , ()=>{
+  it('has a type FILL_PHONE_NUMBER', () => {
     //Arrange
     action = {
       type: FILL_PHONE_NUMBER,
@@ -112,7 +112,7 @@ describe('booking reducer', () => {
       phoneNumber: action.phoneNumber,
     });
   });
-  it('has a type FILL_CUSTOMER_NAME' , ()=>{
+  it('has a type FILL_CUSTOMER_NAME', () => {
     //Arrange
     action = {
       type: FILL_CUSTOMER_NAME,
@@ -124,7 +124,7 @@ describe('booking reducer', () => {
       customerName: action.customerName,
     });
   });
-  it('has a type RECORD_PRICE' , ()=>{
+  it('has a type RECORD_PRICE', () => {
     //Arrange
     action = {
       type: RECORD_PRICE,
@@ -136,7 +136,7 @@ describe('booking reducer', () => {
       price: action.price,
     });
   });
-  it('has a type RECORD_PRICE' , ()=>{
+  it('has a type RECORD_PRICE', () => {
     //Arrange
     action = {
       type: RECORD_PRICE,
@@ -148,7 +148,7 @@ describe('booking reducer', () => {
       price: action.price,
     });
   });
-  it('has a type CHECKED_DRINK, false=>true' , ()=>{
+  it('has a type CHECKED_DRINK, false=>true', () => {
     //Arrange
     action = {
       type: CHECKED_DRINK
@@ -159,7 +159,7 @@ describe('booking reducer', () => {
       drink: true
     });
   });
-  it('has a type CHECKED_DRINK, true=>false' , ()=>{
+  it('has a type CHECKED_DRINK, true=>false', () => {
     //Arrange
     const secondState = {
       dateText: mindate,
@@ -171,11 +171,11 @@ describe('booking reducer', () => {
       phoneNumber: '',
       drink: true,
       price: 0,
-      isDateText: false,
-      isPhoneNumber: false,
-      isCustomerName: false,
+      isValidDateText: false,
+      isValidPhoneNumber: false,
+      isValidCustomerName: false,
     }
-    state = bookingReducer(state = secondState,{
+    state = bookingReducer(state = secondState, {
       type: CHECKED_DRINK
     });
     expect(state).toEqual({
@@ -183,38 +183,38 @@ describe('booking reducer', () => {
       drink: false
     });
   });
-  it('has a type VALID_DATE' , ()=>{
-    action={
+  it('has a type VALID_DATE', () => {
+    action = {
       type: VALID_DATE
     }
     state = bookingReducer(state = bookingFormState, action);
     expect(state).toEqual({
       ...state,
-      isDateText: true
+      isValidDateText: true
     });
   });
-  it('has a type VALID_PHONE' , ()=>{
-    action={
+  it('has a type VALID_PHONE', () => {
+    action = {
       type: VALID_PHONE
     }
     state = bookingReducer(state = bookingFormState, action);
     expect(state).toEqual({
       ...state,
-      isPhoneNumber: true
+      isValidPhoneNumber: true
     });
   });
-  it('has a type VALID_NAME' , ()=>{
-    action={
+  it('has a type VALID_NAME', () => {
+    action = {
       type: VALID_NAME
     }
     state = bookingReducer(state = bookingFormState, action);
     expect(state).toEqual({
       ...state,
-      isCustomerName: true
+      isValidCustomerName: true
     });
   });
-  it('has a type CLEAR_FORM_DATA' , ()=>{
-    action={
+  it('has a type CLEAR_FORM_DATA', () => {
+    action = {
       type: CLEAR_FORM_DATA
     }
     state = bookingReducer(state = bookingFormState, action);
@@ -228,9 +228,9 @@ describe('booking reducer', () => {
       phoneNumber: '',
       drink: false,
       price: 0,
-      isDateText: false,
-      isPhoneNumber: false,
-      isCustomerName: false,
+      isValidDateText: false,
+      isValidPhoneNumber: false,
+      isValidCustomerName: false,
     });
   });
 });

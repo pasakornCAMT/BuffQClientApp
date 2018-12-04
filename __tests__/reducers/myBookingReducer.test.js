@@ -1,5 +1,5 @@
 import myBookingListReducer from '../../src/reducers/MyBookingReducer'
-import {ListView} from 'react-native'
+import { ListView } from 'react-native'
 import {
   FETCHING_MY_BOOKING_LIST,
   FETCHING_MY_BOOKING_LIST_SUCCESS,
@@ -20,24 +20,31 @@ import FirebaseService from '../../src/services/firebase-service'
 
 const myBookingState = {
   myBookingList: [],
-  restaurant:[],
+  restaurant: [],
   isFetching: false,
   error: false,
   noData: false,
-  myBookingDataSource: new ListView.DataSource({rowHasChanged:(r1,r2)=> r1 !== r2}),
+  myBookingDataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
   booking: [],
   refId: '',
+
   editedBookingDate:'',
   editedBookingTime:'',
+  selectedIndex:0,
   editedNumOfCustomer: 1,
+  editedNumOfAdult: 1,
   editedNumOfChild:0,
   editedPhoneNumber: '',
   editedCustomerName: '',
+  editedIncludeDrink: false,
+  totalPriceChanged: 0,
+  myQueue: 999,
+  gettingMyQueue: false
 }
 
 describe('my-booking reducer', () => {
   it('has a default state', () => {
-    stateAct = myBookingListReducer(state = myBookingState, {type: 'unexpected'})
+    stateAct = myBookingListReducer(state = myBookingState, { type: 'unexpected' })
     expect(stateAct).toEqual({
       ...state,
     });
@@ -221,17 +228,29 @@ describe('my-booking reducer', () => {
     action = {
       type: PREPARE_EDITED_VALUE,
       numOfCustomer: 4,
-      phone:'0988989283',
-      customer: 'Pun'
+      phone: '0988989283',
+      customer: 'Pun',
+      dateText: '14-12-2018',
+      timeText: '17:00',
+      selectedIndex: 1,
+      numOfAdult: 3,
+      numOfChild: 1,
+      includeDrink: true
     }
     //Act
     stateAct = myBookingListReducer(state = myBookingState, action)
     //Assert
     expect(stateAct).toEqual({
       ...state,
+      editedBookingDate: action.dateText,
+      editedBookingTime: action.timeText,
+      selectedIndex: action.selectedIndex,
       editedNumOfCustomer: action.numOfCustomer,
+      editedNumOfAdult: action.numOfAdult,
+      editedNumOfChild: action.numOfChild,
       editedPhoneNumber: action.phone,
       editedCustomerName: action.customer,
+      editedIncludeDrink: action.includeDrink,
     });
   });
 });
