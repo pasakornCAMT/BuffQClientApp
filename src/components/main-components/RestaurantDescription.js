@@ -32,6 +32,10 @@ class RestaurantDescription extends Component {
         <Text style={styles.detail}>
           Open: {restaurant.openTime} - {restaurant.closeTime}, {restaurant.openDate}
         </Text>
+        <Text style={styles.detail}>
+          Promotion: {restaurant.promotion}
+        </Text>
+        
         {
           restaurant.childPrice ? (
             <View>
