@@ -5,11 +5,13 @@ import {
 
 export function searchingRestaurant(restaurants, text) {
     return (dispatch) => {
-        const newData = restaurants.filter(function (restaurant) {
+        
+        const newData = Object.values(restaurants).filter(function (restaurant) {
             const restaurantData = restaurant.name.toUpperCase()
             const textData = text.toUpperCase()
             return restaurantData.indexOf(textData) > -1
         })
+        
         dispatch(displayRestaurantSuccess(newData, text))
         if (newData.length === 0 || newData === null) {
             dispatch(displayRestaurantFailure(text))

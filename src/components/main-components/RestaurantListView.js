@@ -32,9 +32,13 @@ class RestaurantListView extends Component {
 
   countNumOfQueue(rowId){
     const {bookings} = this.props.restaurants;
+    let date = new Date().getDate();
+    let month = new Date().getMonth() + 1;
+    let year = new Date().getFullYear();
+    let fullDate = date+'-'+month+'-'+year;
     let numOfQueue = 0;
     for(let i in bookings){
-      if(bookings[i].restaurantId === rowId){
+      if(bookings[i].restaurantId === rowId && bookings[i].dateText === fullDate){
          numOfQueue = numOfQueue+1
       }
     }

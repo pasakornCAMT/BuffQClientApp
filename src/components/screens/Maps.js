@@ -72,17 +72,6 @@ class Maps extends Component {
                         ))
                     }
                 </MapView>
-                {/* <View style={{ backgroundColor: 'white', padding: 5 }}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <Text style={{ fontWeight: 'bold', color: 'red' }}>Red:</Text><Text> more than 20 bookings</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row' }}>
-                        <Text style={{ fontWeight: 'bold', color: '#fd9644' }}>Orange:</Text><Text> 10-20 bookings</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row' }}>
-                        <Text style={{ fontWeight: 'bold', color: '#26de81' }}>Green:</Text><Text> less than 10 bookings</Text>
-                    </View>
-                </View> */}
                 {
                     this.state.isPressMarker ? (
                         <View style={{ backgroundColor: 'white' }}>
