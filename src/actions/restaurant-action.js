@@ -17,8 +17,7 @@ export function fetchRestaurantFromFirebase() {
                 } else {
                     dispatch(getRestaurantListSuccess(snap.val()))
                 }
-
-            })
+            }).then(()=>{dispatch(noRestaurantData())})
         } catch (e) {
             dispatch(getRestaurantListFailure())
         }

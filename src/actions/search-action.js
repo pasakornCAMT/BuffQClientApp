@@ -12,9 +12,11 @@ export function searchingRestaurant(restaurants, text) {
             return restaurantData.indexOf(textData) > -1
         })
         
-        dispatch(displayRestaurantSuccess(newData, text))
+        
         if (newData.length === 0 || newData === null) {
             dispatch(displayRestaurantFailure(text))
+        }else{
+            dispatch(displayRestaurantSuccess(newData, text))
         }
 
     }

@@ -23,7 +23,6 @@ export function fetchingEstimatedTimeTable(id, timeText) {
                     }else{
                         dispatch(getTableSuccess(snap.val()))
                     }
-                    
                 })
         } catch (e) {
 

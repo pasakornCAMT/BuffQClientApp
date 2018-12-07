@@ -1,3 +1,5 @@
+import configureMockStore  from 'redux-mock-store'
+import thunk from 'redux-thunk';
 import {
   FETCHING_RESTAURANT_LIST,
   FETCHING_RESTAURANT_LIST_SUCCESS,
@@ -84,6 +86,7 @@ import {
 import {
   displayRestaurantSuccess,
   displayRestaurantFailure,
+  searchingRestaurant,
 } from '../../src/actions/search-action'
 
 import {
@@ -116,7 +119,8 @@ import {
   fetchingTable,
   noTableData,
   localNumOfCustomer,
-  setNumOfCustomer
+  setNumOfCustomer,
+  fetchingEstimatedTimeTable
 } from '../../src/actions/estimated-time-action'
 
 describe('Test action',() => {
@@ -188,6 +192,53 @@ describe('Test action',() => {
       newData,
       text,
     });
+  });
+  it('call searchingRestaurant function then return SEARCHING_RESTAURANT_SUCCESS type', () => {
+    //Arrange
+    const middlewares = [thunk]
+    const mockStore = configureMockStore(middlewares)
+
+    let text = 'Mhu'
+    let restaurants = [
+      {name:'Mhu-song-chan'},
+      {name: 'Eim-dee'},
+      {name: 'Retro'}
+    ]
+    let newData = [{name:'Mhu-song-chan'}]
+    const expectedActions = {
+      type: 'SEARCHING_RESTAURANT_SUCCESS',
+      newData,
+      text,
+    }
+    
+    //Act
+    const store = mockStore({})
+    store.dispatch(searchingRestaurant(restaurants,text))
+    //Assert
+    expect(store.getActions()).toEqual([expectedActions]);
+  });
+  it('call searchingRestaurant function then return NO_MATCHED_RESTAURANT type', () => {
+    //Arrange
+    const middlewares = [thunk]
+    const mockStore = configureMockStore(middlewares)
+
+    let text = 'xxxxx'
+    let restaurants = [
+      {name:'Mhu-song-chan'},
+      {name: 'Eim-dee'},
+      {name: 'Retro'}
+    ]
+    
+    const expectedActions = {
+      type: 'NO_MATCHED_RESTAURANT',
+      text,
+    }
+    
+    //Act
+    const store = mockStore({})
+    store.dispatch(searchingRestaurant(restaurants,text))
+    //Assert
+    expect(store.getActions()).toEqual([expectedActions]);
   });
   it('call displayRestaurantFailure function', () => {
     //Arrange
@@ -380,6 +431,31 @@ describe('Test action',() => {
       type: CAN_NOT_BOOK
     });
   });
+  it('call fetchingEstimatedTimeTable function then return FETCHING_ESTIMATED_TIME_TABLE and FETCHING_ESTIMATED_TIME_TABLE', () => {
+    //Arrange
+    const middlewares = [thunk]
+    const mockStore = configureMockStore(middlewares)
+
+    const id = '5WmrSonECnNqBLIUQzlgA7i4T0I3'
+    const time = '17:00'
+    const tables = []
+    
+    const expectedActions = [
+      {type: 'FETCHING_ESTIMATED_TIME_TABLE'},
+      {type: 'FETCHING_ESTIMATED_TIME_TABLE_SUCCESS',tables,}
+    ]
+    
+    
+    //Act
+    const store = mockStore({})
+    store.dispatch(fetchingEstimatedTimeTable(id,time));
+    expect(store.getActions()).toEqual(expectedActions);
+
+    
+    //Assert
+    
+    
+  });
   it('call fetchingTable function', () => {
     //Arrange
     
@@ -392,11 +468,7 @@ describe('Test action',() => {
   });
   it('call getTableSuccess function', () => {
     //Arrange
-    table = [
-      {table: 1 , seat: 4},
-      {table: 2 , seat: 4},
-      {table: 3 , seat: 8},
-    ];
+    let table
     //Act
     stateAct = getTableSuccess(table);
     //Assert
