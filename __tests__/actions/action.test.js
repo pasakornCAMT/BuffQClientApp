@@ -1,5 +1,6 @@
-import configureMockStore  from 'redux-mock-store'
+import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk';
+import FirebaseService from '../../src/services/firebase-service';
 import {
   FETCHING_RESTAURANT_LIST,
   FETCHING_RESTAURANT_LIST_SUCCESS,
@@ -122,8 +123,9 @@ import {
   setNumOfCustomer,
   fetchingEstimatedTimeTable
 } from '../../src/actions/estimated-time-action'
+import { insertUserToFirebase } from '../../src/actions/firebase-action';
 
-describe('Test action',() => {
+describe('Test action', () => {
   it('call getRestaurantList function', () => {
     stateAct = getRestaurantList();
     expect(stateAct).toEqual({
@@ -133,10 +135,10 @@ describe('Test action',() => {
   it('call getRestaurantListSuccess function', () => {
     //Arrange
     let restaurants = [
-      {id: '5WmrSonECnNqBLIUQzlgA7i4T0I3', name: 'Mhu-song-chan'},
-      {id: 'c4mckr5Ta6ay73B7uy8jFMWZ0qg2', name: 'Retro Steak Cafe'},
-      {id: 'mZSFYS6npwNwffsD32OPbZNCSVg2', name: 'Eim-dee'},
-      {id: 'vYVi6SU1uHOv4EQ5y0WsQ3PeDT22', name: 'Chill House'},
+      { id: '5WmrSonECnNqBLIUQzlgA7i4T0I3', name: 'Mhu-song-chan' },
+      { id: 'c4mckr5Ta6ay73B7uy8jFMWZ0qg2', name: 'Retro Steak Cafe' },
+      { id: 'mZSFYS6npwNwffsD32OPbZNCSVg2', name: 'Eim-dee' },
+      { id: 'vYVi6SU1uHOv4EQ5y0WsQ3PeDT22', name: 'Chill House' },
     ]
     //Act
     stateAct = getRestaurantListSuccess(restaurants);
@@ -148,7 +150,7 @@ describe('Test action',() => {
   });
   it('call getRestaurantListFailure function', () => {
     //Arrange
-    
+
     //Act
     stateAct = getRestaurantListFailure();
     //Assert
@@ -159,8 +161,8 @@ describe('Test action',() => {
   it('call fetchingBookingSuccess function', () => {
     //Arrange
     let bookings = [
-      {id: '-LS-XCbS5sCVm47B1PDo', dateText: '24-11-2018', timeText: '19:25', customer: 'Test'},
-      {id: '-LQP8rP-C0oWmv9ogu57', dateText: '3-11-2018', timeText: '17:00', customer: 'Fuu'},
+      { id: '-LS-XCbS5sCVm47B1PDo', dateText: '24-11-2018', timeText: '19:25', customer: 'Test' },
+      { id: '-LQP8rP-C0oWmv9ogu57', dateText: '3-11-2018', timeText: '17:00', customer: 'Fuu' },
     ]
     //Act
     stateAct = fetchingBookingSuccess(bookings);
@@ -181,11 +183,11 @@ describe('Test action',() => {
   it('call displayRestaurantSuccess function', () => {
     //Arrange
     let newData = [
-      {id: '5WmrSonECnNqBLIUQzlgA7i4T0I3', name: 'Mhu-song-chan'}
+      { id: '5WmrSonECnNqBLIUQzlgA7i4T0I3', name: 'Mhu-song-chan' }
     ]
     let text = 'Mhu-song-chan'
     //Act
-    stateAct = displayRestaurantSuccess(newData,text);
+    stateAct = displayRestaurantSuccess(newData, text);
     //Assert
     expect(stateAct).toEqual({
       type: SEARCHING_RESTAURANT_SUCCESS,
@@ -200,20 +202,20 @@ describe('Test action',() => {
 
     let text = 'Mhu'
     let restaurants = [
-      {name:'Mhu-song-chan'},
-      {name: 'Eim-dee'},
-      {name: 'Retro'}
+      { name: 'Mhu-song-chan' },
+      { name: 'Eim-dee' },
+      { name: 'Retro' }
     ]
-    let newData = [{name:'Mhu-song-chan'}]
+    let newData = [{ name: 'Mhu-song-chan' }]
     const expectedActions = {
       type: 'SEARCHING_RESTAURANT_SUCCESS',
       newData,
       text,
     }
-    
+
     //Act
     const store = mockStore({})
-    store.dispatch(searchingRestaurant(restaurants,text))
+    store.dispatch(searchingRestaurant(restaurants, text))
     //Assert
     expect(store.getActions()).toEqual([expectedActions]);
   });
@@ -224,19 +226,19 @@ describe('Test action',() => {
 
     let text = 'xxxxx'
     let restaurants = [
-      {name:'Mhu-song-chan'},
-      {name: 'Eim-dee'},
-      {name: 'Retro'}
+      { name: 'Mhu-song-chan' },
+      { name: 'Eim-dee' },
+      { name: 'Retro' }
     ]
-    
+
     const expectedActions = {
       type: 'NO_MATCHED_RESTAURANT',
       text,
     }
-    
+
     //Act
     const store = mockStore({})
-    store.dispatch(searchingRestaurant(restaurants,text))
+    store.dispatch(searchingRestaurant(restaurants, text))
     //Assert
     expect(store.getActions()).toEqual([expectedActions]);
   });
@@ -253,7 +255,7 @@ describe('Test action',() => {
   });
   it('call initailRestaurantDetail function', () => {
     //Arrange
-    let restaurant = {id: '5WmrSonECnNqBLIUQzlgA7i4T0I3', name: 'Mhu-song-chan'}
+    let restaurant = { id: '5WmrSonECnNqBLIUQzlgA7i4T0I3', name: 'Mhu-song-chan' }
     let refId = '5WmrSonECnNqBLIUQzlgA7i4T0I3'
     //Act
     stateAct = initailRestaurantDetail(restaurant, refId);
@@ -266,7 +268,7 @@ describe('Test action',() => {
   });
   it('call preparedBookingDetail function', () => {
     //Arrange
-    let booking =  {id: '-LS-XCbS5sCVm47B1PDo', dateText: '24-11-2018', timeText: '19:25', customer: 'Test'}
+    let booking = { id: '-LS-XCbS5sCVm47B1PDo', dateText: '24-11-2018', timeText: '19:25', customer: 'Test' }
     let refId = '-LS-XCbS5sCVm47B1PDo'
     //Act
     stateAct = preparedBookingDetail(booking, refId);
@@ -358,7 +360,7 @@ describe('Test action',() => {
   });
   it('call recordPrice function', () => {
     //Arrange
-    let price= 189
+    let price = 189
     //Act
     stateAct = recordPrice(price);
     //Assert
@@ -431,34 +433,44 @@ describe('Test action',() => {
       type: CAN_NOT_BOOK
     });
   });
-  it('call fetchingEstimatedTimeTable function then return FETCHING_ESTIMATED_TIME_TABLE and FETCHING_ESTIMATED_TIME_TABLE', () => {
+  it('call fetchingEstimatedTimeTable function then return FETCHING_ESTIMATED_TIME_TABLE and FETCHING_ESTIMATED_TIME_TABLE', (done) => {
     //Arrange
     const middlewares = [thunk]
     const mockStore = configureMockStore(middlewares)
 
     const id = '5WmrSonECnNqBLIUQzlgA7i4T0I3'
     const time = '17:00'
-    const tables = []
-    
-    const expectedActions = [
-      {type: 'FETCHING_ESTIMATED_TIME_TABLE'},
-      {type: 'FETCHING_ESTIMATED_TIME_TABLE_SUCCESS',tables,}
+    const table = [
+      {percentage: 63, time: "Less than 20"},
+      {percentage: 8, time: "21-30min"},
+      {percentage: 16, time: "31-40min"},
+      {percentage: 4, time: "41-50min"},
+      {percentage: 4, time: "51-60min"},
+      {percentage: 4, time: "More than 60min"},
     ]
-    
-    
+
+    const expectedActions = [
+      { type: 'FETCHING_ESTIMATED_TIME_TABLE' },
+      { type: 'FETCHING_ESTIMATED_TIME_TABLE_SUCCESS', table, }
+    ]
+
+
     //Act
     const store = mockStore({})
-    store.dispatch(fetchingEstimatedTimeTable(id,time));
-    expect(store.getActions()).toEqual(expectedActions);
+    store.dispatch(fetchingEstimatedTimeTable(id, time));
+    //expect(store.getActions()).toEqual(expectedActions);
+    setTimeout(() => {
+      expect(store.getActions().length).toBeGreaterThan(1);
+      done();
+    }, 2000);
 
-    
     //Assert
-    
-    
+
+
   });
   it('call fetchingTable function', () => {
     //Arrange
-    
+
     //Act
     stateAct = fetchingTable();
     //Assert
@@ -479,7 +491,7 @@ describe('Test action',() => {
   });
   it('call noTableData function', () => {
     //Arrange
-    
+
     //Act
     stateAct = noTableData();
     //Assert
@@ -506,8 +518,8 @@ describe('Test action',() => {
   it('call getMyBookingListSuccess function', () => {
     //Arrange
     let myBookingList = [
-      {id: '-LS-XCbS5sCVm47B1PDo', dateText: '24-11-2018', timeText: '19:25', customer: 'pasakorn'},
-      {id: '-LQP8rP-C0oWmv9ogu57', dateText: '3-11-2018', timeText: '17:00', customer: 'pasakorn'},
+      { id: '-LS-XCbS5sCVm47B1PDo', dateText: '24-11-2018', timeText: '19:25', customer: 'pasakorn' },
+      { id: '-LQP8rP-C0oWmv9ogu57', dateText: '3-11-2018', timeText: '17:00', customer: 'pasakorn' },
     ]
     //Act
     stateAct = getMyBookingListSuccess(myBookingList);
@@ -671,9 +683,9 @@ describe('Test action',() => {
     var numOfChild = 0
     var phone = '0989982932'
     var customer = 'pasakorn'
-    var includeDrink= true
+    var includeDrink = true
     //Act
-    stateAct = prepareEditedValue(dateText, timeText, selectedIndex, 
+    stateAct = prepareEditedValue(dateText, timeText, selectedIndex,
       numOfCustomer, numOfAdult, numOfChild, phone, customer, includeDrink);
     //Assert
     expect(stateAct).toEqual({
@@ -710,4 +722,28 @@ describe('Test action',() => {
       type: GET_MY_QUEUE,
     });
   });
+  it('call firebase function', () => {
+
+    // const user = {
+    //   name: 'testInsert',
+    //   phone: 'testInsert',
+    //   email: 'testInsert'
+    // }
+    // const id = 'testInsert'
+
+    // var newRef = insertUserToFirebase(id, user);
+  
+    // var autoId = newRef.key();
+    // var data = {
+    //   id: autoId,
+    //   name: newRef.name,
+    //   phone: newRef.phone,
+    //   email: newRef.email
+    // }
+
+    // expect(data).toEqual({})
+
+  });
+
+
 });
