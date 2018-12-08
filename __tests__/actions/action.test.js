@@ -73,7 +73,8 @@ import {
   prepareEditedValue,
   getMyQueueSuccess,
   gettingMyQueue,
-  fetchMyBookingFromFirebase
+  fetchMyBookingFromFirebase,
+  getMyQueue
 
 } from '../../src/actions/my-booking-action'
 
@@ -83,6 +84,7 @@ import {
   getRestaurantListFailure,
   fetchingBookingSuccess,
   noRestaurantData,
+  fetchRestaurantFromFirebase,
 } from '../../src/actions/restaurant-action'
 
 import {
@@ -95,6 +97,7 @@ import {
   preparedBookingDetail,
   initailRestaurantDetail,
   initialTime,
+  preparedRestaurantDetail,
 } from '../../src/actions/navigate-action'
 
 import {
@@ -129,6 +132,23 @@ import {
 import { insertUserToFirebase } from '../../src/actions/firebase-action';
 
 describe('Test action', () => {
+  it('call fetchRestaurantFromFirebase function then FETCHING_RESTAURANT_LIST and FETCHING_RESTAURANT_LIST_SUCCESS', (done) => {
+     //Arrange
+     const middlewares = [thunk]
+     const mockStore = configureMockStore(middlewares)
+ 
+     //Act
+     const store = mockStore({})
+     store.dispatch(fetchRestaurantFromFirebase());
+ 
+     //Assert
+     setTimeout(() => {
+       expect(store.getActions()[0].type).toEqual('FETCHING_RESTAURANT_LIST');
+       expect(store.getActions()[1].type).toEqual('FETCHING_RESTAURANT_LIST_SUCCESS');
+       expect(store.getActions()[1].restaurants).toBeDefined();
+       done();
+     }, 2000);
+  });
   it('call getRestaurantList function', () => {
     stateAct = getRestaurantList();
     expect(stateAct).toEqual({
@@ -255,6 +275,29 @@ describe('Test action', () => {
       type: NO_MATCHED_RESTAURANT,
       text,
     });
+  });
+  it('call preparedRestaurantDetail function then NAVIGATE_TO_RESTAURANT_DETAIL and INITIAL_TIME', () => {
+    const middlewares = [thunk]
+    const mockStore = configureMockStore(middlewares)
+    //Arrange
+    const restaurant = { 
+      name: 'Mhu-song-chan',
+      sectionTime: [
+        '17:00','18:00','19:00'
+      ]
+    }
+    const id = '5WmrSonECnNqBLIUQzlgA7i4T0I3'
+
+    const expectedActions = [
+      {type: 'NAVIGATE_TO_RESTAURANT_DETAIL' ,restaurant: restaurant, refId: id},
+      {type: 'INITIAL_TIME', timeText: '17:00'},
+    ]
+
+    //Act
+    const store = mockStore({})
+    store.dispatch(preparedRestaurantDetail(restaurant, id))
+    //Assert
+    expect(store.getActions()).toEqual(expectedActions);
   });
   it('call initailRestaurantDetail function', () => {
     //Arrange
@@ -823,29 +866,55 @@ describe('Test action', () => {
       includeDrink,
     });
   });
-  it('call getMyQueue function then GET_MY_QUEUE and GET_MY_QUEUE_SUCCESS', (done) => {
-    // //Arrange
-    // const middlewares = [thunk]
-    // const mockStore = configureMockStore(middlewares)
+  it('call getMyQueue function then GET_MY_QUEUE and GET_MY_QUEUE_SUCCESS as 1', (done) => {
+    //Arrange
+    const middlewares = [thunk]
+    const mockStore = configureMockStore(middlewares)
 
-    // const bookingId = '23-10-2018'
-    // const dateText = '23-10-2018'
-    // const resId = '5WmrSonECnNqBLIUQzlgA7i4T0I3'
+    const bookingId = '-LQP2-4-U3yBAE2JmKPN'
+    const dateText = '3-11-2018'
+    const resId = '5WmrSonECnNqBLIUQzlgA7i4T0I3'
+    const timeText= '17:00'
 
-    // const expectedActions = [
-    //   { type: 'GET_MY_QUEUE' },
-    //   { type: 'GET_MY_QUEUE_SUCCESS', count}
-    // ]
+    const expectedActions = [
+      { type: 'GET_MY_QUEUE' },
+      { type: 'GET_MY_QUEUE_SUCCESS', count:1}
+    ]
 
-    // //Act
-    // const store = mockStore({})
-    // store.dispatch(getMyQueue(bookingId, dateText, resId));
+    //Act
+    const store = mockStore({})
+    store.dispatch(getMyQueue(bookingId, dateText, resId, timeText));
 
-    // //Assert
-    // setTimeout(() => {
-    //   expect(store.getActions().length).toBeGreaterThan(1);
-    //   done();
-    // }, 2000);
+    //Assert
+    setTimeout(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+      done();
+    }, 2000);
+  });
+  it('call getMyQueue function then GET_MY_QUEUE and GET_MY_QUEUE_SUCCESS as 2', (done) => {
+    //Arrange
+    const middlewares = [thunk]
+    const mockStore = configureMockStore(middlewares)
+
+    const bookingId = '-LQP8rP-C0oWmv9ogu57'
+    const dateText = '3-11-2018'
+    const resId = '5WmrSonECnNqBLIUQzlgA7i4T0I3'
+    const timeText= '17:00'
+
+    const expectedActions = [
+      { type: 'GET_MY_QUEUE' },
+      { type: 'GET_MY_QUEUE_SUCCESS', count:2}
+    ]
+
+    //Act
+    const store = mockStore({})
+    store.dispatch(getMyQueue(bookingId, dateText, resId, timeText));
+
+    //Assert
+    setTimeout(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+      done();
+    }, 2000);
   });
   it('call getMyQueueSuccess function', () => {
     //Arrange
@@ -868,5 +937,4 @@ describe('Test action', () => {
       type: GET_MY_QUEUE,
     });
   });
-
 });
