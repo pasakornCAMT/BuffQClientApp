@@ -66,7 +66,6 @@ class Maps extends Component {
                                     longitudeDelta: 0.0421,
                                 }}
                                 title={restaurant.name}
-                                description={'' + restaurant.price}
                             onPress={()=>this.onPressMarker(restaurant)}
                             />
                         ))

@@ -178,27 +178,4 @@ export function getUserFail() {
     }
 }
 
-// export function getMyQueue(bookingId, dateText, resId) {
-//     FirebaseService.database().ref().child('bookings').child('online')
-//     .orderByChild('status_dateText_resId').equalTo('booking_'+dateText+'_'+resId).on('value', (snap) => {
-//         console.log(snap.val())
-//         const count = countQueue(snap,bookingId);
-//         console.log(count);
-//         return count
-        
-//     })
-// }
-
-// function countQueue(snap, id){
-//     var count = 1;
-//     var target = 1;
-//     snap.forEach(booking => {
-//         if(booking.val().id == id){
-//             target = count;
-//         }else{
-//             count++;
-//         }
-//     });
-//     return target;
-// }
 

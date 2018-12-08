@@ -823,6 +823,30 @@ describe('Test action', () => {
       includeDrink,
     });
   });
+  it('call getMyQueue function then GET_MY_QUEUE and GET_MY_QUEUE_SUCCESS', (done) => {
+    // //Arrange
+    // const middlewares = [thunk]
+    // const mockStore = configureMockStore(middlewares)
+
+    // const bookingId = '23-10-2018'
+    // const dateText = '23-10-2018'
+    // const resId = '5WmrSonECnNqBLIUQzlgA7i4T0I3'
+
+    // const expectedActions = [
+    //   { type: 'GET_MY_QUEUE' },
+    //   { type: 'GET_MY_QUEUE_SUCCESS', count}
+    // ]
+
+    // //Act
+    // const store = mockStore({})
+    // store.dispatch(getMyQueue(bookingId, dateText, resId));
+
+    // //Assert
+    // setTimeout(() => {
+    //   expect(store.getActions().length).toBeGreaterThan(1);
+    //   done();
+    // }, 2000);
+  });
   it('call getMyQueueSuccess function', () => {
     //Arrange
     let count = 4

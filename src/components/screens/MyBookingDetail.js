@@ -18,12 +18,12 @@ class MyBookingDetail extends Component {
     title: 'MyBookingDetail',
   }
 
-  componentWillMount(){
+  componentWillMount() {
     const { booking } = this.props.MyBookingReducer;
-    this.props.getMyQueue(booking.id, booking.dateText, booking.restaurantId)
+    this.props.getMyQueue(booking.id, booking.dateText, booking.restaurantId, booking.timeText)
   }
 
-  onPressMyQueue(bookingId, dateText, resId){
+  onPressMyQueue(bookingId, dateText, resId) {
     //getMyQueue(bookingId, dateText, resId);
     //console.log(bookingId, dateText, resId);
   }
@@ -43,7 +43,10 @@ class MyBookingDetail extends Component {
     return (
       <View>
         <View style={styles.myQueue}>
-          <Text style={styles.myQueueText}>My Queue : {myQueue}</Text>
+          <View style={{ flexDirection: 'column', }}>
+            <Text style={styles.myQueueText}>My Queue : {myQueue}</Text>
+            <Text>of round {booking.timeText}</Text>
+          </View>
           {/* <Ionicons name='ios-refresh' size={35} color='tomato' onPress={()=>this.onPressMyQueue(booking.id, booking.dateText, booking.restaurantId)}/> */}
         </View>
         <View style={styles.container}>
@@ -108,11 +111,11 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps (dispatch){
-  return{
+function mapDispatchToProps(dispatch) {
+  return {
     preparedBookingDetail: (booking, refId) => dispatch(preparedBookingDetail(booking, refId)),
     getRestaurantById: (refId) => dispatch(getRestaurantById(refId)),
-    getMyQueue: (bookingId, dateText, resId) => dispatch(getMyQueue(bookingId, dateText, resId))
+    getMyQueue: (bookingId, dateText, resId, timeText) => dispatch(getMyQueue(bookingId, dateText, resId, timeText))
   }
 }
 
