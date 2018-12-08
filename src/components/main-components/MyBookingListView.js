@@ -11,11 +11,13 @@ import {
   Text,
   ActivityIndicator,
 } from 'react-native';
+import FirebaseService from '../../services/firebase-service';
 
 class MyBookingListView extends Component {
 
   componentWillMount() {
-    this.props.fetchMyBookingFromFirebase();
+    const user = FirebaseService.auth().currentUser;
+    this.props.fetchMyBookingFromFirebase(user.uid);
   }
 
   renderRow(booking, sectionId, rowId) {
@@ -79,7 +81,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchMyBookingFromFirebase: () => dispatch(fetchMyBookingFromFirebase())
+    fetchMyBookingFromFirebase: (uid) => dispatch(fetchMyBookingFromFirebase(uid))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MyBookingListView)

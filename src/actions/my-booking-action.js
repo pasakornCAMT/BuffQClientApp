@@ -21,15 +21,14 @@ import{
 } from '../constants/constants'
 import FirebaseService from '../services/firebase-service'
 
-export function fetchMyBookingFromFirebase(){
+export function fetchMyBookingFromFirebase(uid){
     return (dispatch) => {
       var bookingIdList = [];
       dispatch(getMyBookingList())
       try {
         const user = FirebaseService.auth().currentUser;
-        console.log('fetch id: ', user.uid);
         var myBookingList = [];
-        FirebaseService.database().ref().child('userBookings').child(user.uid).once('value').then((snap) =>{
+        FirebaseService.database().ref().child('userBookings').child(uid).once('value').then((snap) =>{
           if(snap.val()===null){
             dispatch(noMyBookingData())
           }
@@ -43,12 +42,10 @@ export function fetchMyBookingFromFirebase(){
           });
           return Promise.all(promisses)
         }).then(()=>{
-          console.log('sss: ',myBookingList)
           if(!myBookingList.length == 0){
             dispatch(getMyBookingListSuccess(myBookingList))
           }
         }).catch((e)=>{
-          console.log(e)
         });
       } catch (e) {
         dispatch(getMyBookingListFailure())

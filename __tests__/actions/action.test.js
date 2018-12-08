@@ -72,7 +72,8 @@ import {
   editCustomerName,
   prepareEditedValue,
   getMyQueueSuccess,
-  gettingMyQueue
+  gettingMyQueue,
+  fetchMyBookingFromFirebase
 
 } from '../../src/actions/my-booking-action'
 
@@ -112,6 +113,8 @@ import {
   validName,
   canBook,
   cannotBook,
+  fillPhoneNumber,
+  checkNumOfCustomer,
 } from '../../src/actions/booking-form-action'
 
 import {
@@ -336,6 +339,36 @@ describe('Test action', () => {
       numOfChild,
     });
   });
+  it('call fillPhoneNumber function then FILL_PHONE_NUMBER and VALID_PHONE', () => {
+    //Arrange
+    const middlewares = [thunk]
+    const mockStore = configureMockStore(middlewares)
+    let phoneNumber = '0988382738'
+    const expectedActions = [
+      { type: 'FILL_PHONE_NUMBER', phoneNumber },
+      { type: 'VALID_PHONE' }
+    ]
+    //Act
+    const store = mockStore({})
+    store.dispatch(fillPhoneNumber(phoneNumber));
+    //Assert
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+  it('call fillPhoneNumber function then FILL_PHONE_NUMBER and INVALID_PHONE', () => {
+    //Arrange
+    const middlewares = [thunk]
+    const mockStore = configureMockStore(middlewares)
+    let phoneNumber = '1234'
+    const expectedActions = [
+      { type: 'FILL_PHONE_NUMBER', phoneNumber },
+      { type: 'INVALID_PHONE' }
+    ]
+    //Act
+    const store = mockStore({})
+    store.dispatch(fillPhoneNumber(phoneNumber));
+    //Assert
+    expect(store.getActions()).toEqual(expectedActions);
+  });
   it('call onChangingPhoneNumber function', () => {
     //Arrange
     let phoneNumber = '0988382738'
@@ -417,6 +450,54 @@ describe('Test action', () => {
       type: VALID_NAME
     });
   });
+  it('call checkNumOfCustomer function then CAN_BOOK', (done) => {
+    //Arrange
+    const middlewares = [thunk]
+    const mockStore = configureMockStore(middlewares)
+
+    const resId = '5WmrSonECnNqBLIUQzlgA7i4T0I3'
+    const timeText = '17:00'
+    const dateText = '8-12-2018'
+    const customer = 1
+
+    const expectedActions = [
+      { type: 'CAN_BOOK' }
+    ]
+
+    //Act
+    const store = mockStore({})
+    store.dispatch(checkNumOfCustomer(resId, dateText, timeText, customer));
+
+    //Assert
+    setTimeout(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+      done();
+    }, 2000);
+  });
+  it('call checkNumOfCustomer function then CAN_NOT_BOOK', (done) => {
+    //Arrange
+    const middlewares = [thunk]
+    const mockStore = configureMockStore(middlewares)
+
+    const resId = '5WmrSonECnNqBLIUQzlgA7i4T0I3'
+    const timeText = '17:00'
+    const dateText = '8-12-2018'
+    const customer = 70
+
+    const expectedActions = [
+      { type: 'CAN_NOT_BOOK' }
+    ]
+
+    //Act
+    const store = mockStore({})
+    store.dispatch(checkNumOfCustomer(resId, dateText, timeText, customer));
+
+    //Assert
+    setTimeout(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+      done();
+    }, 2000);
+  });
   it('call canBook function', () => {
     //Act
     stateAct = canBook();
@@ -440,32 +521,18 @@ describe('Test action', () => {
 
     const id = '5WmrSonECnNqBLIUQzlgA7i4T0I3'
     const time = '17:00'
-    const table = [
-      {percentage: 63, time: "Less than 20"},
-      {percentage: 8, time: "21-30min"},
-      {percentage: 16, time: "31-40min"},
-      {percentage: 4, time: "41-50min"},
-      {percentage: 4, time: "51-60min"},
-      {percentage: 4, time: "More than 60min"},
-    ]
-
-    const expectedActions = [
-      { type: 'FETCHING_ESTIMATED_TIME_TABLE' },
-      { type: 'FETCHING_ESTIMATED_TIME_TABLE_SUCCESS', table, }
-    ]
-
 
     //Act
     const store = mockStore({})
     store.dispatch(fetchingEstimatedTimeTable(id, time));
-    //expect(store.getActions()).toEqual(expectedActions);
-    setTimeout(() => {
-      expect(store.getActions().length).toBeGreaterThan(1);
-      done();
-    }, 2000);
 
     //Assert
-
+    setTimeout(() => {
+      expect(store.getActions()[0].type).toEqual('FETCHING_ESTIMATED_TIME_TABLE');
+      expect(store.getActions()[1].type).toEqual('FETCHING_ESTIMATED_TIME_TABLE_SUCCESS');
+      expect(store.getActions()[1].table).toBeDefined();
+      done();
+    }, 2000);
 
   });
   it('call fetchingTable function', () => {
@@ -506,6 +573,61 @@ describe('Test action', () => {
     setNumOfCustomer(num);
     //Assert
     expect(localNumOfCustomer).toEqual(2);
+  });
+  it('call fetchMyBookingFromFirebase function then FETCHING_MY_BOOKING_LIST and FETCHING_MY_BOOKING_LIST_SUCCESS', (done) => {
+    //Arrange
+    const middlewares = [thunk]
+    const mockStore = configureMockStore(middlewares)
+
+    const uid = 'z8MJDXfAClOon7uTNq4sOLubAGt1'
+
+    //Act
+    const store = mockStore({})
+    store.dispatch(fetchMyBookingFromFirebase(uid));
+
+    //Assert
+    setTimeout(() => {
+      expect(store.getActions()[0].type).toEqual('FETCHING_MY_BOOKING_LIST');
+      expect(store.getActions()[1].type).toEqual('FETCHING_MY_BOOKING_LIST_SUCCESS');
+      expect(store.getActions()[1].myBookingList).toBeDefined();
+      done();
+    }, 2000);
+  });
+  it('call fetchMyBookingFromFirebase function then FETCHING_MY_BOOKING_LIST and NO_MY_BOOKING_DATA', (done) => {
+    //Arrange
+    const middlewares = [thunk]
+    const mockStore = configureMockStore(middlewares)
+
+    const uid = 'xwY6rhjSKnfCMadhG5mNMpPu4IB2'
+
+    //Act
+    const store = mockStore({})
+    store.dispatch(fetchMyBookingFromFirebase(uid));
+
+    //Assert
+    setTimeout(() => {
+      expect(store.getActions()[0].type).toEqual('FETCHING_MY_BOOKING_LIST');
+      expect(store.getActions()[1].type).toEqual('NO_MY_BOOKING_DATA');
+      done();
+    }, 2000);
+  });
+  it('call fetchMyBookingFromFirebase function then FETCHING_MY_BOOKING_LIST and FETCHING_MY_BOOKING_LIST_FAILURE', (done) => {
+    //Arrange
+    const middlewares = [thunk]
+    const mockStore = configureMockStore(middlewares)
+
+    const uid = undefined;
+
+    //Act
+    const store = mockStore({})
+    store.dispatch(fetchMyBookingFromFirebase(uid));
+
+    //Assert
+    setTimeout(() => {
+      expect(store.getActions()[0].type).toEqual('FETCHING_MY_BOOKING_LIST');
+      expect(store.getActions()[1].type).toEqual('FETCHING_MY_BOOKING_LIST_FAILURE');
+      done();
+    }, 2000);
   });
   it('call getMyBookingList function', () => {
     //Act
@@ -722,28 +844,5 @@ describe('Test action', () => {
       type: GET_MY_QUEUE,
     });
   });
-  it('call firebase function', () => {
-
-    // const user = {
-    //   name: 'testInsert',
-    //   phone: 'testInsert',
-    //   email: 'testInsert'
-    // }
-    // const id = 'testInsert'
-
-    // var newRef = insertUserToFirebase(id, user);
-  
-    // var autoId = newRef.key();
-    // var data = {
-    //   id: autoId,
-    //   name: newRef.name,
-    //   phone: newRef.phone,
-    //   email: newRef.email
-    // }
-
-    // expect(data).toEqual({})
-
-  });
-
 
 });

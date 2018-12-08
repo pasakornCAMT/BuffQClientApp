@@ -121,26 +121,20 @@ export function checkNumOfCustomer(resId, dateText, timeText, customer) {
         FirebaseService.database().ref().child('restaurants').child(resId).on('value', (snap) => {
             maximum = snap.val().maximumPerRound;
         });
-        console.log('max queue: ', maximum);
         let numOfCustomer = 0;
         try {
             FirebaseService.database().ref().child('bookings').child('online')
                 .orderByChild('dateText_timeText').equalTo(dateText + '_' + timeText).on('value', (snap) => {
-                    console.log('booking: ', snap.val());
                     for (let booking in snap.val()) {
                         numOfCustomer = numOfCustomer + snap.val()[booking].numOfCustomer;
                     }
-                    console.log('current queue:', numOfCustomer);
                     if ((maximum - numOfCustomer) < customer) {
-                        console.log('cannot book');
                         dispatch(cannotBook())
                     } else {
-                        console.log('can book');
                         dispatch(canBook())
                     }
                 });
         } catch (e) {
-            console.log('can book excep');
             dispatch(canBook())
         }
     }
