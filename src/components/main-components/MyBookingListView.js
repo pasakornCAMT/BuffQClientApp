@@ -43,7 +43,7 @@ class MyBookingListView extends Component {
               ) : (
                   isError ? (
                     <Text style={styles.description}>
-                      There are Error
+                      Error, cannot display your bookings
                 </Text>
                   ) : (
                       <ListView

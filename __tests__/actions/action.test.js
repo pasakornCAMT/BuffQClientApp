@@ -133,21 +133,21 @@ import { insertUserToFirebase } from '../../src/actions/firebase-action';
 
 describe('Test action', () => {
   it('call fetchRestaurantFromFirebase function then FETCHING_RESTAURANT_LIST and FETCHING_RESTAURANT_LIST_SUCCESS', (done) => {
-     //Arrange
-     const middlewares = [thunk]
-     const mockStore = configureMockStore(middlewares)
- 
-     //Act
-     const store = mockStore({})
-     store.dispatch(fetchRestaurantFromFirebase());
- 
-     //Assert
-     setTimeout(() => {
-       expect(store.getActions()[0].type).toEqual('FETCHING_RESTAURANT_LIST');
-       expect(store.getActions()[1].type).toEqual('FETCHING_RESTAURANT_LIST_SUCCESS');
-       expect(store.getActions()[1].restaurants).toBeDefined();
-       done();
-     }, 2000);
+    //Arrange
+    const middlewares = [thunk]
+    const mockStore = configureMockStore(middlewares)
+
+    //Act
+    const store = mockStore({})
+    store.dispatch(fetchRestaurantFromFirebase());
+
+    //Assert
+    setTimeout(() => {
+      expect(store.getActions()[0].type).toEqual('FETCHING_RESTAURANT_LIST');
+      expect(store.getActions()[1].type).toEqual('FETCHING_RESTAURANT_LIST_SUCCESS');
+      expect(store.getActions()[1].restaurants).toBeDefined();
+      done();
+    }, 2000);
   });
   it('call getRestaurantList function', () => {
     stateAct = getRestaurantList();
@@ -156,13 +156,23 @@ describe('Test action', () => {
     })
   });
   it('call getRestaurantListSuccess function', () => {
-    //Arrange
+    //Arrange = defined
     let restaurants = [
       { id: '5WmrSonECnNqBLIUQzlgA7i4T0I3', name: 'Mhu-song-chan' },
       { id: 'c4mckr5Ta6ay73B7uy8jFMWZ0qg2', name: 'Retro Steak Cafe' },
       { id: 'mZSFYS6npwNwffsD32OPbZNCSVg2', name: 'Eim-dee' },
       { id: 'vYVi6SU1uHOv4EQ5y0WsQ3PeDT22', name: 'Chill House' },
     ]
+    //Act
+    stateAct = getRestaurantListSuccess(restaurants);
+    //Assert
+    expect(stateAct).toEqual({
+      type: FETCHING_RESTAURANT_LIST_SUCCESS,
+      restaurants,
+    })
+
+    //Arrange = undefined
+    restaurants = undefined
     //Act
     stateAct = getRestaurantListSuccess(restaurants);
     //Assert
@@ -280,17 +290,17 @@ describe('Test action', () => {
     const middlewares = [thunk]
     const mockStore = configureMockStore(middlewares)
     //Arrange
-    const restaurant = { 
+    const restaurant = {
       name: 'Mhu-song-chan',
       sectionTime: [
-        '17:00','18:00','19:00'
+        '17:00', '18:00', '19:00'
       ]
     }
     const id = '5WmrSonECnNqBLIUQzlgA7i4T0I3'
 
     const expectedActions = [
-      {type: 'NAVIGATE_TO_RESTAURANT_DETAIL' ,restaurant: restaurant, refId: id},
-      {type: 'INITIAL_TIME', timeText: '17:00'},
+      { type: 'NAVIGATE_TO_RESTAURANT_DETAIL', restaurant: restaurant, refId: id },
+      { type: 'INITIAL_TIME', timeText: '17:00' },
     ]
 
     //Act
@@ -874,11 +884,11 @@ describe('Test action', () => {
     const bookingId = '-LQP2-4-U3yBAE2JmKPN'
     const dateText = '3-11-2018'
     const resId = '5WmrSonECnNqBLIUQzlgA7i4T0I3'
-    const timeText= '17:00'
+    const timeText = '17:00'
 
     const expectedActions = [
       { type: 'GET_MY_QUEUE' },
-      { type: 'GET_MY_QUEUE_SUCCESS', count:1}
+      { type: 'GET_MY_QUEUE_SUCCESS', count: 1 }
     ]
 
     //Act
@@ -899,11 +909,11 @@ describe('Test action', () => {
     const bookingId = '-LQP8rP-C0oWmv9ogu57'
     const dateText = '3-11-2018'
     const resId = '5WmrSonECnNqBLIUQzlgA7i4T0I3'
-    const timeText= '17:00'
+    const timeText = '17:00'
 
     const expectedActions = [
       { type: 'GET_MY_QUEUE' },
-      { type: 'GET_MY_QUEUE_SUCCESS', count:2}
+      { type: 'GET_MY_QUEUE_SUCCESS', count: 2 }
     ]
 
     //Act

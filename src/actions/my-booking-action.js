@@ -52,6 +52,7 @@ export function fetchMyBookingFromFirebase(uid) {
     //   dispatch(getMyBookingListFailure())
     // }
     try {
+      dispatch(getMyBookingList());
       FirebaseService.database().ref().child('bookings').child('online').orderByChild('userId').equalTo(uid).on('value',(snap)=>{
         if(snap.val() == null){
           dispatch(noMyBookingData())

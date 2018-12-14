@@ -85,11 +85,13 @@ export function register(userData) {
             FirebaseService.auth().onAuthStateChanged(function (user) {
                 console.log('uid: ', user.uid);
                 insertUserToFirebase(user.uid, userData);
+                return user;
             });
         }).catch((error) => {
             const { code, message } = error;
             console.log('code: ', code)
             console.log('message: ', message)
+            return error;
         });
     } catch (error) {
         console.log(error)
@@ -111,11 +113,13 @@ export function login(email, password) {
         FirebaseService.auth().signInWithEmailAndPassword(email, password).then(() => {
             FirebaseService.auth().onAuthStateChanged(function (user) {
                 console.log('user: ', user);
+                return user;
             });
         }).catch((error) => {
             const { code, message } = error;
             console.log('code: ', code)
             console.log('message: ', message)
+            return error;
         })
     } catch (error) {
         console.log(error)
